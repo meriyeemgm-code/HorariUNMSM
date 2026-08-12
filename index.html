@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Armador de Horario Universitario</title>
+    <title>Armador de Horario UNMSM - Meriyeem</title>
     <style>
         :root {
             --primary: #2C3E50;
@@ -12,7 +12,6 @@
             --background: #F8F9FA;
             --card-bg: #FFFFFF;
             --text-dark: #212529;
-            --text-muted: #6C757D;
             --border: #DEE2E6;
         }
 
@@ -29,7 +28,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -40,7 +39,7 @@
 
         .dashboard {
             display: grid;
-            grid-template-columns: 1fr 3fr;
+            grid-template-columns: 400px 1fr;
             gap: 20px;
             margin-top: 20px;
         }
@@ -65,15 +64,17 @@
             font-weight: bold;
             margin-bottom: 5px;
             font-size: 0.9em;
+            color: var(--primary);
         }
 
         select {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             border: 1px solid var(--border);
             border-radius: 4px;
             background: #fff;
-            font-size: 0.9em;
+            font-size: 0.85em;
+            text-overflow: ellipsis;
         }
 
         select:disabled {
@@ -117,8 +118,6 @@
             cursor: pointer;
         }
 
-        .save-section button:hover { background: #1a252f; }
-
         .saved-list {
             list-style: none;
             padding: 0;
@@ -134,16 +133,6 @@
             border-radius: 4px;
             cursor: pointer;
             border: 1px solid var(--border);
-        }
-        
-        .saved-list li:hover { border-color: var(--primary); }
-
-        .saved-list button {
-            background: var(--danger);
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
         }
 
         /* Calendario UI */
@@ -174,7 +163,7 @@
 
         .day-cell {
             position: relative;
-            height: 600px; /* Representa de 7am a 10pm (15 horas) */
+            height: 640px; /* 7am a 10:30pm */
         }
 
         .class-block {
@@ -184,124 +173,195 @@
             background: var(--secondary);
             color: white;
             border-radius: 4px;
-            padding: 5px;
-            font-size: 0.8em;
+            padding: 6px;
+            font-size: 0.75em;
+            line-height: 1.3;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Armador de Horario 2026-II</h1>
+    <h1>Armador de Horario - Derecho Corporativo</h1>
     
     <div class="dashboard">
-        <!-- Panel Izquierdo: Controles -->
         <div class="panel">
             <div class="status-bar" id="status-bar">
-                Cursos seleccionados: 0 / 7
+                Cursos seleccionados: 0 / 0
             </div>
             
-            <div id="course-selectors">
-                <!-- Los selectores se generan por JS -->
-            </div>
+            <div id="course-selectors"></div>
 
             <div class="save-section">
-                <input type="text" id="save-name" placeholder="Ej. Opción 1">
+                <input type="text" id="save-name" placeholder="Ej. Horario Ideal">
                 <button onclick="saveSchedule()">Guardar</button>
                 <ul class="saved-list" id="saved-list"></ul>
             </div>
         </div>
 
-        <!-- Panel Derecho: Calendario Visual -->
         <div class="panel calendar-wrapper">
-            <h2>Mi Horario Semanal</h2>
-            <div class="calendar" id="calendar">
-                <!-- El calendario se genera por JS -->
-            </div>
+            <h2>Calendario Semanal</h2>
+            <div class="calendar" id="calendar"></div>
         </div>
     </div>
 </div>
 
 <script>
-    // Configuración de los cursos (Filtrados y con propuestas)
-    // El tiempo se maneja en minutos desde las 00:00 para facilitar cálculos (Ej. 8:00am = 480)
-    const coursesData = [
+    // 1. Datos sin procesar
+    const rawCursos = [
         {
-            id: 'obligaciones',
-            name: 'Derecho de las Obligaciones',
-            sections: [
-                { id: 'obl_1', label: 'Sec 1 (Jue 11:15-1:30pm)', times: [{ day: 4, start: 675, end: 810 }] },
-                { id: 'obl_2', label: 'Sec 2 (Lun 3:00-5:15pm)', times: [{ day: 1, start: 900, end: 1035 }] },
-                { id: 'obl_5', label: 'Sec 5 (Jue 7:15-9:30pm)', times: [{ day: 4, start: 1155, end: 1290 }] }
+            codigo: "311024", nombre: "Derecho de las Obligaciones", creditos: 3,
+            secciones: [
+                { numero: "1", profesor: "Carlos Antonio Agurto Gonzales", aula: "143", dia: "Viernes", inicio: "11:15", fin: "13:30", estado: "oficial" },
+                { numero: "2", profesor: "Carlos Antonio Agurto Gonzales", aula: "148", dia: "Lunes", inicio: "15:00", fin: "17:15", estado: "oficial" },
+                { numero: "3", profesor: "Jhushein Fort Ninamanco Cordova", aula: "148", dia: "Miércoles", inicio: "15:00", fin: "17:15", estado: "oficial" },
+                { numero: "4", profesor: "Jhushein Fort Ninamanco Cordova", aula: "143", dia: "Miércoles", inicio: "17:15", fin: "19:30", estado: "oficial" },
+                { numero: "5", profesor: "Clotilde Vigil Curo de Quiroz", aula: "143", dia: "Lunes", inicio: "19:15", fin: "21:30", estado: "oficial" }
             ]
         },
         {
-            id: 'penal_iii',
-            name: 'Derecho Penal III (Parte Especial II)',
-            sections: [
-                { id: 'pen_1', label: 'Sec 1 - Prado (Jue 6:00-8:15pm)', times: [{ day: 4, start: 1080, end: 1215 }] },
-                { id: 'pen_2', label: 'Sec 2 - Principe (Mie 3:45-6:00pm)', times: [{ day: 3, start: 945, end: 1080 }] },
-                { id: 'pen_esp', label: 'Contratación - Espinoza (Mar 2:45-5:00pm)', times: [{ day: 2, start: 885, end: 1020 }] },
-                { id: 'pen_bob', label: 'Contratación - Bobadilla (Jue 3:15-5:30pm)', times: [{ day: 4, start: 915, end: 1050 }] }
+            codigo: "311022", nombre: "Acto Jurídico", creditos: 3,
+            secciones: [
+                { numero: "1", profesor: "Juan Alejandro Espinoza Espinoza", aula: "148", dia: "Miércoles", inicio: "07:00", fin: "09:15", estado: "oficial" }
             ]
         },
         {
-            id: 'ejecucion',
-            name: 'Proceso Único de Ejecución',
-            sections: [
-                { id: 'eje_4', label: 'Sec 4 - Canelo (Mar 2:45-5:00pm)', times: [{ day: 2, start: 885, end: 1020 }] },
-                { id: 'eje_cav', label: 'Contratación - Cavero (Vie 4:30-7:30pm)', times: [{ day: 5, start: 990, end: 1170 }] }
+            codigo: "311030", nombre: "Teoría General del Proceso", creditos: 3,
+            secciones: [
+                { numero: "1", profesor: "Jacobo Romero Quispe", aula: "235", dia: "Miércoles", inicio: "12:15", fin: "15:15", estado: "oficial" }
             ]
         },
         {
-            id: 'admin_ii',
-            name: 'Derecho Administrativo II',
-            sections: [
-                { id: 'adm_1', label: 'Sec 1 (Lun 4:45-7:00pm)', times: [{ day: 1, start: 1005, end: 1140 }] },
-                { id: 'adm_2', label: 'Sec 2 (Mar 8:00-10:15am)', times: [{ day: 2, start: 480, end: 615 }] },
-                { id: 'adm_5', label: 'Sec 5 (Jue 6:00-8:15pm)', times: [{ day: 4, start: 1080, end: 1215 }] }
+            codigo: "312015", nombre: "Derecho Penal III (Parte Especial II)", creditos: 3,
+            secciones: [
+                { numero: "1", profesor: "Víctor Roberto Prado Saldarriaga", aula: "329", dia: "Miércoles", inicio: "18:00", fin: "20:15", estado: "oficial" },
+                { numero: "2", profesor: "Hugo Herculano Príncipe Trujillo", aula: "248", dia: "Martes", inicio: "15:45", fin: "18:00", estado: "oficial" },
+                { numero: "3", profesor: "Jorge Adalberto Pérez López", aula: "148", dia: "Viernes", inicio: "19:30", fin: "21:45", estado: "oficial" },
+                { numero: "4", profesor: "Contratación docente", aula: "148", dia: "Martes", inicio: "14:45", fin: "17:00", estado: "oficial" },
+                { numero: "5", profesor: "Contratación docente", aula: "235", dia: "Jueves", inicio: "15:15", fin: "17:30", estado: "oficial" },
+                { numero: "P4", profesor: "Delia Milagros Espinoza Valenzuela", aula: "148", dia: "Martes", inicio: "14:45", fin: "17:00", estado: "propuesta" },
+                { numero: "P5", profesor: "Rocio Bobadilla Bocanegra", aula: "235", dia: "Jueves", inicio: "15:15", fin: "17:30", estado: "propuesta" }
             ]
         },
         {
-            id: 'mercantil_iii',
-            name: 'Derecho Mercantil III (Títulos Valores)',
-            sections: [
-                { id: 'mer_1', label: 'Sec 1 - Figueroa (Lun 5:30-7:45pm)', times: [{ day: 1, start: 1050, end: 1185 }] },
-                { id: 'mer_7', label: 'Sec 7 - Beaumont (Mar 8:45-11:00am)', times: [{ day: 2, start: 525, end: 660 }] },
-                { id: 'mer_tig', label: 'Contratación - Tigroso (Vie 7:30-9:45pm)', times: [{ day: 5, start: 1170, end: 1305 }] }
+            codigo: "311032", nombre: "Proceso Único de Ejecución y Proceso Cautelar", creditos: 3,
+            secciones: [
+                { numero: "1", profesor: "Raúl Bladimiro Canelo Rabanal", aula: "—", dia: "Miércoles", inicio: "15:00", fin: "18:00", estado: "oficial" },
+                { numero: "2", profesor: "Raúl Bladimiro Canelo Rabanal", aula: "—", dia: "Miércoles", inicio: "18:00", fin: "21:00", estado: "oficial" },
+                { numero: "3", profesor: "Héctor Elvis Martínez Flores", aula: "143", dia: "Martes", inicio: "08:00", fin: "11:00", estado: "oficial" },
+                { numero: "4", profesor: "Eugenia Silvia María Ariano Deho", aula: "235", dia: "Jueves", inicio: "11:00", fin: "14:00", estado: "oficial" },
+                { numero: "5", profesor: "María del Carmen Abregu Baez", aula: "148", dia: "Jueves", inicio: "11:00", fin: "14:00", estado: "oficial" },
+                { numero: "6", profesor: "Contratación docente", aula: "329", dia: "Viernes", inicio: "16:30", fin: "19:30", estado: "oficial" },
+                { numero: "P6", profesor: "Hugo Cavero Ruíz", aula: "329", dia: "Viernes", inicio: "16:30", fin: "19:30", estado: "propuesta" }
             ]
         },
         {
-            id: 'trabajo',
-            name: 'Derecho Individual del Trabajo',
-            sections: [
-                { id: 'tra_1', label: 'Sec 1 - Gamarra (Jue 8:00-10:15am)', times: [{ day: 4, start: 480, end: 615 }] },
-                { id: 'tra_egu', label: 'Contratación - Egúsquiza (Jue 7:00-9:15pm)', times: [{ day: 4, start: 1140, end: 1275 }] },
-                { id: 'tra_san', label: 'Contratación - Sánchez (Mie 2:00-4:15pm)', times: [{ day: 3, start: 840, end: 975 }] }
+            codigo: "318005", nombre: "Derecho Administrativo II", creditos: 3,
+            secciones: [
+                { numero: "1", profesor: "Jorge Guillermo Gutierrez Tudela", aula: "310", dia: "Martes", inicio: "08:00", fin: "10:15", estado: "oficial" },
+                { numero: "2", profesor: "José Alberto Estela Huaman", aula: "248", dia: "Jueves", inicio: "18:00", fin: "20:15", estado: "oficial" },
+                { numero: "3", profesor: "Jorge Guillermo Gutierrez Tudela", aula: "235", dia: "Martes", inicio: "10:15", fin: "12:30", estado: "oficial" },
+                { numero: "4", profesor: "Erick Cuba Meneses", aula: "347", dia: "Lunes", inicio: "16:45", fin: "19:00", estado: "oficial" },
+                { numero: "5", profesor: "Erick Cuba Meneses", aula: "143", dia: "Martes", inicio: "18:00", fin: "20:15", estado: "oficial" },
+                { numero: "6", profesor: "Juan Francisco Rojas Leo", aula: "131-B", dia: "Miércoles", inicio: "17:30", fin: "19:45", estado: "oficial" },
+                { numero: "7", profesor: "Luiggi Victorio Santy Cabrera", aula: "235", dia: "Viernes", inicio: "15:45", fin: "18:00", estado: "oficial" }
             ]
         },
         {
-            id: 'procesal_penal',
-            name: 'Derecho Procesal Penal II',
-            sections: [
-                { id: 'prp_1', label: 'Sec 1 - Camarena (Jue 7:00-10:00pm)', times: [{ day: 4, start: 1140, end: 1320 }] },
-                { id: 'prp_3', label: 'Sec 3 - Tapia (Mar 3:00-4:30pm, Jue 4:30-6:00pm)', times: [{ day: 2, start: 900, end: 990 }, { day: 4, start: 990, end: 1080 }] }
+            codigo: "602149", nombre: "Derecho Mercantil III (Títulos Valores)", creditos: 3,
+            secciones: [
+                { numero: "1", profesor: "Ricardo Beaumont Callirgos", aula: "148", dia: "Lunes", inicio: "11:00", fin: "13:15", estado: "oficial" },
+                { numero: "2", profesor: "Julio Hernán Figueroa Bustamante", aula: "246", dia: "Jueves", inicio: "09:30", fin: "11:45", estado: "oficial" },
+                { numero: "3", profesor: "Julio Hernán Figueroa Bustamante", aula: "148", dia: "Lunes", inicio: "08:45", fin: "11:00", estado: "oficial" },
+                { numero: "4", profesor: "Cesar Eusebio Ramos Padilla", aula: "252", dia: "Miércoles", inicio: "10:15", fin: "12:30", estado: "oficial" },
+                { numero: "5", profesor: "Julio Hernán Figueroa Bustamante", aula: "246", dia: "Lunes", inicio: "17:00", fin: "19:15", estado: "oficial" },
+                { numero: "6", profesor: "Contratación docente", aula: "311", dia: "Viernes", inicio: "19:30", fin: "21:45", estado: "oficial" },
+                { numero: "P6", profesor: "Marco Antonio Tigroso Suárez", aula: "311", dia: "Viernes", inicio: "19:30", fin: "21:45", estado: "propuesta" }
+            ]
+        },
+        {
+            codigo: "313010", nombre: "Derecho Individual del Trabajo", creditos: 3,
+            secciones: [
+                { numero: "1", profesor: "Leopoldo Gamarra Vílchez", aula: "141", dia: "Viernes", inicio: "08:00", fin: "10:15", estado: "oficial" },
+                { numero: "2", profesor: "Katty Angélica Caballero Sega", aula: "—", dia: "Sábado", inicio: "07:45", fin: "10:00", estado: "oficial" },
+                { numero: "3", profesor: "Simeón Huancahuari Flores", aula: "143", dia: "Miércoles", inicio: "18:00", fin: "20:15", estado: "oficial" },
+                { numero: "4", profesor: "Contratación docente", aula: "235", dia: "Jueves", inicio: "08:00", fin: "10:15", estado: "oficial" },
+                { numero: "5", profesor: "Contratación docente", aula: "248", dia: "Miércoles", inicio: "14:00", fin: "16:15", estado: "oficial" },
+                { numero: "P4", profesor: "Betty Egúsquiza Palacín", aula: "303", dia: "Jueves", inicio: "19:00", fin: "21:15", estado: "propuesta" },
+                { numero: "P5", profesor: "Andrea Carolina Sánchez Matos", aula: "248", dia: "Miércoles", inicio: "14:00", fin: "16:15", estado: "propuesta" }
+            ]
+        },
+        {
+            codigo: "312018", nombre: "Derecho Procesal Penal II", creditos: 3,
+            secciones: [
+                { numero: "1", profesor: "Gerson Camarena Aliaga", aula: "235", dia: "Jueves", inicio: "19:00", fin: "22:00", estado: "oficial" },
+                { numero: "2", profesor: "Miguel Ángel Tapia Cabañin", aula: "246", dia: "Martes", inicio: "08:00", fin: "11:00", estado: "oficial" },
+                { numero: "3", profesor: "Miguel Ángel Tapia Cabañin", aula: "141", dia: "Jueves", inicio: "15:00", fin: "18:00", estado: "oficial" },
+                { numero: "4", profesor: "Rosa Delsa Mavila León", aula: "143", dia: "Lunes", inicio: "09:00", fin: "12:00", estado: "oficial" },
+                { numero: "5", profesor: "Victor Manuel Cubas Villanueva", aula: "148", dia: "Martes", inicio: "09:00", fin: "12:00", estado: "oficial" },
+                { numero: "6", profesor: "Jimmy Arbulu Martínez", aula: "235", dia: "Martes", inicio: "18:00", fin: "21:00", estado: "oficial" }
             ]
         }
     ];
 
+    // 2. Lógica de Filtrado y Transformación
+    const dayMap = { "Lunes": 1, "Martes": 2, "Miércoles": 3, "Jueves": 4, "Viernes": 5, "Sábado": 6 };
+
+    function timeToMinutes(timeStr) {
+        const [h, m] = timeStr.split(':').map(Number);
+        return h * 60 + m;
+    }
+
+    // Filtrar cursos no deseados y procesar limpieza de secciones
+    const coursesData = rawCursos
+        .filter(c => c.codigo !== "311022" && c.codigo !== "311030")
+        .map(c => {
+            // Eliminar los marcadores genéricos de "Contratación docente"
+            const seccionesLimpias = c.secciones.filter(sec => 
+                !sec.profesor.toLowerCase().includes("contratación") && 
+                !sec.profesor.toLowerCase().includes("contratacion")
+            );
+
+            return {
+                id: c.codigo,
+                name: c.nombre,
+                sections: seccionesLimpias.map((sec, index) => {
+                    const dayNum = dayMap[sec.dia];
+                    const startMin = timeToMinutes(sec.inicio);
+                    const endMin = timeToMinutes(sec.fin);
+                    
+                    // Formato de etiqueta: "Sec 4 (Prop.)" o "Sec 1"
+                    const numLimpio = sec.numero.replace('P', '');
+                    const identificador = sec.estado === 'propuesta' 
+                        ? `Sec ${numLimpio} (Prop.)` 
+                        : `Sec ${sec.numero}`;
+                        
+                    const label = `${identificador} | ${sec.profesor} | Aula ${sec.aula} | ${sec.dia} ${sec.inicio}-${sec.fin}`;
+
+                    return {
+                        id: `${c.codigo}_${index}`,
+                        label: label,
+                        profesor: sec.profesor,
+                        aula: sec.aula,
+                        times: [{ day: dayNum, start: startMin, end: endMin }],
+                        courseName: c.nombre,
+                        inicioFormat: sec.inicio,
+                        finFormat: sec.fin
+                    };
+                })
+            };
+        });
+
     let currentSelection = {};
     const CALENDAR_START_MIN = 420; // 7:00 AM
-    const CALENDAR_END_MIN = 1320; // 10:00 PM
+    const CALENDAR_END_MIN = 1350; // 10:30 PM
     const TOTAL_MINUTES = CALENDAR_END_MIN - CALENDAR_START_MIN;
 
-    // Inicializar Interfaz
+    // 3. Funciones del Sistema
     function init() {
         renderSelectors();
         renderCalendarGrid();
@@ -309,7 +369,6 @@
         updateUI();
     }
 
-    // Dibujar los desplegables
     function renderSelectors() {
         const container = document.getElementById('course-selectors');
         container.innerHTML = '';
@@ -344,7 +403,6 @@
         });
     }
 
-    // Dibujar la grilla del calendario base
     function renderCalendarGrid() {
         const cal = document.getElementById('calendar');
         cal.innerHTML = '<div class="header-cell">Hora</div>';
@@ -354,7 +412,7 @@
 
         let timeColumn = '<div style="background:white;">';
         for(let h=7; h<=22; h++) {
-            timeColumn += `<div class="time-cell" style="height:40px; border-bottom:1px solid #eee;">${h}:00</div>`;
+            timeColumn += `<div class="time-cell" style="height:41.29px; border-bottom:1px solid #eee;">${h}:00</div>`;
         }
         timeColumn += '</div>';
         cal.innerHTML += timeColumn;
@@ -364,19 +422,14 @@
         }
     }
 
-    // Lógica principal: Verifica cruces y actualiza todo
     function updateUI() {
         const selectedSections = getSelectedSectionsData();
         
-        // 1. Actualizar barra de estado
         const count = Object.keys(currentSelection).length;
         document.getElementById('status-bar').innerText = `Cursos seleccionados: ${count} / ${coursesData.length}`;
 
-        // 2. Bloquear opciones con cruce
         coursesData.forEach(course => {
             const select = document.getElementById(`select-${course.id}`);
-            
-            // Forzar el valor actual (útil al cargar opciones guardadas)
             select.value = currentSelection[course.id] || "";
 
             Array.from(select.options).forEach(opt => {
@@ -387,18 +440,16 @@
                 
                 opt.disabled = hasConflict;
                 if (hasConflict) {
-                    opt.text = secData.label + ' (Cruce detectado)';
+                    opt.text = '⚠️ CRUCE - ' + secData.label;
                 } else {
                     opt.text = secData.label;
                 }
             });
         });
 
-        // 3. Pintar en calendario
         drawCalendarBlocks(selectedSections);
     }
 
-    // Obtener los datos completos de las secciones elegidas
     function getSelectedSectionsData() {
         let result = [];
         for (const [courseId, secId] of Object.entries(currentSelection)) {
@@ -409,15 +460,13 @@
         return result;
     }
 
-    // Verificar si una sección choca con las ya seleccionadas (ignorando el mismo curso)
     function checkConflict(section, selectedList, currentCourseId) {
         for (let sel of selectedList) {
-            if (sel.courseId === currentCourseId) continue; // No cruzar consigo mismo
+            if (sel.courseId === currentCourseId) continue; 
             
             for (let t1 of section.times) {
                 for (let t2 of sel.times) {
                     if (t1.day === t2.day) {
-                        // Lógica de superposición de intervalos de tiempo
                         if (t1.start < t2.end && t1.end > t2.start) {
                             return true;
                         }
@@ -428,14 +477,12 @@
         return false;
     }
 
-    // Dibujar los bloques de color en el calendario
     function drawCalendarBlocks(selectedSections) {
-        // Limpiar días
         for(let i=1; i<=6; i++) {
             document.getElementById(`day-${i}`).innerHTML = '';
         }
 
-        const colors = ['#3498DB', '#E67E22', '#9B59B6', '#1ABC9C', '#F1C40F', '#E74C3C', '#34495E'];
+        const colors = ['#2980B9', '#27AE60', '#8E44AD', '#D35400', '#C0392B', '#16A085', '#34495E'];
         
         selectedSections.forEach((sec, index) => {
             const color = colors[index % colors.length];
@@ -448,20 +495,18 @@
                 block.className = 'class-block';
                 block.style.backgroundColor = color;
                 
-                // Calcular posición en porcentaje (15 horas totales)
                 const topPercent = ((time.start - CALENDAR_START_MIN) / TOTAL_MINUTES) * 100;
                 const heightPercent = ((time.end - time.start) / TOTAL_MINUTES) * 100;
 
                 block.style.top = `${topPercent}%`;
                 block.style.height = `${heightPercent}%`;
                 
-                block.innerHTML = `<strong>${sec.courseName}</strong>`;
+                block.innerHTML = `<strong>${sec.courseName}</strong><br/>${sec.inicioFormat}-${sec.finFormat}<br/>Prof: ${sec.profesor}<br/>Aula: ${sec.aula}`;
                 dayCol.appendChild(block);
             });
         });
     }
 
-    // --- Sistema de Guardado ---
     function saveSchedule() {
         const nameInput = document.getElementById('save-name');
         const name = nameInput.value.trim();
@@ -492,7 +537,6 @@
             span.innerText = name;
             span.style.flexGrow = 1;
             span.onclick = () => {
-                // Al hacer clic, carga los datos sin perder los guardados
                 currentSelection = {...selection};
                 updateUI();
             };
@@ -513,7 +557,6 @@
         }
     }
 
-    // Arrancar la app al cargar
     window.onload = init;
 </script>
 </body>
