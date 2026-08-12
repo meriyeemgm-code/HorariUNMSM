@@ -1,63 +1,2031 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Armador de Horario — 2026-II</title>
+
 <style>
-:root{--bg:#f5f7fb;--card:#fff;--ink:#172033;--muted:#697386;--line:#e6eaf0;--primary:#8b1e2d;--primary2:#b52c3f;--soft:#f8e9ec;--ok:#188a5b;--danger:#c23a48;--disabled:#eef1f5;--shadow:0 8px 24px rgba(26,32,44,.07)}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--ink);background:var(--bg)}
-button,input{font:inherit}.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:12px}.mark{width:40px;height:40px;border-radius:11px;background:var(--primary);color:#fff;display:grid;place-items:center;font-weight:800}.title{font-weight:800}.sub{font-size:12px;color:var(--muted);margin-top:2px}.actions{display:flex;gap:8px;align-items:center}.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:9px 13px;border-radius:10px;cursor:pointer;font-weight:650}.btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}.btn:hover{filter:brightness(.98)}
-.layout{max-width:1500px;margin:0 auto;padding:18px;display:grid;grid-template-columns:360px minmax(500px,1fr) 330px;gap:16px}.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}.panelHead{padding:16px 18px;border-bottom:1px solid var(--line)}.panelHead h2{font-size:15px;margin:0 0 4px}.panelHead p{margin:0;color:var(--muted);font-size:12px}.course{padding:14px 16px;border-bottom:1px solid var(--line)}.course:last-child{border-bottom:0}.courseTop{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.courseName{font-weight:800;font-size:14px;line-height:1.25}.code{font-size:11px;color:var(--muted);margin-top:3px}.count{font-size:11px;background:#f0f2f6;border-radius:99px;padding:4px 7px;color:#596274}.option{position:relative;margin-top:9px;border:1px solid var(--line);border-radius:11px;padding:10px 10px 10px 34px;cursor:pointer;transition:.15s;background:#fff}.option:hover{border-color:#cbd2dc}.option.selected{border-color:var(--primary);background:var(--soft)}.option.disabled{background:var(--disabled);color:#9aa3b1;border-color:#e2e5ea;cursor:not-allowed;opacity:.75}.radio{position:absolute;left:11px;top:12px;width:14px;height:14px;border:2px solid #b5bdc9;border-radius:50%}.selected .radio{border-color:var(--primary);box-shadow:inset 0 0 0 3px #fff;background:var(--primary)}.optMain{display:flex;justify-content:space-between;gap:8px}.teacher{font-size:12px;font-weight:700}.tag{font-size:10px;padding:3px 6px;border-radius:99px;background:#f2f4f7;color:#667085;white-space:nowrap}.tag.propuesta{background:#fff1d7;color:#8a5b00}.time{font-size:12px;margin-top:5px;color:#4d596b}.room{font-size:11px;color:var(--muted);margin-top:3px}.conflict{font-size:10px;color:var(--danger);font-weight:700;margin-top:4px}
-.center{min-width:0}.status{display:flex;gap:8px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}.pill{padding:7px 10px;border-radius:99px;background:#f2f4f7;font-size:12px}.pill strong{margin-right:3px}.pill.ok{background:#e8f7f0;color:#14734d}.pill.warn{background:#fff0f0;color:#a82d3b}.calendarWrap{padding:14px}.calendar{display:grid;grid-template-columns:64px repeat(6,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;min-width:760px}.calHead{background:#fafbfc;border-bottom:1px solid var(--line);padding:10px 6px;text-align:center;font-size:11px;font-weight:800;color:#4d596b}.timeCol{position:relative;background:#fafbfc;border-right:1px solid var(--line)}.timeLabel{height:58px;border-bottom:1px dashed #edf0f3;padding:5px 5px;font-size:9px;color:#8992a1}.day{position:relative;border-right:1px solid var(--line);background:repeating-linear-gradient(to bottom,#fff 0,#fff 57px,#edf0f3 58px)}.day:last-child{border-right:0}.gridBody{height:870px;display:grid;grid-template-columns:64px repeat(6,minmax(0,1fr))}.event{position:absolute;left:5px;right:5px;border-radius:9px;background:var(--soft);border-left:4px solid var(--primary);padding:7px 6px;font-size:10px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.06)}.event strong{display:block;font-size:10px}.event span{display:block;margin-top:3px;color:#5e6775}.empty{padding:70px 20px;text-align:center;color:var(--muted);font-size:13px}
-.saved{padding:14px 16px}.saveBox{display:flex;gap:7px;margin-bottom:12px}.saveBox input{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px 10px;outline:none}.savedItem{border:1px solid var(--line);border-radius:12px;padding:11px;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px}.savedItem.active{border-color:var(--primary);background:var(--soft)}.savedName{font-weight:750;font-size:13px}.savedMeta{font-size:11px;color:var(--muted);margin-top:3px}.miniBtns{display:flex;gap:5px}.iconBtn{border:0;background:transparent;color:#667085;cursor:pointer;padding:5px}.legend{padding:0 16px 16px;font-size:11px;color:var(--muted)}.dot{display:inline-block;width:9px;height:9px;border-radius:3px;background:var(--primary);margin-right:5px}.dot.disabled{background:#dfe3e8}
-.notice{margin:0 16px 14px;padding:10px 11px;background:#fff8e8;border:1px solid #f0dfb0;border-radius:10px;font-size:11px;color:#755a18}.mobileHint{display:none}
-@media(max-width:1100px){.layout{grid-template-columns:320px 1fr}.right{grid-column:1/-1}.saved{display:grid;grid-template-columns:1fr 1fr;gap:8px}.saveBox{grid-column:1/-1}.savedItem{margin-top:0}}
-@media(max-width:760px){.top{padding:12px 14px}.actions .btn:first-child{display:none}.layout{display:block;padding:10px}.panel{margin-bottom:12px}.right{display:block}.calendarWrap{overflow:auto}.mobileHint{display:block;margin:0 14px 12px;font-size:11px;color:var(--muted)}.saved{display:block}.savedItem{margin-top:8px}.layout>.center{order:2}}
+:root{
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --ink:#172033;
+    --muted:#697386;
+    --line:#e6eaf0;
+    --primary:#8b1e2d;
+    --primary2:#b52c3f;
+    --soft:#f8e9ec;
+    --ok:#188a5b;
+    --danger:#c23a48;
+    --disabled:#eef1f5;
+    --shadow:0 8px 24px rgba(26,32,44,.07);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,
+    BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+}
+
+button,
+input{
+    font:inherit;
+}
+
+/* HEADER */
+
+.top{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:#fff;
+    border-bottom:1px solid var(--line);
+    padding:14px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.mark{
+    width:40px;
+    height:40px;
+    border-radius:11px;
+    background:var(--primary);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    font-weight:800;
+}
+
+.title{
+    font-weight:800;
+}
+
+.sub{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:2px;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.btn{
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--ink);
+    padding:9px 13px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:650;
+}
+
+.btn.primary{
+    background:var(--primary);
+    color:#fff;
+    border-color:var(--primary);
+}
+
+.btn:hover{
+    filter:brightness(.98);
+}
+
+/* LAYOUT */
+
+.layout{
+    max-width:1500px;
+    margin:0 auto;
+    padding:18px;
+    display:grid;
+    grid-template-columns:360px minmax(500px,1fr) 330px;
+    gap:16px;
+}
+
+.panel{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+}
+
+.panelHead{
+    padding:16px 18px;
+    border-bottom:1px solid var(--line);
+}
+
+.panelHead h2{
+    font-size:15px;
+    margin:0 0 4px;
+}
+
+.panelHead p{
+    margin:0;
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* COURSES */
+
+.course{
+    padding:14px 16px;
+    border-bottom:1px solid var(--line);
+}
+
+.course:last-child{
+    border-bottom:0;
+}
+
+.courseTop{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    align-items:flex-start;
+}
+
+.courseName{
+    font-weight:800;
+    font-size:14px;
+    line-height:1.25;
+}
+
+.code{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+.count{
+    font-size:11px;
+    background:#f0f2f6;
+    border-radius:99px;
+    padding:4px 7px;
+    color:#596274;
+}
+
+.option{
+    position:relative;
+    margin-top:9px;
+    border:1px solid var(--line);
+    border-radius:11px;
+    padding:10px 10px 10px 34px;
+    cursor:pointer;
+    transition:.15s;
+    background:#fff;
+}
+
+.option:hover{
+    border-color:#cbd2dc;
+}
+
+.option.selected{
+    border-color:var(--primary);
+    background:var(--soft);
+}
+
+.option.disabled{
+    background:var(--disabled);
+    color:#9aa3b1;
+    border-color:#e2e5ea;
+    cursor:not-allowed;
+    opacity:.75;
+}
+
+.radio{
+    position:absolute;
+    left:11px;
+    top:12px;
+    width:14px;
+    height:14px;
+    border:2px solid #b5bdc9;
+    border-radius:50%;
+}
+
+.selected .radio{
+    border-color:var(--primary);
+    box-shadow:inset 0 0 0 3px #fff;
+    background:var(--primary);
+}
+
+.optMain{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+}
+
+.teacher{
+    font-size:12px;
+    font-weight:700;
+}
+
+.tag{
+    font-size:10px;
+    padding:3px 6px;
+    border-radius:99px;
+    background:#f2f4f7;
+    color:#667085;
+    white-space:nowrap;
+}
+
+.tag.propuesta{
+    background:#fff1d7;
+    color:#8a5b00;
+}
+
+.time{
+    font-size:12px;
+    margin-top:5px;
+    color:#4d596b;
+}
+
+.room{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+.conflict{
+    font-size:10px;
+    color:var(--danger);
+    font-weight:700;
+    margin-top:4px;
+}
+
+/* STATUS */
+
+.status{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    padding:14px 16px;
+    border-bottom:1px solid var(--line);
+}
+
+.pill{
+    padding:7px 10px;
+    border-radius:99px;
+    background:#f2f4f7;
+    font-size:12px;
+}
+
+.pill strong{
+    margin-right:3px;
+}
+
+.pill.ok{
+    background:#e8f7f0;
+    color:#14734d;
+}
+
+.pill.warn{
+    background:#fff0f0;
+    color:#a82d3b;
+}
+
+/* CALENDAR */
+
+.calendarWrap{
+    padding:14px;
+    overflow:auto;
+}
+
+.calendar{
+    display:grid;
+    grid-template-columns:64px repeat(6,minmax(0,1fr));
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    background:#fff;
+    min-width:760px;
+}
+
+.calHead{
+    background:#fafbfc;
+    border-bottom:1px solid var(--line);
+    padding:10px 6px;
+    text-align:center;
+    font-size:11px;
+    font-weight:800;
+    color:#4d596b;
+}
+
+.timeCol{
+    position:relative;
+    background:#fafbfc;
+    border-right:1px solid var(--line);
+}
+
+.timeLabel{
+    height:58px;
+    border-bottom:1px dashed #edf0f3;
+    padding:5px;
+    font-size:9px;
+    color:#8992a1;
+}
+
+.day{
+    position:relative;
+    border-right:1px solid var(--line);
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #fff 0,
+            #fff 57px,
+            #edf0f3 58px
+        );
+}
+
+.day:last-child{
+    border-right:0;
+}
+
+.gridBody{
+    height:870px;
+    display:grid;
+    grid-template-columns:64px repeat(6,minmax(0,1fr));
+}
+
+.event{
+    position:absolute;
+    left:5px;
+    right:5px;
+    border-radius:9px;
+    background:var(--soft);
+    border-left:4px solid var(--primary);
+    padding:7px 6px;
+    font-size:10px;
+    overflow:hidden;
+    box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+
+.event strong{
+    display:block;
+    font-size:10px;
+}
+
+.event span{
+    display:block;
+    margin-top:3px;
+    color:#5e6775;
+}
+
+.empty{
+    padding:70px 20px;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* SAVED */
+
+.saved{
+    padding:14px 16px;
+}
+
+.saveBox{
+    display:flex;
+    gap:7px;
+    margin-bottom:12px;
+}
+
+.saveBox input{
+    width:100%;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:9px 10px;
+    outline:none;
+}
+
+.savedItem{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:11px;
+    margin-top:8px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+}
+
+.savedItem.active{
+    border-color:var(--primary);
+    background:var(--soft);
+}
+
+.savedName{
+    font-weight:750;
+    font-size:13px;
+}
+
+.savedMeta{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+.miniBtns{
+    display:flex;
+    gap:5px;
+}
+
+.iconBtn{
+    border:0;
+    background:transparent;
+    color:#667085;
+    cursor:pointer;
+    padding:5px;
+}
+
+.legend{
+    padding:0 16px 16px;
+    font-size:11px;
+    color:var(--muted);
+}
+
+.dot{
+    display:inline-block;
+    width:9px;
+    height:9px;
+    border-radius:3px;
+    background:var(--primary);
+    margin-right:5px;
+}
+
+.dot.disabled{
+    background:#dfe3e8;
+}
+
+.notice{
+    margin:0 16px 14px;
+    padding:10px 11px;
+    background:#fff8e8;
+    border:1px solid #f0dfb0;
+    border-radius:10px;
+    font-size:11px;
+    color:#755a18;
+}
+
+.mobileHint{
+    display:none;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .layout{
+        grid-template-columns:320px 1fr;
+    }
+
+    .right{
+        grid-column:1/-1;
+    }
+
+    .saved{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+    }
+
+    .saveBox{
+        grid-column:1/-1;
+    }
+
+    .savedItem{
+        margin-top:0;
+    }
+}
+
+@media(max-width:760px){
+
+    .top{
+        padding:12px 14px;
+    }
+
+    .actions .btn:first-child{
+        display:none;
+    }
+
+    .layout{
+        display:block;
+        padding:10px;
+    }
+
+    .panel{
+        margin-bottom:12px;
+    }
+
+    .right{
+        display:block;
+    }
+
+    .calendarWrap{
+        overflow:auto;
+    }
+
+    .mobileHint{
+        display:block;
+        margin:0 14px 12px;
+        font-size:11px;
+        color:var(--muted);
+    }
+
+    .saved{
+        display:block;
+    }
+
+    .savedItem{
+        margin-top:8px;
+    }
+}
 </style>
 </head>
+
 <body>
-<header class="top"><div class="brand"><div class="mark">H</div><div><div class="title">Armador de Horario</div><div class="sub">Sexto semestre · 2026-II</div></div></div><div class="actions"><button class="btn" id="clearBtn">Limpiar selección</button><button class="btn primary" id="saveTop">Guardar horario</button></div></header>
+
+<header class="top">
+
+    <div class="brand">
+
+        <div class="mark">
+            H
+        </div>
+
+        <div>
+            <div class="title">
+                Armador de Horario
+            </div>
+
+            <div class="sub">
+                Sexto semestre · 2026-II
+            </div>
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="btn"
+            id="clearBtn">
+            Limpiar selección
+        </button>
+
+        <button
+            class="btn primary"
+            id="saveTop">
+            Guardar horario
+        </button>
+
+    </div>
+
+</header>
+
+
 <main class="layout">
-<section class="panel"><div class="panelHead"><h2>Cursos disponibles</h2><p>Selecciona exactamente una sección por curso.</p></div><div class="notice">Las opciones de <b>Contratación</b> están marcadas como propuestas. Al elegir una sección, los horarios incompatibles se bloquean automáticamente.</div><div id="courses"></div></section>
-<section class="panel center"><div class="panelHead"><h2>Mi horario</h2><p>Vista semanal de las secciones que has elegido.</p></div><div class="status" id="status"></div><div class="calendarWrap"><div id="calendar"></div></div></section>
-<section class="panel right"><div class="panelHead"><h2>Horarios guardados</h2><p>Guarda varias combinaciones sin perderlas.</p></div><div class="saved"><div class="saveBox"><input id="saveName" placeholder="Ej. Horario ideal" maxlength="40"><button class="btn primary" id="saveBtn">Guardar</button></div><div id="savedList"></div></div><div class="legend"><div><span class="dot"></span> Seleccionado</div><div><span class="dot disabled"></span> Bloqueado por cruce</div></div></section>
+
+<!-- =========================
+     CURSOS
+========================= -->
+
+<section class="panel">
+
+    <div class="panelHead">
+
+        <h2>
+            Cursos disponibles
+        </h2>
+
+        <p>
+            Selecciona exactamente una sección por curso.
+        </p>
+
+    </div>
+
+
+    <div class="notice">
+
+        Las opciones de
+        <b>Contratación</b>
+        están marcadas como propuestas.
+
+        Al elegir una sección,
+        los horarios incompatibles
+        se bloquean automáticamente.
+
+    </div>
+
+
+    <div id="courses"></div>
+
+</section>
+
+
+<!-- =========================
+     CALENDARIO
+========================= -->
+
+<section class="panel center">
+
+    <div class="panelHead">
+
+        <h2>
+            Mi horario
+        </h2>
+
+        <p>
+            Vista semanal de las secciones que has elegido.
+        </p>
+
+    </div>
+
+
+    <div
+        class="status"
+        id="status">
+    </div>
+
+
+    <div class="calendarWrap">
+
+        <div id="calendar"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     GUARDADOS
+========================= -->
+
+<section class="panel right">
+
+    <div class="panelHead">
+
+        <h2>
+            Horarios guardados
+        </h2>
+
+        <p>
+            Guarda varias combinaciones sin perderlas.
+        </p>
+
+    </div>
+
+
+    <div class="saved">
+
+        <div class="saveBox">
+
+            <input
+                id="saveName"
+                placeholder="Ej. Horario ideal"
+                maxlength="40"
+            >
+
+            <button
+                class="btn primary"
+                id="saveBtn">
+                Guardar
+            </button>
+
+        </div>
+
+
+        <div id="savedList"></div>
+
+    </div>
+
+
+    <div class="legend">
+
+        <div>
+            <span class="dot"></span>
+            Seleccionado
+        </div>
+
+        <div>
+            <span class="dot disabled"></span>
+            Bloqueado por cruce
+        </div>
+
+    </div>
+
+</section>
+
 </main>
-<div class="mobileHint">En móvil, desliza horizontalmente el calendario para ver todos los días.</div>
+
+
+<div class="mobileHint">
+
+    En móvil, desliza horizontalmente
+    el calendario para ver todos los días.
+
+</div>
+
+
 <script>
-const courses=[
-{id:'311024',name:'Derecho de las Obligaciones',options:[
-['D1','Dr. Carlos Antonio Agurto Gonzales','Viernes','11:15','13:30','143','Regular'],['N2','Dr. Carlos Antonio Agurto Gonzales','Lunes','15:00','17:15','148','Regular'],['N3','Mg. Jhushein Fort Ninamanco Cordova','Miércoles','15:00','17:15','148','Regular'],['N4','Mg. Jhushein Fort Ninamanco Cordova','Miércoles','17:15','19:30','143','Regular'],['N5','Abg. Clotilde Vigil Curo de Quiroz','Lunes','19:15','21:30','143','Regular']]},
-{id:'312015',name:'Derecho Penal III (Parte Especial II)',options:[
-['D1','Dr. Víctor Roberto Prado Saldarriaga','Miércoles','18:00','20:15','329','Regular'],['N2','Mg. Hugo Herculano Príncipe Trujillo','Martes','15:45','18:00','248','Regular'],['N3','Mg. Jorge Adalberto Pérez López','Viernes','19:30','21:45','148','Regular'],['N4','Delia Milagros Espinoza Valenzuela','Martes','14:45','17:00','148','Propuesta'],['N5','Rocio Bobadilla Bocanegra','Jueves','15:15','17:30','235','Propuesta']]},
-{id:'311032',name:'Proceso Único de Ejecución y Proceso Cautelar',options:[
-['N1','Dr. Raúl Bladimiro Canelo Rabanal','Miércoles','15:00','18:00','—','Regular · T/P'],['N2','Dr. Raúl Bladimiro Canelo Rabanal','Miércoles','18:00','21:00','—','Regular · T/P'],['D3','Mg. Martínez Flores, Héctor Elvis','Martes','08:00','11:00','143','Regular · T/P'],['N4','Mg. Eugenia Silvia María Ariano Deho','Jueves','11:00','14:00','235','Regular · T/P'],['N5','Abg. María del Carmen Abregu Baez','Jueves','11:00','14:00','148','Regular · T/P'],['N6','Hugo Cavero Ruíz','Viernes','16:30','19:30','329','Propuesta · Contratación']]},
-{id:'318005',name:'Derecho Administrativo II',options:[
-['D1','Dr. Jorge Guillermo Gutierrez Tudela','Martes','08:00','10:15','310','Regular'],['D2','Dr. José Alberto Estela Huaman','Jueves','18:00','20:15','248','Regular'],['D3','Dr. Jorge Guillermo Gutierrez Tudela','Martes','10:15','12:30','235','Regular'],['N4','Mg. Erick Cuba Meneses','Lunes','16:45','19:00','347','Regular'],['D5','Mg. Erick Cuba Meneses','Martes','18:00','20:15','143','Regular'],['N6','Abg. Juan Francisco Rojas Leo','Miércoles','17:30','19:45','131-B','Regular'],['N7','Mg. Luiggi Victorio Santy Cabrera','Viernes','15:45','18:00','235','Regular']]},
-{id:'602149',name:'Derecho Mercantil III (Títulos Valores)',options:[
-['D1','Dr. Ricardo Beaumont Callirgos','Lunes','11:00','13:15','148','Regular'],['D2','Mg. Julio Hernán Figueroa Bustamante','Jueves','09:30','11:45','246','Regular'],['N3','Mg. Julio Hernán Figueroa Bustamante','Lunes','08:45','11:00','148','Regular'],['N4','Dr. Ramos Padilla, Cesar Eusebio','Miércoles','10:15','12:30','252','Regular'],['N5','Mg. Julio Hernán Figueroa Bustamante','Lunes','17:00','19:15','246','Regular'],['N6','Marco Antonio Tigroso Suárez','Viernes','19:30','21:45','311','Propuesta · Contratación']]},
-{id:'313010',name:'Derecho Individual del Trabajo',options:[
-['D1','Dr. Leopoldo Gamarra Vílchez','Viernes','08:00','10:15','141','Regular'],['D2','Dra. Caballero Sega, Katty Angélica','Sábado','07:45','10:00','—','Regular'],['D3','Dr. Huancahuari Flores, Simeón','Miércoles','18:00','20:15','143','Regular'],['D4','Contratación docente','Miércoles','08:00','10:15','235','Regular · Contratación'],['N5','Andrea Carolina Sánchez Matos','Miércoles','14:00','16:15','248','Propuesta · Contratación'],['N5b','Betty Egúsquiza Palacín','Jueves','19:00','21:15','303','Propuesta · Contratación']]},
-{id:'312018',name:'Derecho Procesal Penal II',options:[
-['D1','Dr. Gerson Camarena Aliaga','Jueves','19:00','22:00','235','Regular · T/P'],['N2','Dr. Miguel Ángel Tapia Cabañin','Martes','08:00','11:00','246','Regular · T/P'],['N3','Dr. Miguel Ángel Tapia Cabañin','Jueves','15:00','18:00','141','Regular · T/P'],['N4','Dra. Rosa Delsa Mavila León','Lunes','09:00','12:00','143','Regular · T/P'],['D5','Dr. Victor Manuel Cubas Villanueva','Martes','09:00','12:00','148','Regular · T/P'],['N6','Mg. Jimmy Arbulu Martínez','Martes','18:00','21:00','235','Regular · T/P']]}
+
+/* ==========================================
+   INFORMACIÓN DE CURSOS
+========================================== */
+
+const courses = [
+
+    {
+        id:'311024',
+
+        name:'Derecho de las Obligaciones',
+
+        options:[
+
+            [
+                'D1',
+                'Dr. Carlos Antonio Agurto Gonzales',
+                'Viernes',
+                '11:15',
+                '13:30',
+                '143',
+                'Regular'
+            ],
+
+            [
+                'N2',
+                'Dr. Carlos Antonio Agurto Gonzales',
+                'Lunes',
+                '15:00',
+                '17:15',
+                '148',
+                'Regular'
+            ],
+
+            [
+                'N3',
+                'Mg. Jhushein Fort Ninamanco Cordova',
+                'Miércoles',
+                '15:00',
+                '17:15',
+                '148',
+                'Regular'
+            ],
+
+            [
+                'N4',
+                'Mg. Jhushein Fort Ninamanco Cordova',
+                'Miércoles',
+                '17:15',
+                '19:30',
+                '143',
+                'Regular'
+            ],
+
+            [
+                'N5',
+                'Abg. Clotilde Vigil Curo de Quiroz',
+                'Lunes',
+                '19:15',
+                '21:30',
+                '143',
+                'Regular'
+            ]
+
+        ]
+    },
+
+
+    {
+        id:'312015',
+
+        name:'Derecho Penal III (Parte Especial II)',
+
+        options:[
+
+            [
+                'D1',
+                'Dr. Víctor Roberto Prado Saldarriaga',
+                'Miércoles',
+                '18:00',
+                '20:15',
+                '329',
+                'Regular'
+            ],
+
+            [
+                'N2',
+                'Mg. Hugo Herculano Príncipe Trujillo',
+                'Martes',
+                '15:45',
+                '18:00',
+                '248',
+                'Regular'
+            ],
+
+            [
+                'N3',
+                'Mg. Jorge Adalberto Pérez López',
+                'Viernes',
+                '19:30',
+                '21:45',
+                '148',
+                'Regular'
+            ],
+
+            [
+                'N4',
+                'Delia Milagros Espinoza Valenzuela',
+                'Martes',
+                '14:45',
+                '17:00',
+                '148',
+                'Propuesta'
+            ],
+
+            [
+                'N5',
+                'Rocio Bobadilla Bocanegra',
+                'Jueves',
+                '15:15',
+                '17:30',
+                '235',
+                'Propuesta'
+            ]
+
+        ]
+    },
+
+
+    {
+        id:'311032',
+
+        name:'Proceso Único de Ejecución y Proceso Cautelar',
+
+        options:[
+
+            [
+                'N1',
+                'Dr. Raúl Bladimiro Canelo Rabanal',
+                'Miércoles',
+                '15:00',
+                '18:00',
+                '—',
+                'Regular · T/P'
+            ],
+
+            [
+                'N2',
+                'Dr. Raúl Bladimiro Canelo Rabanal',
+                'Miércoles',
+                '18:00',
+                '21:00',
+                '—',
+                'Regular · T/P'
+            ],
+
+            [
+                'D3',
+                'Mg. Martínez Flores, Héctor Elvis',
+                'Martes',
+                '08:00',
+                '11:00',
+                '143',
+                'Regular · T/P'
+            ],
+
+            [
+                'N4',
+                'Mg. Eugenia Silvia María Ariano Deho',
+                'Jueves',
+                '11:00',
+                '14:00',
+                '235',
+                'Regular · T/P'
+            ],
+
+            [
+                'N5',
+                'Abg. María del Carmen Abregu Baez',
+                'Jueves',
+                '11:00',
+                '14:00',
+                '148',
+                'Regular · T/P'
+            ],
+
+            [
+                'N6',
+                'Hugo Cavero Ruíz',
+                'Viernes',
+                '16:30',
+                '19:30',
+                '329',
+                'Propuesta · Contratación'
+            ]
+
+        ]
+    },
+
+
+    {
+        id:'318005',
+
+        name:'Derecho Administrativo II',
+
+        options:[
+
+            [
+                'D1',
+                'Dr. Jorge Guillermo Gutierrez Tudela',
+                'Martes',
+                '08:00',
+                '10:15',
+                '310',
+                'Regular'
+            ],
+
+            [
+                'D2',
+                'Dr. José Alberto Estela Huaman',
+                'Jueves',
+                '18:00',
+                '20:15',
+                '248',
+                'Regular'
+            ],
+
+            [
+                'D3',
+                'Dr. Jorge Guillermo Gutierrez Tudela',
+                'Martes',
+                '10:15',
+                '12:30',
+                '235',
+                'Regular'
+            ],
+
+            [
+                'N4',
+                'Mg. Erick Cuba Meneses',
+                'Lunes',
+                '16:45',
+                '19:00',
+                '347',
+                'Regular'
+            ],
+
+            [
+                'D5',
+                'Mg. Erick Cuba Meneses',
+                'Martes',
+                '18:00',
+                '20:15',
+                '143',
+                'Regular'
+            ],
+
+            [
+                'N6',
+                'Abg. Juan Francisco Rojas Leo',
+                'Miércoles',
+                '17:30',
+                '19:45',
+                '131-B',
+                'Regular'
+            ],
+
+            [
+                'N7',
+                'Mg. Luiggi Victorio Santy Cabrera',
+                'Viernes',
+                '15:45',
+                '18:00',
+                '235',
+                'Regular'
+            ]
+
+        ]
+    },
+
+
+    {
+        id:'602149',
+
+        name:'Derecho Mercantil III (Títulos Valores)',
+
+        options:[
+
+            [
+                'D1',
+                'Dr. Ricardo Beaumont Callirgos',
+                'Lunes',
+                '11:00',
+                '13:15',
+                '148',
+                'Regular'
+            ],
+
+            [
+                'D2',
+                'Mg. Julio Hernán Figueroa Bustamante',
+                'Jueves',
+                '09:30',
+                '11:45',
+                '246',
+                'Regular'
+            ],
+
+            [
+                'N3',
+                'Mg. Julio Hernán Figueroa Bustamante',
+                'Lunes',
+                '08:45',
+                '11:00',
+                '148',
+                'Regular'
+            ],
+
+            [
+                'N4',
+                'Dr. Ramos Padilla, Cesar Eusebio',
+                'Miércoles',
+                '10:15',
+                '12:30',
+                '252',
+                'Regular'
+            ],
+
+            [
+                'N5',
+                'Mg. Julio Hernán Figueroa Bustamante',
+                'Lunes',
+                '17:00',
+                '19:15',
+                '246',
+                'Regular'
+            ],
+
+            [
+                'N6',
+                'Marco Antonio Tigroso Suárez',
+                'Viernes',
+                '19:30',
+                '21:45',
+                '311',
+                'Propuesta · Contratación'
+            ]
+
+        ]
+    },
+
+
+    {
+        id:'313010',
+
+        name:'Derecho Individual del Trabajo',
+
+        options:[
+
+            [
+                'D1',
+                'Dr. Leopoldo Gamarra Vílchez',
+                'Viernes',
+                '08:00',
+                '10:15',
+                '141',
+                'Regular'
+            ],
+
+            [
+                'D2',
+                'Dra. Caballero Sega, Katty Angélica',
+                'Sábado',
+                '07:45',
+                '10:00',
+                '—',
+                'Regular'
+            ],
+
+            [
+                'D3',
+                'Dr. Huancahuari Flores, Simeón',
+                'Miércoles',
+                '18:00',
+                '20:15',
+                '143',
+                'Regular'
+            ],
+
+            [
+                'D4',
+                'Contratación docente',
+                'Miércoles',
+                '08:00',
+                '10:15',
+                '235',
+                'Regular · Contratación'
+            ],
+
+            [
+                'N5',
+                'Andrea Carolina Sánchez Matos',
+                'Miércoles',
+                '14:00',
+                '16:15',
+                '248',
+                'Propuesta · Contratación'
+            ],
+
+            [
+                'N5b',
+                'Betty Egúsquiza Palacín',
+                'Jueves',
+                '19:00',
+                '21:15',
+                '303',
+                'Propuesta · Contratación'
+            ]
+
+        ]
+    },
+
+
+    {
+        id:'312018',
+
+        name:'Derecho Procesal Penal II',
+
+        options:[
+
+            [
+                'D1',
+                'Dr. Gerson Camarena Aliaga',
+                'Jueves',
+                '19:00',
+                '22:00',
+                '235',
+                'Regular · T/P'
+            ],
+
+            [
+                'N2',
+                'Dr. Miguel Ángel Tapia Cabañin',
+                'Martes',
+                '08:00',
+                '11:00',
+                '246',
+                'Regular · T/P'
+            ],
+
+            [
+                'N3',
+                'Dr. Miguel Ángel Tapia Cabañin',
+                'Jueves',
+                '15:00',
+                '18:00',
+                '141',
+                'Regular · T/P'
+            ],
+
+            [
+                'N4',
+                'Dra. Rosa Delsa Mavila León',
+                'Lunes',
+                '09:00',
+                '12:00',
+                '143',
+                'Regular · T/P'
+            ],
+
+            [
+                'D5',
+                'Dr. Victor Manuel Cubas Villanueva',
+                'Martes',
+                '09:00',
+                '12:00',
+                '148',
+                'Regular · T/P'
+            ],
+
+            [
+                'N6',
+                'Mg. Jimmy Arbulu Martínez',
+                'Martes',
+                '18:00',
+                '21:00',
+                '235',
+                'Regular · T/P'
+            ]
+
+        ]
+    }
+
 ];
-const days=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-let selected={}; let saved=JSON.parse(localStorage.getItem('horarios2026ii')||'{}'); let activeSaved=null;
-const $=s=>document.querySelector(s);
-function min(t){let [h,m]=t.split(':').map(Number);return h*60+m}
-function overlap(a,b){return a.day===b.day && min(a.start)<min(b.end)&&min(b.start)<min(a.end)}
-function getOpt(c,o){return {course:c.id,courseName:c.name,id:o[0],teacher:o[1],day:o[2],start:o[3],end:o[4],room:o[5],type:o[6]}}
-function conflicts(opt){return Object.values(selected).some(x=>x.course!==opt.course&&overlap(x,opt))}
-function renderCourses(){let html='';courses.forEach(c=>{let sel=selected[c.id];html+=`<div class="course"><div class="courseTop"><div><div class="courseName">${c.name}</div><div class="code">${c.id}</div></div><div class="count">${sel?'1/1':'0/1'}</div></div>`;c.options.forEach(o=>{let opt=getOpt(c,o), disabled=conflicts(opt), selectedNow=sel&&sel.id===opt.id; html+=`<div class="option ${selectedNow?'selected':''} ${disabled&&!selectedNow?'disabled':''}" data-course="${c.id}" data-opt="${o[0]}"><span class="radio"></span><div class="optMain"><div class="teacher">${o[1]}</div>${o[6].includes('Propuesta')?'<span class="tag propuesta">Propuesta</span>':''}</div><div class="time">${o[2]} · ${fmt(o[3])}–${fmt(o[4])}${o[6].includes('T/P')?' · T/P':''}</div><div class="room">Aula ${o[5]} · Sección ${o[0]}</div>${disabled&&!selectedNow?'<div class="conflict">Bloqueado por cruce</div>':''}</div>`});html+='</div>'});$('#courses').innerHTML=html;document.querySelectorAll('.option').forEach(el=>el.onclick=()=>{let c=courses.find(x=>x.id===el.dataset.course),o=c.options.find(x=>x[0]===el.dataset.opt),opt=getOpt(c,o);if(!conflicts(opt)||selected[c.id]?.id===opt.id){selected[c.id]=selected[c.id]?.id===opt.id?undefined:opt;if(!selected[c.id])delete selected[c.id];render();}})}
-function fmt(t){let [h,m]=t.split(':').map(Number),amp=h>=12?'pm':'am',hh=h%12||12;return `${hh}:${String(m).padStart(2,'0')} ${amp}`}
-function renderStatus(){let n=Object.keys(selected).length,total=courses.length;let missing=total-n;$('#status').innerHTML=`<span class="pill ${n===total?'ok':''}"><strong>${n}</strong> de ${total} cursos</span><span class="pill ${missing?'warn':'ok'}"><strong>${missing}</strong> pendientes</span>${n===total?'<span class="pill ok">✓ Horario completo</span>':''}`}
-function renderCalendar(){let start=7*60,end=22*60,step=60;let head='<div class="calendar"><div class="calHead">Hora</div>'+days.map(d=>`<div class="calHead">${d}</div>`).join('');let labels='<div class="timeCol">'+Array.from({length:16},(_,i)=>`<div class="timeLabel">${fmt(String(7+i).padStart(2,'0')+':00')}</div>`).join('')+'</div>';let body=days.map(d=>{let events=Object.values(selected).filter(o=>o.day===d).map(o=>{let top=(min(o.start)-start)*58/60,left=5;let height=(min(o.end)-min(o.start))*58/60;return `<div class="event" style="top:${top}px;height:${Math.max(height,44)}px"><strong>${o.courseName.replace(/^\d+\./,'')}</strong><span>${fmt(o.start)}–${fmt(o.end)}</span><span>${o.teacher}</span></div>`}).join('');return `<div class="day">${events}</div>`}).join('');$('#calendar').innerHTML=head+`<div class="gridBody">${labels}${body}</div></div>`}
-function renderSaved(){let keys=Object.keys(saved);$('#savedList').innerHTML=keys.length?keys.map(k=>`<div class="savedItem ${activeSaved===k?'active':''}"><div><div class="savedName">${k}</div><div class="savedMeta">${Object.keys(saved[k]).length}/${courses.length} cursos</div></div><div class="miniBtns"><button class="iconBtn" title="Abrir" onclick="loadSaved('${escapeHtml(k)}')">Abrir</button><button class="iconBtn" title="Eliminar" onclick="deleteSaved('${escapeHtml(k)}')">×</button></div></div>`).join(''):'<div class="empty">Todavía no tienes combinaciones guardadas.</div>'}
-function escapeHtml(s){return s.replaceAll('&','&amp;').replaceAll("'","&#39;")}
-function save(){let name=$('#saveName').value.trim()||`Opción ${Object.keys(saved).length+1}`;saved[name]=JSON.parse(JSON.stringify(selected));localStorage.setItem('horarios2026ii',JSON.stringify(saved));activeSaved=name;$('#saveName').value='';renderSaved()}
-window.loadSaved=k=>{let key=Object.keys(saved).find(x=>x===k);if(!key)return;selected=JSON.parse(JSON.stringify(saved[key]));activeSaved=key;render()}
-window.deleteSaved=k=>{if(confirm(`¿Eliminar "${k}"?`)){delete saved[k];localStorage.setItem('horarios2026ii',JSON.stringify(saved));if(activeSaved===k)activeSaved=null;renderSaved()}}
-function render(){renderCourses();renderStatus();renderCalendar();renderSaved()}
-$('#saveBtn').onclick=save;$('#saveTop').onclick=save;$('#clearBtn').onclick=()=>{selected={};activeSaved=null;render()};$('#saveName').addEventListener('keydown',e=>{if(e.key==='Enter')save()});render();
+
+
+/* ==========================================
+   ESTADO
+========================================== */
+
+const days = [
+    'Lunes',
+    'Martes',
+    'Miércoles',
+    'Jueves',
+    'Viernes',
+    'Sábado'
+];
+
+let selected = {};
+
+let saved = JSON.parse(
+    localStorage.getItem('horarios2026ii') || '{}'
+);
+
+let activeSaved = null;
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+const $ = selector =>
+    document.querySelector(selector);
+
+
+function min(time){
+
+    const [h,m] =
+        time.split(':').map(Number);
+
+    return h * 60 + m;
+}
+
+
+function overlap(a,b){
+
+    return (
+        a.day === b.day &&
+        min(a.start) < min(b.end) &&
+        min(b.start) < min(a.end)
+    );
+}
+
+
+function getOpt(course, option){
+
+    return {
+
+        course:course.id,
+
+        courseName:course.name,
+
+        id:option[0],
+
+        teacher:option[1],
+
+        day:option[2],
+
+        start:option[3],
+
+        end:option[4],
+
+        room:option[5],
+
+        type:option[6]
+
+    };
+}
+
+
+function conflicts(option){
+
+    return Object.values(selected).some(
+        selectedOption =>
+
+            selectedOption.course !== option.course &&
+            overlap(selectedOption,option)
+    );
+}
+
+
+function fmt(time){
+
+    let [h,m] =
+        time.split(':').map(Number);
+
+    const amp =
+        h >= 12 ? 'pm' : 'am';
+
+    const hh =
+        h % 12 || 12;
+
+    return `${hh}:${String(m).padStart(2,'0')} ${amp}`;
+}
+
+
+/* ==========================================
+   CURSOS
+========================================== */
+
+function renderCourses(){
+
+    let html = '';
+
+    courses.forEach(course => {
+
+        const selectedCourse =
+            selected[course.id];
+
+        html += `
+
+        <div class="course">
+
+            <div class="courseTop">
+
+                <div>
+
+                    <div class="courseName">
+                        ${course.name}
+                    </div>
+
+                    <div class="code">
+                        ${course.id}
+                    </div>
+
+                </div>
+
+                <div class="count">
+                    ${selectedCourse ? '1/1' : '0/1'}
+                </div>
+
+            </div>
+
+        `;
+
+
+        course.options.forEach(option => {
+
+            const opt =
+                getOpt(course,option);
+
+            const disabled =
+                conflicts(opt);
+
+            const isSelected =
+                selectedCourse &&
+                selectedCourse.id === opt.id;
+
+
+            html += `
+
+            <div
+
+                class="
+                    option
+                    ${isSelected ? 'selected' : ''}
+                    ${
+                        disabled && !isSelected
+                        ? 'disabled'
+                        : ''
+                    }
+                "
+
+                data-course="${course.id}"
+
+                data-opt="${option[0]}"
+
+            >
+
+                <span class="radio"></span>
+
+                <div class="optMain">
+
+                    <div class="teacher">
+                        ${option[1]}
+                    </div>
+
+                    ${
+                        option[6].includes('Propuesta')
+                        ?
+                        `
+                        <span class="tag propuesta">
+                            Propuesta
+                        </span>
+                        `
+                        :
+                        ''
+                    }
+
+                </div>
+
+                <div class="time">
+
+                    ${option[2]}
+                    ·
+                    ${fmt(option[3])}
+                    –
+                    ${fmt(option[4])}
+
+                    ${
+                        option[6].includes('T/P')
+                        ? ' · T/P'
+                        : ''
+                    }
+
+                </div>
+
+                <div class="room">
+
+                    Aula ${option[5]}
+                    ·
+                    Sección ${option[0]}
+
+                </div>
+
+                ${
+                    disabled && !isSelected
+                    ?
+                    `
+                    <div class="conflict">
+                        Bloqueado por cruce
+                    </div>
+                    `
+                    :
+                    ''
+                }
+
+            </div>
+
+            `;
+
+        });
+
+
+        html += `</div>`;
+
+    });
+
+
+    $('#courses').innerHTML = html;
+
+
+    document
+        .querySelectorAll('.option')
+        .forEach(element => {
+
+            element.onclick = () => {
+
+                const course =
+                    courses.find(
+                        c =>
+                        c.id ===
+                        element.dataset.course
+                    );
+
+                const option =
+                    course.options.find(
+                        o =>
+                        o[0] ===
+                        element.dataset.opt
+                    );
+
+                const opt =
+                    getOpt(course,option);
+
+
+                if(
+                    !conflicts(opt) ||
+                    selected[course.id]?.id === opt.id
+                ){
+
+                    if(
+                        selected[course.id]?.id === opt.id
+                    ){
+
+                        delete selected[course.id];
+
+                    }else{
+
+                        selected[course.id] =
+                            opt;
+
+                    }
+
+                    render();
+
+                }
+
+            };
+
+        });
+
+}
+
+
+/* ==========================================
+   ESTADO
+========================================== */
+
+function renderStatus(){
+
+    const total =
+        courses.length;
+
+    const amount =
+        Object.keys(selected).length;
+
+    const missing =
+        total - amount;
+
+
+    $('#status').innerHTML = `
+
+        <span
+            class="pill ${amount === total ? 'ok' : ''}"
+        >
+
+            <strong>
+                ${amount}
+            </strong>
+
+            de ${total} cursos
+
+        </span>
+
+
+        <span
+            class="pill ${missing ? 'warn' : 'ok'}"
+        >
+
+            <strong>
+                ${missing}
+            </strong>
+
+            pendientes
+
+        </span>
+
+
+        ${
+            amount === total
+            ?
+            `
+            <span class="pill ok">
+                ✓ Horario completo
+            </span>
+            `
+            :
+            ''
+        }
+
+    `;
+}
+
+
+/* ==========================================
+   CALENDARIO
+========================================== */
+
+function renderCalendar(){
+
+    const start =
+        7 * 60;
+
+    const end =
+        22 * 60;
+
+    const pxPerHour =
+        58;
+
+
+    let html = `
+
+        <div class="calendar">
+
+            <div class="calHead">
+                Hora
+            </div>
+
+            ${
+                days
+                .map(
+                    day =>
+                    `
+                    <div class="calHead">
+                        ${day}
+                    </div>
+                    `
+                )
+                .join('')
+            }
+
+    `;
+
+
+    const labels = `
+
+        <div class="timeCol">
+
+            ${
+                Array.from(
+                    {length:16},
+                    (_,i) =>
+
+                    `
+                    <div class="timeLabel">
+
+                        ${fmt(
+                            String(7+i)
+                            .padStart(2,'0')
+                            + ':00'
+                        )}
+
+                    </div>
+                    `
+                ).join('')
+            }
+
+        </div>
+
+    `;
+
+
+    const body =
+        days
+        .map(day => {
+
+            const events =
+                Object.values(selected)
+                .filter(
+                    option =>
+                    option.day === day
+                )
+                .map(option => {
+
+                    const top =
+                        (
+                            min(option.start)
+                            -
+                            start
+                        )
+                        *
+                        pxPerHour
+                        /
+                        60;
+
+
+                    const height =
+                        (
+                            min(option.end)
+                            -
+                            min(option.start)
+                        )
+                        *
+                        pxPerHour
+                        /
+                        60;
+
+
+                    return `
+
+                    <div
+
+                        class="event"
+
+                        style="
+                            top:${top}px;
+                            height:${Math.max(height,44)}px
+                        "
+
+                    >
+
+                        <strong>
+                            ${option.courseName}
+                        </strong>
+
+                        <span>
+                            ${fmt(option.start)}
+                            –
+                            ${fmt(option.end)}
+                        </span>
+
+                        <span>
+                            ${option.teacher}
+                        </span>
+
+                    </div>
+
+                    `;
+
+                })
+                .join('');
+
+
+            return `
+
+                <div class="day">
+                    ${events}
+                </div>
+
+            `;
+
+        })
+        .join('');
+
+
+    $('#calendar').innerHTML =
+
+        html +
+
+        `
+
+        <div class="gridBody">
+
+            ${labels}
+
+            ${body}
+
+        </div>
+
+        </div>
+
+        `;
+
+}
+
+
+/* ==========================================
+   HORARIOS GUARDADOS
+========================================== */
+
+function renderSaved(){
+
+    const keys =
+        Object.keys(saved);
+
+
+    if(!keys.length){
+
+        $('#savedList').innerHTML = `
+
+            <div class="empty">
+
+                Todavía no tienes
+                combinaciones guardadas.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    $('#savedList').innerHTML =
+
+        keys.map(key => {
+
+            return `
+
+            <div
+                class="
+                    savedItem
+                    ${activeSaved === key ? 'active' : ''}
+                "
+            >
+
+                <div>
+
+                    <div class="savedName">
+                        ${key}
+                    </div>
+
+                    <div class="savedMeta">
+
+                        ${
+                            Object.keys(saved[key]).length
+                        }
+
+                        /
+
+                        ${courses.length}
+
+                        cursos
+
+                    </div>
+
+                </div>
+
+
+                <div class="miniBtns">
+
+                    <button
+                        class="iconBtn"
+                        onclick="loadSaved('${escapeHtml(key)}')"
+                    >
+                        Abrir
+                    </button>
+
+                    <button
+                        class="iconBtn"
+                        onclick="deleteSaved('${escapeHtml(key)}')"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+            </div>
+
+            `;
+
+        }).join('');
+
+}
+
+
+function escapeHtml(value){
+
+    return value
+        .replaceAll('&','&amp;')
+        .replaceAll("'","&#39;");
+
+}
+
+
+/* ==========================================
+   GUARDAR
+========================================== */
+
+function save(){
+
+    let name =
+        $('#saveName')
+        .value
+        .trim();
+
+
+    if(!name){
+
+        name =
+            `Opción ${Object.keys(saved).length + 1}`;
+
+    }
+
+
+    saved[name] =
+        JSON.parse(
+            JSON.stringify(selected)
+        );
+
+
+    localStorage.setItem(
+        'horarios2026ii',
+        JSON.stringify(saved)
+    );
+
+
+    activeSaved =
+        name;
+
+
+    $('#saveName').value = '';
+
+    renderSaved();
+
+}
+
+
+/* ==========================================
+   CARGAR
+========================================== */
+
+window.loadSaved = function(name){
+
+    const key =
+        Object.keys(saved)
+        .find(
+            value => value === name
+        );
+
+
+    if(!key){
+        return;
+    }
+
+
+    selected =
+        JSON.parse(
+            JSON.stringify(saved[key])
+        );
+
+
+    activeSaved =
+        key;
+
+
+    render();
+
+};
+
+
+/* ==========================================
+   ELIMINAR
+========================================== */
+
+window.deleteSaved = function(name){
+
+    if(
+        confirm(
+            `¿Eliminar "${name}"?`
+        )
+    ){
+
+        delete saved[name];
+
+
+        localStorage.setItem(
+            'horarios2026ii',
+            JSON.stringify(saved)
+        );
+
+
+        if(activeSaved === name){
+
+            activeSaved = null;
+
+        }
+
+
+        renderSaved();
+
+    }
+
+};
+
+
+/* ==========================================
+   BOTONES
+========================================== */
+
+$('#saveBtn').onclick =
+    save;
+
+
+$('#saveTop').onclick =
+    save;
+
+
+$('#clearBtn').onclick = () => {
+
+    selected = {};
+
+    activeSaved = null;
+
+    render();
+
+};
+
+
+$('#saveName')
+    .addEventListener(
+        'keydown',
+        event => {
+
+            if(event.key === 'Enter'){
+
+                save();
+
+            }
+
+        }
+    );
+
+
+/* ==========================================
+   INICIAR
+========================================== */
+
+render();
+
 </script>
-</body></html>
+
+</body>
+</html>
