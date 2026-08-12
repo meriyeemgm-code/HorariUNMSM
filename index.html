@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Armador de Horario UNMSM - Meriyeem</title>
+    <title>Armador de Horario UNMSM</title>
     <style>
         :root {
             --primary: #2C3E50;
             --secondary: #18BC9C;
             --danger: #E74C3C;
+            --warning: #F39C12;
             --background: #F8F9FA;
             --card-bg: #FFFFFF;
             --text-dark: #212529;
@@ -101,22 +102,32 @@
             border-top: 1px solid var(--border);
         }
 
-        .save-section input {
-            width: calc(100% - 90px);
+        .save-controls {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .save-controls input {
+            flex-grow: 1;
             padding: 8px;
             border: 1px solid var(--border);
             border-radius: 4px;
         }
 
-        .save-section button {
-            width: 80px;
-            padding: 8px;
-            background: var(--primary);
+        .btn {
+            padding: 8px 12px;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-weight: bold;
         }
+
+        .btn-primary { background: var(--primary); }
+        .btn-success { background: #27AE60; }
+        
+        .btn:hover { opacity: 0.9; }
 
         .saved-list {
             list-style: none;
@@ -127,6 +138,7 @@
         .saved-list li {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             background: var(--background);
             padding: 8px 10px;
             margin-bottom: 5px;
@@ -134,6 +146,23 @@
             cursor: pointer;
             border: 1px solid var(--border);
         }
+
+        .action-btns {
+            display: flex;
+            gap: 5px;
+        }
+
+        .icon-btn {
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 0.8em;
+        }
+
+        .btn-edit { background: var(--warning); }
+        .btn-del { background: var(--danger); }
 
         /* Calendario UI */
         .calendar-wrapper {
@@ -166,7 +195,7 @@
 
         .day-cell {
             position: relative;
-            height: 930px; /* 15.5 horas * 60px por hora = 930px. Da más espacio vertical */
+            height: 930px;
         }
 
         .class-block {
@@ -176,16 +205,21 @@
             background: var(--secondary);
             color: white;
             border-radius: 4px;
-            padding: 4px 6px;
-            font-size: 0.75em;
-            line-height: 1.25;
-            overflow-y: auto; /* Permite scroll si el texto es muy largo */
+            padding: 6px;
+            font-size: 0.85em; /* Aumentado para mejor legibilidad general */
+            line-height: 1.3;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
 
-        /* Estilo sutil para la barra de desplazamiento dentro del bloque del curso */
+        .course-title {
+            font-size: 1.15em; /* Título del curso mucho más grande */
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
         .class-block::-webkit-scrollbar {
             width: 4px;
         }
@@ -197,12 +231,35 @@
         .seccion-badge {
             display: inline-block;
             background: rgba(0, 0, 0, 0.2);
-            padding: 2px 5px;
+            padding: 2px 6px;
             border-radius: 3px;
             font-size: 0.9em;
-            margin-top: 3px;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
             font-weight: bold;
+        }
+
+        /* Reglas para la Impresión */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .dashboard {
+                display: block;
+            }
+            /* Ocultar el panel izquierdo completo */
+            .panel:first-child {
+                display: none;
+            }
+            .calendar-wrapper {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+            }
+            /* Ocultar el título principal para ahorrar espacio si se desea, o dejar el H2 */
+            h1 { display: none; }
         }
     </style>
 </head>
@@ -212,6 +269,7 @@
     <h1>Armador de Horario - Derecho Corporativo</h1>
     
     <div class="dashboard">
+        <!-- Panel Izquierdo: Controles -->
         <div class="panel">
             <div class="status-bar" id="status-bar">
                 Cursos seleccionados: 0 / 0
@@ -220,12 +278,16 @@
             <div id="course-selectors"></div>
 
             <div class="save-section">
-                <input type="text" id="save-name" placeholder="Ej. Horario Ideal">
-                <button onclick="saveSchedule()">Guardar</button>
+                <div class="save-controls">
+                    <input type="text" id="save-name" placeholder="Ej. Horario Ideal">
+                    <button class="btn btn-primary" onclick="saveSchedule()">Guardar</button>
+                    <button class="btn btn-success" onclick="window.print()">Imprimir</button>
+                </div>
                 <ul class="saved-list" id="saved-list"></ul>
             </div>
         </div>
 
+        <!-- Panel Derecho: Calendario Visual -->
         <div class="panel calendar-wrapper">
             <h2>Calendario Semanal</h2>
             <div class="calendar" id="calendar"></div>
@@ -234,7 +296,6 @@
 </div>
 
 <script>
-    // 1. Datos sin procesar
     const rawCursos = [
         {
             codigo: "311024", nombre: "Derecho de las Obligaciones", creditos: 3,
@@ -331,7 +392,6 @@
         }
     ];
 
-    // 2. Lógica de Filtrado y Transformación
     const dayMap = { "Lunes": 1, "Martes": 2, "Miércoles": 3, "Jueves": 4, "Viernes": 5, "Sábado": 6 };
 
     function timeToMinutes(timeStr) {
@@ -365,7 +425,7 @@
                     return {
                         id: `${c.codigo}_${index}`,
                         label: label,
-                        seccion: identificador, // Nuevo atributo para mostrar en el bloque
+                        seccion: identificador, 
                         profesor: sec.profesor,
                         aula: sec.aula,
                         times: [{ day: dayNum, start: startMin, end: endMin }],
@@ -378,11 +438,10 @@
         });
 
     let currentSelection = {};
-    const CALENDAR_START_MIN = 420; // 7:00 AM
-    const CALENDAR_END_MIN = 1350; // 10:30 PM
+    const CALENDAR_START_MIN = 420; 
+    const CALENDAR_END_MIN = 1350; 
     const TOTAL_MINUTES = CALENDAR_END_MIN - CALENDAR_START_MIN;
 
-    // 3. Funciones del Sistema
     function init() {
         renderSelectors();
         renderCalendarGrid();
@@ -433,7 +492,6 @@
 
         let timeColumn = '<div style="background:white;">';
         for(let h=7; h<=22; h++) {
-            // Se asume que total es 930px para 15.5 horas -> 60px por hora
             timeColumn += `<div class="time-cell" style="height:60px; border-bottom:1px solid #eee;">${h}:00</div>`;
         }
         timeColumn += '</div>';
@@ -523,13 +581,12 @@
                 block.style.top = `${topPercent}%`;
                 block.style.height = `${heightPercent}%`;
                 
-                // Formato HTML del bloque con la sección agregada
                 block.innerHTML = `
                     <div style="text-align: center; margin-bottom: 2px;">
-                        <strong>${sec.courseName}</strong><br/>
+                        <div class="course-title">${sec.courseName}</div>
                         <span class="seccion-badge">${sec.seccion}</span>
                     </div>
-                    <div style="text-align: center; margin-bottom: 2px;">
+                    <div style="text-align: center; margin-bottom: 4px; font-weight: 500;">
                         ${sec.inicioFormat} - ${sec.finFormat}
                     </div>
                     <div>
@@ -559,6 +616,24 @@
         loadSavedSchedules();
     }
 
+    function renameSchedule(oldName) {
+        const newName = prompt(`Ingresa el nuevo nombre para "${oldName}":`, oldName);
+        
+        if (newName && newName.trim() !== "" && newName !== oldName) {
+            let saved = JSON.parse(localStorage.getItem('savedSchedules') || '{}');
+            
+            if (saved[newName]) {
+                alert('Ya existe un horario con ese nombre. Intenta con otro.');
+                return;
+            }
+            
+            saved[newName.trim()] = saved[oldName];
+            delete saved[oldName];
+            localStorage.setItem('savedSchedules', JSON.stringify(saved));
+            loadSavedSchedules();
+        }
+    }
+
     function loadSavedSchedules() {
         const list = document.getElementById('saved-list');
         list.innerHTML = '';
@@ -576,18 +651,36 @@
                 updateUI();
             };
 
-            const btn = document.createElement('button');
-            btn.innerText = 'X';
-            btn.title = 'Eliminar';
-            btn.onclick = (e) => {
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'action-btns';
+
+            const editBtn = document.createElement('button');
+            editBtn.innerText = '✏️';
+            editBtn.className = 'icon-btn btn-edit';
+            editBtn.title = 'Renombrar';
+            editBtn.onclick = (e) => {
                 e.stopPropagation();
-                delete saved[name];
-                localStorage.setItem('savedSchedules', JSON.stringify(saved));
-                loadSavedSchedules();
+                renameSchedule(name);
             };
 
+            const delBtn = document.createElement('button');
+            delBtn.innerText = 'X';
+            delBtn.className = 'icon-btn btn-del';
+            delBtn.title = 'Eliminar';
+            delBtn.onclick = (e) => {
+                e.stopPropagation();
+                if(confirm(`¿Seguro que deseas eliminar la opción "${name}"?`)){
+                    delete saved[name];
+                    localStorage.setItem('savedSchedules', JSON.stringify(saved));
+                    loadSavedSchedules();
+                }
+            };
+
+            actionsDiv.appendChild(editBtn);
+            actionsDiv.appendChild(delBtn);
+
             li.appendChild(span);
-            li.appendChild(btn);
+            li.appendChild(actionsDiv);
             list.appendChild(li);
         }
     }
