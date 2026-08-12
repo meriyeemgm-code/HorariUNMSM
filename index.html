@@ -1,12 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>HorariUNMSM</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>HorariUNMSM · Mi horario</title>
 
 <style>
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+:root {
+    --primary: #8f1821;
+    --primary-dark: #681018;
+    --primary-light: #fdf0f1;
+
+    --gold: #c89b3c;
+
+    --background: #f5f6f8;
+    --card: #ffffff;
+
+    --text: #20242b;
+    --muted: #6b7280;
+
+    --border: #e5e7eb;
+
+    --success: #15803d;
+    --success-bg: #ecfdf3;
+
+    --warning: #b45309;
+    --warning-bg: #fff7ed;
+
+    --danger: #b91c1c;
+    --danger-bg: #fef2f2;
+
+    --sidebar: 280px;
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
 
 * {
     box-sizing: border-box;
@@ -15,1852 +57,3697 @@
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f6f8;
-    color: #1f2937;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background: var(--background);
+
+    color: var(--text);
+
+    min-height: 100vh;
 }
 
-/* =========================
-   HEADER
-========================= */
+button,
+select,
+input {
 
-header {
-    background: white;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 16px 6%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    font: inherit;
+
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 800;
-    font-size: 20px;
-    color: #7f1d1d;
-}
 
-.logo-icon {
-    width: 38px;
-    height: 38px;
-    background: #991b1b;
-    color: white;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+/* =====================================================
+   APP
+===================================================== */
 
-header span {
-    font-size: 12px;
-    color: #6b7280;
-}
+.app {
 
-/* =========================
-   MAIN
-========================= */
+    min-height: 100vh;
 
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 40px 20px;
-}
-
-.hero {
-    margin-bottom: 35px;
-}
-
-.hero h1 {
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-
-.hero h1 span {
-    color: #991b1b;
-}
-
-.hero p {
-    color: #6b7280;
-    line-height: 1.6;
-}
-
-/* =========================
-   PANEL
-========================= */
-
-.panel {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 16px;
-    padding: 25px;
-    margin-bottom: 30px;
-}
-
-.panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.panel h2 {
-    font-size: 21px;
-}
-
-.semester {
-    background: #fef2f2;
-    color: #991b1b;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-/* =========================
-   FILTERS
-========================= */
-
-.filters {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
-}
-
-.filter-button {
-    border: 1px solid #d1d5db;
-    background: white;
-    padding: 9px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.filter-button.active {
-    background: #991b1b;
-    color: white;
-    border-color: #991b1b;
-}
-
-/* =========================
-   COURSES
-========================= */
-
-.courses {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+
+    grid-template-columns:
+        var(--sidebar)
+        1fr;
+
 }
 
-.course {
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 15px;
-    cursor: pointer;
-    transition: .2s;
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar {
+
+    background: #111827;
+
+    color: white;
+
+    padding: 24px 18px;
+
+    position: sticky;
+
+    top: 0;
+
+    height: 100vh;
+
+    overflow-y: auto;
+
 }
 
-.course:hover {
-    border-color: #991b1b;
-}
 
-.course.selected {
-    border-color: #991b1b;
-    background: #fff7f7;
-}
+.brand {
 
-.course-top {
     display: flex;
-    gap: 10px;
-    align-items: flex-start;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 35px;
+
 }
 
-.course input {
-    margin-top: 4px;
+
+.brand-logo {
+
+    width: 42px;
+
+    height: 42px;
+
+    background: var(--primary);
+
+    border-radius: 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-weight: 900;
+
+    font-size: 20px;
+
 }
+
+
+.brand-title {
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+
+.brand-subtitle {
+
+    color: #9ca3af;
+
+    font-size: 11px;
+
+    margin-top: 3px;
+
+}
+
+
+.sidebar-section {
+
+    margin-bottom: 25px;
+
+}
+
+
+.sidebar-label {
+
+    color: #9ca3af;
+
+    text-transform: uppercase;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: .08em;
+
+    margin-bottom: 10px;
+
+}
+
+
+.stat {
+
+    background: #1f2937;
+
+    border: 1px solid #374151;
+
+    border-radius: 10px;
+
+    padding: 13px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.stat-number {
+
+    font-size: 22px;
+
+    font-weight: 800;
+
+}
+
+
+.stat-label {
+
+    color: #9ca3af;
+
+    font-size: 11px;
+
+}
+
+
+.sidebar-button {
+
+    width: 100%;
+
+    padding: 11px 12px;
+
+    border-radius: 9px;
+
+    border: 1px solid #374151;
+
+    background: transparent;
+
+    color: white;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    margin-bottom: 8px;
+
+    transition: .2s;
+
+}
+
+
+.sidebar-button:hover {
+
+    background: #1f2937;
+
+}
+
+
+.sidebar-button.danger:hover {
+
+    background: #450a0a;
+
+    border-color: #7f1d1d;
+
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main {
+
+    min-width: 0;
+
+}
+
+
+.topbar {
+
+    background: white;
+
+    border-bottom: 1px solid var(--border);
+
+    padding: 18px 32px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 50;
+
+}
+
+
+.topbar-title {
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+}
+
+
+.topbar-subtitle {
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    margin-top: 3px;
+
+}
+
+
+.topbar-actions {
+
+    display: flex;
+
+    gap: 8px;
+
+}
+
+
+.icon-button {
+
+    border: 1px solid var(--border);
+
+    background: white;
+
+    border-radius: 9px;
+
+    padding: 9px 12px;
+
+    cursor: pointer;
+
+}
+
+
+.icon-button:hover {
+
+    background: #f9fafb;
+
+}
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.content {
+
+    padding: 28px;
+
+    max-width: 1600px;
+
+    margin: auto;
+
+}
+
+
+/* =====================================================
+   ALERT
+===================================================== */
+
+.alert {
+
+    display: none;
+
+    padding: 13px 16px;
+
+    border-radius: 10px;
+
+    margin-bottom: 18px;
+
+    font-size: 13px;
+
+    border: 1px solid;
+
+}
+
+
+.alert.show {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+
+.alert.error {
+
+    background: var(--danger-bg);
+
+    color: var(--danger);
+
+    border-color: #fecaca;
+
+}
+
+
+.alert.warning {
+
+    background: var(--warning-bg);
+
+    color: var(--warning);
+
+    border-color: #fed7aa;
+
+}
+
+
+.alert.success {
+
+    background: var(--success-bg);
+
+    color: var(--success);
+
+    border-color: #bbf7d0;
+
+}
+
+
+/* =====================================================
+   GRID PRINCIPAL
+===================================================== */
+
+.workspace {
+
+    display: grid;
+
+    grid-template-columns:
+        390px
+        1fr;
+
+    gap: 22px;
+
+    align-items: start;
+
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card {
+
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+}
+
+
+.card-header {
+
+    padding: 18px 20px;
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+
+.card-title {
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+}
+
+
+.card-description {
+
+    font-size: 12px;
+
+    color: var(--muted);
+
+    margin-top: 4px;
+
+}
+
+
+/* =====================================================
+   ADD COURSE
+===================================================== */
+
+.form {
+
+    padding: 20px;
+
+}
+
+
+.field {
+
+    margin-bottom: 15px;
+
+}
+
+
+.field label {
+
+    display: block;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+
+}
+
+
+.field select,
+.search {
+
+    width: 100%;
+
+    border: 1px solid #d1d5db;
+
+    background: white;
+
+    border-radius: 9px;
+
+    padding: 11px 12px;
+
+    outline: none;
+
+}
+
+
+.field select:focus,
+.search:focus {
+
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(143,24,33,.1);
+
+}
+
+
+.primary-button {
+
+    width: 100%;
+
+    border: none;
+
+    background: var(--primary);
+
+    color: white;
+
+    padding: 12px;
+
+    border-radius: 9px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+}
+
+
+.primary-button:hover {
+
+    background: var(--primary-dark);
+
+}
+
+
+.secondary-button {
+
+    border: 1px solid var(--border);
+
+    background: white;
+
+    color: var(--text);
+
+    padding: 10px 12px;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+}
+
+
+.secondary-button:hover {
+
+    background: #f9fafb;
+
+}
+
+
+/* =====================================================
+   COURSE LIST
+===================================================== */
+
+.course-list {
+
+    max-height: 420px;
+
+    overflow-y: auto;
+
+    padding: 8px;
+
+}
+
+
+.course-item {
+
+    border: 1px solid transparent;
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    cursor: pointer;
+
+    margin-bottom: 5px;
+
+}
+
+
+.course-item:hover {
+
+    background: #f9fafb;
+
+    border-color: var(--border);
+
+}
+
+
+.course-item.active {
+
+    background: var(--primary-light);
+
+    border-color: #f3c5c8;
+
+}
+
 
 .course-name {
-    font-weight: 700;
-}
 
-.course-code {
-    font-size: 12px;
-    color: #9ca3af;
-    margin-top: 4px;
-}
+    font-weight: 750;
 
-/* =========================
-   BUTTON
-========================= */
-
-.generate {
-    margin-top: 25px;
-    width: 100%;
-    background: #991b1b;
-    border: none;
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.generate:hover {
-    background: #7f1d1d;
-}
-
-/* =========================
-   RESULTS
-========================= */
-
-.results-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.results-count {
-    color: #6b7280;
-    font-size: 14px;
-}
-
-.result {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 16px;
-    margin-bottom: 25px;
-    overflow: hidden;
-}
-
-.result-header {
-    padding: 16px 20px;
-    background: #111827;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-}
-
-.result-header strong {
-    color: white;
-}
-
-.result-number {
-    color: #d1d5db;
     font-size: 13px;
+
 }
 
-.schedule {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    min-height: 320px;
-}
 
-.day {
-    border-right: 1px solid #e5e7eb;
-}
+.course-meta {
 
-.day:last-child {
-    border-right: none;
-}
-
-.day-title {
-    text-align: center;
-    font-weight: bold;
-    font-size: 12px;
-    padding: 12px 5px;
-    background: #f9fafb;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.day-content {
-    padding: 8px;
-}
-
-.class {
-    border-radius: 8px;
-    padding: 9px;
-    margin-bottom: 8px;
-    font-size: 11px;
-    line-height: 1.35;
-}
-
-.class strong {
-    display: block;
-    margin-bottom: 3px;
-}
-
-.official {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-.proposal {
-    background: #fef3c7;
-    color: #92400e;
-}
-
-.empty {
-    color: #d1d5db;
-    text-align: center;
-    font-size: 11px;
-    margin-top: 20px;
-}
-
-.result-info {
-    padding: 15px 20px;
-    border-top: 1px solid #e5e7eb;
     display: flex;
-    gap: 20px;
+
+    gap: 6px;
+
     flex-wrap: wrap;
-    font-size: 13px;
-    color: #6b7280;
+
+    margin-top: 5px;
+
 }
 
-/* =========================
-   MESSAGE
-========================= */
 
-.message {
+.badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 3px 7px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+}
+
+
+.badge.code {
+
+    background: #f3f4f6;
+
+    color: #4b5563;
+
+}
+
+
+.badge.official {
+
+    background: #ecfdf3;
+
+    color: #166534;
+
+}
+
+
+.badge.proposal {
+
     background: #fff7ed;
-    border: 1px solid #fed7aa;
+
     color: #9a3412;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    display: none;
+
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
 
-@media(max-width: 800px) {
+/* =====================================================
+   SECTIONES
+===================================================== */
 
-    .courses {
+.section-list {
+
+    padding: 0 20px 20px;
+
+}
+
+
+.section-card {
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    padding: 13px;
+
+    margin-bottom: 9px;
+
+    cursor: pointer;
+
+    transition: .15s;
+
+}
+
+
+.section-card:hover {
+
+    border-color: #cbd5e1;
+
+}
+
+
+.section-card.selected {
+
+    border-color: var(--primary);
+
+    background: var(--primary-light);
+
+}
+
+
+.section-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+}
+
+
+.section-number {
+
+    font-weight: 850;
+
+    font-size: 13px;
+
+}
+
+
+.section-professor {
+
+    font-size: 12px;
+
+    margin-top: 5px;
+
+    line-height: 1.4;
+
+}
+
+
+.section-details {
+
+    display: flex;
+
+    gap: 5px;
+
+    flex-wrap: wrap;
+
+    margin-top: 9px;
+
+}
+
+
+.section-pill {
+
+    background: #f3f4f6;
+
+    color: #4b5563;
+
+    padding: 4px 7px;
+
+    border-radius: 6px;
+
+    font-size: 10px;
+
+}
+
+
+.section-pill.proposal {
+
+    background: #fff7ed;
+
+    color: #9a3412;
+
+}
+
+
+/* =====================================================
+   MY COURSES
+===================================================== */
+
+.my-courses {
+
+    border-top: 1px solid var(--border);
+
+    padding: 15px 20px;
+
+}
+
+
+.my-course {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 10px 0;
+
+    border-bottom: 1px solid #f3f4f6;
+
+}
+
+
+.my-course:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.my-course-info {
+
+    min-width: 0;
+
+}
+
+
+.my-course-name {
+
+    font-size: 12px;
+
+    font-weight: 750;
+
+}
+
+
+.my-course-time {
+
+    font-size: 10px;
+
+    color: var(--muted);
+
+    margin-top: 3px;
+
+}
+
+
+.remove {
+
+    border: none;
+
+    background: transparent;
+
+    color: #9ca3af;
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+}
+
+
+.remove:hover {
+
+    color: var(--danger);
+
+}
+
+
+/* =====================================================
+   CALENDAR
+===================================================== */
+
+.calendar-card {
+
+    min-width: 0;
+
+}
+
+
+.calendar {
+
+    overflow: auto;
+
+}
+
+
+.calendar-head {
+
+    display: grid;
+
+    grid-template-columns:
+        65px
+        repeat(6, minmax(130px, 1fr));
+
+    min-width: 850px;
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+
+.time-head {
+
+    background: #f9fafb;
+
+}
+
+
+.day-head {
+
+    text-align: center;
+
+    padding: 13px 5px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    border-left: 1px solid var(--border);
+
+}
+
+
+.day-head small {
+
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    margin-top: 3px;
+
+}
+
+
+.calendar-body {
+
+    display: grid;
+
+    grid-template-columns:
+        65px
+        repeat(6, minmax(130px, 1fr));
+
+    min-width: 850px;
+
+}
+
+
+.times {
+
+    position: relative;
+
+}
+
+
+.time {
+
+    height: 60px;
+
+    border-bottom: 1px solid #f0f1f3;
+
+    position: relative;
+
+}
+
+
+.time span {
+
+    position: absolute;
+
+    right: 8px;
+
+    top: -6px;
+
+    color: #9ca3af;
+
+    font-size: 9px;
+
+}
+
+
+.day-column {
+
+    position: relative;
+
+    border-left: 1px solid var(--border);
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            white 0px,
+            white 59px,
+            #f0f1f3 60px
+        );
+
+}
+
+
+.class-block {
+
+    position: absolute;
+
+    left: 5px;
+
+    right: 5px;
+
+    border-radius: 8px;
+
+    padding: 8px;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    border-left: 4px solid var(--primary);
+
+    background: #fce7e9;
+
+    color: #64121a;
+
+    box-shadow:
+        0 2px 5px rgba(0,0,0,.05);
+
+    transition: .15s;
+
+}
+
+
+.class-block:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 12px rgba(0,0,0,.1);
+
+}
+
+
+.class-block.proposal {
+
+    background: #fff1dc;
+
+    color: #7c2d12;
+
+    border-left-color: #d97706;
+
+}
+
+
+.class-title {
+
+    font-size: 11px;
+
+    font-weight: 850;
+
+    line-height: 1.2;
+
+}
+
+
+.class-info {
+
+    font-size: 9px;
+
+    margin-top: 4px;
+
+    line-height: 1.35;
+
+}
+
+
+.class-remove {
+
+    position: absolute;
+
+    right: 5px;
+
+    top: 4px;
+
+    border: none;
+
+    background: transparent;
+
+    color: currentColor;
+
+    cursor: pointer;
+
+    opacity: .7;
+
+}
+
+
+.class-remove:hover {
+
+    opacity: 1;
+
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty-state {
+
+    padding: 35px 20px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+}
+
+
+.empty-icon {
+
+    font-size: 35px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.empty-title {
+
+    font-weight: 750;
+
+    color: var(--text);
+
+    margin-bottom: 5px;
+
+}
+
+
+.empty-description {
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer {
+
+    text-align: center;
+
+    padding: 25px;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width: 1050px) {
+
+    .workspace {
+
         grid-template-columns: 1fr;
+
     }
 
-    .schedule {
-        overflow-x: auto;
-        display: grid;
-        grid-template-columns: repeat(6, minmax(130px, 1fr));
+    .sidebar {
+
+        position: static;
+
+        height: auto;
+
     }
 
-    .hero h1 {
-        font-size: 32px;
+    .app {
+
+        display: block;
+
     }
+
+    .sidebar {
+
+        display: none;
+
+    }
+
+}
+
+
+@media(max-width: 650px) {
+
+    .content {
+
+        padding: 15px;
+
+    }
+
+    .topbar {
+
+        padding: 14px 16px;
+
+    }
+
+    .topbar-actions .print-button {
+
+        display: none;
+
+    }
+
+}
+
+
+/* =====================================================
+   PRINT
+===================================================== */
+
+@media print {
+
+    body {
+
+        background: white;
+
+    }
+
+    .sidebar,
+    .topbar-actions,
+    .workspace > .card,
+    .footer,
+    .alert {
+
+        display: none !important;
+
+    }
+
+    .topbar {
+
+        position: static;
+
+        border: none;
+
+    }
+
+    .content {
+
+        padding: 0;
+
+        max-width: none;
+
+    }
+
+    .workspace {
+
+        display: block;
+
+    }
+
+    .calendar-card {
+
+        border: none;
+
+    }
+
+    .calendar {
+
+        overflow: visible;
+
+    }
+
 }
 
 </style>
+
 </head>
 
 
 <body>
 
-<header>
 
-    <div class="logo">
+<div class="app">
 
-        <div class="logo-icon">
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+
+        <div class="brand-logo">
             H
         </div>
 
-        HorariUNMSM
+        <div>
+
+            <div class="brand-title">
+                HorariUNMSM
+            </div>
+
+            <div class="brand-subtitle">
+                Derecho · 2026-II
+            </div>
+
+        </div>
 
     </div>
 
-    <span>
-        Derecho · 2026-II
-    </span>
 
-</header>
+    <div class="sidebar-section">
 
-
-<main class="container">
+        <div class="sidebar-label">
+            Mi horario
+        </div>
 
 
-    <!-- HERO -->
+        <div class="stat">
 
-    <section class="hero">
+            <div
+                id="courseCount"
+                class="stat-number">
+                0
+            </div>
 
-        <h1>
-            Organiza tu
-            <span>horario ideal.</span>
-        </h1>
-
-        <p>
-            Selecciona los cursos que quieres llevar y
-            HorariUNMSM encontrará automáticamente las
-            combinaciones de horarios que no se cruzan.
-        </p>
-
-    </section>
-
-
-    <!-- SELECTOR -->
-
-    <section class="panel">
-
-        <div class="panel-header">
-
-            <h2>
-                1. Selecciona tus cursos
-            </h2>
-
-            <div class="semester">
-                2026-II
+            <div class="stat-label">
+                cursos agregados
             </div>
 
         </div>
 
 
-        <div class="filters">
+        <div class="stat">
 
-            <button
-                class="filter-button active"
-                onclick="filtrarSemestre('todos', this)">
-                Todos
-            </button>
+            <div
+                id="creditCount"
+                class="stat-number">
+                0
+            </div>
 
-            <button
-                class="filter-button"
-                onclick="filtrarSemestre('cuarto', this)">
-                4.º semestre
-            </button>
-
-            <button
-                class="filter-button"
-                onclick="filtrarSemestre('sexto', this)">
-                6.º semestre
-            </button>
+            <div class="stat-label">
+                créditos
+            </div>
 
         </div>
 
 
-        <div id="courses" class="courses"></div>
+        <div class="stat">
+
+            <div
+                id="conflictCount"
+                class="stat-number">
+                0
+            </div>
+
+            <div class="stat-label">
+                cruces
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-section">
+
+        <div class="sidebar-label">
+            Herramientas
+        </div>
 
 
         <button
-            class="generate"
-            onclick="generarHorarios()">
+            class="sidebar-button"
+            onclick="window.print()">
 
-            ⚡ Generar horarios posibles
+            🖨️ Imprimir horario
 
         </button>
 
-    </section>
+
+        <button
+            class="sidebar-button"
+            onclick="exportarHorario()">
+
+            💾 Guardar horario
+
+        </button>
 
 
-    <!-- RESULTADOS -->
+        <button
+            class="sidebar-button"
+            onclick="agregarPersonal()">
 
-    <section class="panel">
+            ➕ Actividad personal
 
-        <div class="results-header">
+        </button>
 
-            <h2>
-                2. Horarios encontrados
-            </h2>
 
-            <span
-                id="resultsCount"
-                class="results-count">
-                Selecciona cursos para comenzar
-            </span>
+        <button
+            class="sidebar-button danger"
+            onclick="limpiarHorario()">
+
+            🗑️ Limpiar horario
+
+        </button>
+
+    </div>
+
+
+    <div class="sidebar-section">
+
+        <div class="sidebar-label">
+            Leyenda
+        </div>
+
+
+        <div style="
+            font-size:11px;
+            color:#d1d5db;
+            line-height:2;
+        ">
+
+            🟢 Oficial
+
+            <br>
+
+            🟡 Propuesta
+
+            <br>
+
+            🔴 Cruce de horario
+
+        </div>
+
+    </div>
+
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+<header class="topbar">
+
+    <div>
+
+        <div class="topbar-title">
+            Mi horario
+        </div>
+
+        <div class="topbar-subtitle">
+            Elige tú mismo qué cursos y secciones quieres llevar
+        </div>
+
+    </div>
+
+
+    <div class="topbar-actions">
+
+        <button
+            class="icon-button print-button"
+            onclick="window.print()">
+
+            🖨️ Imprimir
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<div class="content">
+
+
+    <div
+        id="alert"
+        class="alert">
+
+        <span id="alertText"></span>
+
+        <button
+            onclick="cerrarAlerta()"
+            style="
+                border:none;
+                background:transparent;
+                cursor:pointer;
+                font-size:16px;
+            ">
+
+            ×
+
+        </button>
+
+    </div>
+
+
+    <div class="workspace">
+
+
+<!-- =====================================================
+     PANEL IZQUIERDO
+===================================================== -->
+
+<section class="card">
+
+
+    <div class="card-header">
+
+        <div class="card-title">
+            Agregar un curso
+        </div>
+
+        <div class="card-description">
+
+            Selecciona el curso y luego la sección que quieres llevar.
+
+        </div>
+
+    </div>
+
+
+    <div class="form">
+
+
+        <div class="field">
+
+            <label>
+                Buscar curso
+            </label>
+
+            <input
+                id="courseSearch"
+                class="search"
+                type="text"
+                placeholder="Ej. Penal, Mercantil..."
+                oninput="renderCourseList()"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Curso
+            </label>
+
+            <select
+                id="courseSelect"
+                onchange="seleccionarCurso()">
+
+                <option value="">
+                    Selecciona un curso
+                </option>
+
+            </select>
+
+        </div>
+
+
+    </div>
+
+
+    <div
+        id="sectionList"
+        class="section-list">
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                📚
+            </div>
+
+            <div class="empty-title">
+                Selecciona un curso
+            </div>
+
+            <div class="empty-description">
+                Aquí aparecerán sus secciones y profesores.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="my-courses">
+
+        <div
+            class="card-title"
+            style="margin-bottom:10px;">
+
+            Cursos en mi horario
+
+        </div>
+
+
+        <div id="myCourseList">
+
+            <div
+                class="empty-description">
+
+                Todavía no agregaste cursos.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- =====================================================
+     CALENDARIO
+===================================================== -->
+
+<section class="card calendar-card">
+
+
+    <div class="card-header">
+
+        <div class="card-title">
+            Horario semanal
+        </div>
+
+        <div class="card-description">
+
+            Tu horario se guarda automáticamente en este navegador.
+
+        </div>
+
+    </div>
+
+
+    <div class="calendar">
+
+
+        <div class="calendar-head">
+
+            <div class="time-head"></div>
+
+            <div class="day-head">
+                Lunes
+                <small>LUN</small>
+            </div>
+
+            <div class="day-head">
+                Martes
+                <small>MAR</small>
+            </div>
+
+            <div class="day-head">
+                Miércoles
+                <small>MIÉ</small>
+            </div>
+
+            <div class="day-head">
+                Jueves
+                <small>JUE</small>
+            </div>
+
+            <div class="day-head">
+                Viernes
+                <small>VIE</small>
+            </div>
+
+            <div class="day-head">
+                Sábado
+                <small>SÁB</small>
+            </div>
 
         </div>
 
 
         <div
-            id="message"
-            class="message">
+            id="calendarBody"
+            class="calendar-body">
+
         </div>
 
 
-        <div id="results"></div>
+    </div>
 
-    </section>
 
+</section>
+
+
+    </div>
+
+
+    <div class="footer">
+
+        HorariUNMSM · Organizador personal de horarios · 2026-II
+
+    </div>
+
+
+</div>
 
 </main>
+
+</div>
 
 
 <script>
 
 /* =====================================================
    BASE DE DATOS
+   HORARIOS OFICIALES + PROPUESTAS
 ===================================================== */
 
 const cursos = [
 
-/* =====================
-   CUARTO SEMESTRE
-===================== */
-
 {
-    codigo: "311022",
-    nombre: "Acto Jurídico",
-    semestre: "cuarto",
+    codigo: "311024",
+    nombre: "Derecho de las Obligaciones",
+    creditos: 3,
 
     secciones: [
 
         {
-            seccion: "1",
-            profesor: "Juan Alejandro Espinoza Espinoza",
-            aula: "148",
-            estado: "oficial",
-
-            sesiones: [
-                {
-                    dia: "Miércoles",
-                    inicio: "07:00",
-                    fin: "09:15"
-                }
-            ]
-        },
-
-        {
-            seccion: "2",
-            profesor: "Bruno Alonso Samuel Tapia Cornejo",
+            numero: "1",
+            profesor: "Carlos Antonio Agurto Gonzales",
             aula: "143",
-            estado: "oficial",
-
-            sesiones: [
-                {
-                    dia: "Jueves",
-                    inicio: "09:30",
-                    fin: "11:45"
-                }
-            ]
+            dia: "Viernes",
+            inicio: "11:15",
+            fin: "13:30",
+            estado: "oficial"
         },
 
         {
-            seccion: "3",
-            profesor: "Bruno Alonso Samuel Tapia Cornejo",
-            aula: "329",
-            estado: "oficial",
-
-            sesiones: [
-                {
-                    dia: "Miércoles",
-                    inicio: "08:00",
-                    fin: "10:15"
-                }
-            ]
+            numero: "2",
+            profesor: "Carlos Antonio Agurto Gonzales",
+            aula: "148",
+            dia: "Lunes",
+            inicio: "15:00",
+            fin: "17:15",
+            estado: "oficial"
         },
 
         {
-            seccion: "4",
-            profesor: "Oscar Alberto Huerta Ayala",
-            aula: "235",
-            estado: "oficial",
-
-            sesiones: [
-                {
-                    dia: "Sábado",
-                    inicio: "07:00",
-                    fin: "09:15"
-                }
-            ]
+            numero: "3",
+            profesor: "Jhushein Fort Ninamanco Cordova",
+            aula: "148",
+            dia: "Miércoles",
+            inicio: "15:00",
+            fin: "17:15",
+            estado: "oficial"
         },
 
         {
-            seccion: "5",
-            profesor: "Oscar Alberto Huerta Ayala",
-            aula: "303",
-            estado: "oficial",
+            numero: "4",
+            profesor: "Jhushein Fort Ninamanco Cordova",
+            aula: "143",
+            dia: "Miércoles",
+            inicio: "17:15",
+            fin: "19:30",
+            estado: "oficial"
+        },
 
-            sesiones: [
-                {
-                    dia: "Jueves",
-                    inicio: "18:00",
-                    fin: "20:15"
-                }
-            ]
+        {
+            numero: "5",
+            profesor: "Clotilde Vigil Curo de Quiroz",
+            aula: "143",
+            dia: "Lunes",
+            inicio: "19:15",
+            fin: "21:30",
+            estado: "oficial"
         }
 
     ]
+
+},
+
+
+{
+    codigo: "311022",
+    nombre: "Acto Jurídico",
+    creditos: 3,
+
+    secciones: [
+
+        {
+            numero: "1",
+            profesor: "Juan Alejandro Espinoza Espinoza",
+            aula: "148",
+            dia: "Miércoles",
+            inicio: "07:00",
+            fin: "09:15",
+            estado: "oficial"
+        },
+
+        {
+            numero: "2",
+            profesor: "Bruno Alonso Samuel Tapia Cornejo",
+            aula: "143",
+            dia: "Jueves",
+            inicio: "09:30",
+            fin: "11:45",
+            estado: "oficial"
+        },
+
+        {
+            numero: "3",
+            profesor: "Bruno Alonso Samuel Tapia Cornejo",
+            aula: "329",
+            dia: "Miércoles",
+            inicio: "08:00",
+            fin: "10:15",
+            estado: "oficial"
+        },
+
+        {
+            numero: "4",
+            profesor: "Oscar Alberto Huerta Ayala",
+            aula: "235",
+            dia: "Sábado",
+            inicio: "07:00",
+            fin: "09:15",
+            estado: "oficial"
+        },
+
+        {
+            numero: "5",
+            profesor: "Oscar Alberto Huerta Ayala",
+            aula: "303",
+            dia: "Jueves",
+            inicio: "18:00",
+            fin: "20:15",
+            estado: "oficial"
+        }
+
+    ]
+
 },
 
 
 {
     codigo: "311030",
     nombre: "Teoría General del Proceso",
-    semestre: "cuarto",
+    creditos: 3,
 
     secciones: [
 
         {
-            seccion: "1",
+            numero: "1",
             profesor: "Jacobo Romero Quispe",
             aula: "235",
-            estado: "oficial",
-
-            sesiones: [
-                {
-                    dia: "Miércoles",
-                    inicio: "12:15",
-                    fin: "15:15"
-                }
-            ]
+            dia: "Miércoles",
+            inicio: "12:15",
+            fin: "15:15",
+            estado: "oficial"
         },
 
         {
-            seccion: "2",
+            numero: "2",
             profesor: "José Alexander Camus Cubas",
             aula: "348",
-            estado: "oficial",
-
-            sesiones: [
-                {
-                    dia: "Martes",
-                    inicio: "15:00",
-                    fin: "18:00"
-                }
-            ]
+            dia: "Martes",
+            inicio: "15:00",
+            fin: "18:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "3",
+            numero: "3",
             profesor: "Héctor Elvis Martínez Flores",
             aula: "148",
-            estado: "oficial",
-
-            sesiones: [
-                {
-                    dia: "Jueves",
-                    inicio: "08:00",
-                    fin: "11:00"
-                }
-            ]
+            dia: "Jueves",
+            inicio: "08:00",
+            fin: "11:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "4",
+            numero: "4",
             profesor: "Héctor Enrique Lama More",
             aula: "141",
-            estado: "oficial",
-
-            sesiones: [
-                {
-                    dia: "Miércoles",
-                    inicio: "18:00",
-                    fin: "21:00"
-                }
-            ]
+            dia: "Miércoles",
+            inicio: "18:00",
+            fin: "21:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "5",
+            numero: "5",
             profesor: "Héctor Elvis Martínez Flores",
             aula: "248",
-            estado: "oficial",
-
-            sesiones: [
-                {
-                    dia: "Viernes",
-                    inicio: "15:00",
-                    fin: "18:00"
-                }
-            ]
+            dia: "Viernes",
+            inicio: "15:00",
+            fin: "18:00",
+            estado: "oficial"
         }
 
     ]
-},
 
-
-/* =====================
-   SEXTO SEMESTRE
-===================== */
-
-{
-    codigo: "311024",
-    nombre: "Derecho de las Obligaciones",
-    semestre: "sexto",
-
-    secciones: [
-
-        {
-            seccion: "1",
-            profesor: "Carlos Antonio Agurto Gonzales",
-            aula: "143",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Viernes",
-                    inicio: "11:15",
-                    fin: "13:30"
-                }
-            ]
-        },
-
-        {
-            seccion: "2",
-            profesor: "Carlos Antonio Agurto Gonzales",
-            aula: "148",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Lunes",
-                    inicio: "15:00",
-                    fin: "17:15"
-                }
-            ]
-        },
-
-        {
-            seccion: "3",
-            profesor: "Jhushein Fort Ninamanco Cordova",
-            aula: "148",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Miércoles",
-                    inicio: "15:00",
-                    fin: "17:15"
-                }
-            ]
-        },
-
-        {
-            seccion: "4",
-            profesor: "Jhushein Fort Ninamanco Cordova",
-            aula: "143",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Miércoles",
-                    inicio: "17:15",
-                    fin: "19:30"
-                }
-            ]
-        },
-
-        {
-            seccion: "5",
-            profesor: "Clotilde Vigil Curo de Quiroz",
-            aula: "143",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Lunes",
-                    inicio: "19:15",
-                    fin: "21:30"
-                }
-            ]
-        }
-
-    ]
 },
 
 
 {
     codigo: "312015",
-    nombre: "Derecho Penal III",
-    semestre: "sexto",
+    nombre: "Derecho Penal III (Parte Especial II)",
+    creditos: 3,
 
     secciones: [
 
         {
-            seccion: "1",
+            numero: "1",
             profesor: "Víctor Roberto Prado Saldarriaga",
             aula: "329",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Lunes",
-                    inicio: "18:00",
-                    fin: "20:15"
-                }
-            ]
+            dia: "Miércoles",
+            inicio: "18:00",
+            fin: "20:15",
+            estado: "oficial"
         },
 
         {
-            seccion: "2",
+            numero: "2",
             profesor: "Hugo Herculano Príncipe Trujillo",
             aula: "248",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Martes",
-                    inicio: "15:45",
-                    fin: "18:00"
-                }
-            ]
+            dia: "Martes",
+            inicio: "15:45",
+            fin: "18:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "3",
+            numero: "3",
             profesor: "Jorge Adalberto Pérez López",
             aula: "148",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Viernes",
-                    inicio: "19:30",
-                    fin: "21:45"
-                }
-            ]
+            dia: "Viernes",
+            inicio: "19:30",
+            fin: "21:45",
+            estado: "oficial"
         },
 
         {
-            seccion: "4",
+            numero: "4",
+            profesor: "Contratación docente",
+            aula: "148",
+            dia: "Martes",
+            inicio: "14:45",
+            fin: "17:00",
+            estado: "oficial"
+        },
+
+        {
+            numero: "5",
+            profesor: "Contratación docente",
+            aula: "235",
+            dia: "Jueves",
+            inicio: "15:15",
+            fin: "17:30",
+            estado: "oficial"
+        },
+
+        {
+            numero: "P4",
             profesor: "Delia Milagros Espinoza Valenzuela",
             aula: "148",
-            estado: "propuesta",
-            sesiones: [
-                {
-                    dia: "Martes",
-                    inicio: "14:45",
-                    fin: "17:00"
-                }
-            ]
+            dia: "Martes",
+            inicio: "14:45",
+            fin: "17:00",
+            estado: "propuesta"
         },
 
         {
-            seccion: "5",
+            numero: "P5",
             profesor: "Rocio Bobadilla Bocanegra",
             aula: "235",
-            estado: "propuesta",
-            sesiones: [
-                {
-                    dia: "Jueves",
-                    inicio: "15:15",
-                    fin: "17:30"
-                }
-            ]
+            dia: "Jueves",
+            inicio: "15:15",
+            fin: "17:30",
+            estado: "propuesta"
         }
 
     ]
+
 },
 
 
 {
     codigo: "311032",
     nombre: "Proceso Único de Ejecución y Proceso Cautelar",
-    semestre: "sexto",
+    creditos: 3,
 
     secciones: [
 
         {
-            seccion: "1",
+            numero: "1",
             profesor: "Raúl Bladimiro Canelo Rabanal",
             aula: "—",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Miércoles",
-                    inicio: "15:00",
-                    fin: "18:00"
-                }
-            ]
+            dia: "Miércoles",
+            inicio: "15:00",
+            fin: "18:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "2",
+            numero: "2",
             profesor: "Raúl Bladimiro Canelo Rabanal",
             aula: "—",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Miércoles",
-                    inicio: "18:00",
-                    fin: "21:00"
-                }
-            ]
+            dia: "Miércoles",
+            inicio: "18:00",
+            fin: "21:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "3",
+            numero: "3",
             profesor: "Héctor Elvis Martínez Flores",
             aula: "143",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Martes",
-                    inicio: "08:00",
-                    fin: "11:00"
-                }
-            ]
+            dia: "Martes",
+            inicio: "08:00",
+            fin: "11:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "4",
+            numero: "4",
             profesor: "Eugenia Silvia María Ariano Deho",
             aula: "235",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Jueves",
-                    inicio: "11:00",
-                    fin: "14:00"
-                }
-            ]
+            dia: "Jueves",
+            inicio: "11:00",
+            fin: "14:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "5",
+            numero: "5",
             profesor: "María del Carmen Abregu Baez",
             aula: "148",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Sábado",
-                    inicio: "11:00",
-                    fin: "14:00"
-                }
-            ]
+            dia: "Jueves",
+            inicio: "11:00",
+            fin: "14:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "6",
+            numero: "6",
+            profesor: "Contratación docente",
+            aula: "329",
+            dia: "Viernes",
+            inicio: "16:30",
+            fin: "19:30",
+            estado: "oficial"
+        },
+
+        {
+            numero: "P6",
             profesor: "Hugo Cavero Ruíz",
             aula: "329",
-            estado: "propuesta",
-            sesiones: [
-                {
-                    dia: "Viernes",
-                    inicio: "16:30",
-                    fin: "19:30"
-                }
-            ]
+            dia: "Viernes",
+            inicio: "16:30",
+            fin: "19:30",
+            estado: "propuesta"
         }
 
     ]
+
 },
 
 
 {
     codigo: "318005",
     nombre: "Derecho Administrativo II",
-    semestre: "sexto",
+    creditos: 3,
 
     secciones: [
 
         {
-            seccion: "1",
+            numero: "1",
             profesor: "Jorge Guillermo Gutierrez Tudela",
             aula: "310",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Martes",
-                    inicio: "08:00",
-                    fin: "10:15"
-                }
-            ]
+            dia: "Martes",
+            inicio: "08:00",
+            fin: "10:15",
+            estado: "oficial"
         },
 
         {
-            seccion: "2",
+            numero: "2",
             profesor: "José Alberto Estela Huaman",
             aula: "248",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Jueves",
-                    inicio: "18:00",
-                    fin: "20:15"
-                }
-            ]
+            dia: "Jueves",
+            inicio: "18:00",
+            fin: "20:15",
+            estado: "oficial"
         },
 
         {
-            seccion: "3",
+            numero: "3",
             profesor: "Jorge Guillermo Gutierrez Tudela",
             aula: "235",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Martes",
-                    inicio: "10:15",
-                    fin: "12:30"
-                }
-            ]
+            dia: "Martes",
+            inicio: "10:15",
+            fin: "12:30",
+            estado: "oficial"
         },
 
         {
-            seccion: "4",
+            numero: "4",
             profesor: "Erick Cuba Meneses",
             aula: "347",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Lunes",
-                    inicio: "16:45",
-                    fin: "19:00"
-                }
-            ]
+            dia: "Lunes",
+            inicio: "16:45",
+            fin: "19:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "5",
+            numero: "5",
             profesor: "Erick Cuba Meneses",
             aula: "143",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Martes",
-                    inicio: "18:00",
-                    fin: "20:15"
-                }
-            ]
+            dia: "Martes",
+            inicio: "18:00",
+            fin: "20:15",
+            estado: "oficial"
         },
 
         {
-            seccion: "6",
+            numero: "6",
             profesor: "Juan Francisco Rojas Leo",
             aula: "131-B",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Miércoles",
-                    inicio: "17:30",
-                    fin: "19:45"
-                }
-            ]
+            dia: "Miércoles",
+            inicio: "17:30",
+            fin: "19:45",
+            estado: "oficial"
         },
 
         {
-            seccion: "7",
+            numero: "7",
             profesor: "Luiggi Victorio Santy Cabrera",
             aula: "235",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Viernes",
-                    inicio: "15:45",
-                    fin: "18:00"
-                }
-            ]
+            dia: "Viernes",
+            inicio: "15:45",
+            fin: "18:00",
+            estado: "oficial"
         }
 
     ]
+
 },
 
 
 {
     codigo: "602149",
-    nombre: "Derecho Mercantil III",
-    semestre: "sexto",
+    nombre: "Derecho Mercantil III (Títulos Valores)",
+    creditos: 3,
 
     secciones: [
 
         {
-            seccion: "1",
+            numero: "1",
             profesor: "Ricardo Beaumont Callirgos",
             aula: "148",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Lunes",
-                    inicio: "11:00",
-                    fin: "13:15"
-                }
-            ]
+            dia: "Lunes",
+            inicio: "11:00",
+            fin: "13:15",
+            estado: "oficial"
         },
 
         {
-            seccion: "2",
+            numero: "2",
             profesor: "Julio Hernán Figueroa Bustamante",
             aula: "246",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Jueves",
-                    inicio: "09:30",
-                    fin: "11:45"
-                }
-            ]
+            dia: "Jueves",
+            inicio: "09:30",
+            fin: "11:45",
+            estado: "oficial"
         },
 
         {
-            seccion: "3",
+            numero: "3",
             profesor: "Julio Hernán Figueroa Bustamante",
             aula: "148",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Lunes",
-                    inicio: "08:45",
-                    fin: "11:00"
-                }
-            ]
+            dia: "Lunes",
+            inicio: "08:45",
+            fin: "11:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "4",
+            numero: "4",
             profesor: "Cesar Eusebio Ramos Padilla",
             aula: "252",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Miércoles",
-                    inicio: "10:15",
-                    fin: "12:30"
-                }
-            ]
+            dia: "Miércoles",
+            inicio: "10:15",
+            fin: "12:30",
+            estado: "oficial"
         },
 
         {
-            seccion: "5",
+            numero: "5",
             profesor: "Julio Hernán Figueroa Bustamante",
             aula: "246",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Lunes",
-                    inicio: "17:00",
-                    fin: "19:15"
-                }
-            ]
+            dia: "Lunes",
+            inicio: "17:00",
+            fin: "19:15",
+            estado: "oficial"
         },
 
         {
-            seccion: "6",
+            numero: "6",
+            profesor: "Contratación docente",
+            aula: "311",
+            dia: "Viernes",
+            inicio: "19:30",
+            fin: "21:45",
+            estado: "oficial"
+        },
+
+        {
+            numero: "P6",
             profesor: "Marco Antonio Tigroso Suárez",
             aula: "311",
-            estado: "propuesta",
-            sesiones: [
-                {
-                    dia: "Viernes",
-                    inicio: "19:30",
-                    fin: "21:45"
-                }
-            ]
+            dia: "Viernes",
+            inicio: "19:30",
+            fin: "21:45",
+            estado: "propuesta"
         }
 
     ]
+
 },
 
 
 {
     codigo: "313010",
     nombre: "Derecho Individual del Trabajo",
-    semestre: "sexto",
+    creditos: 3,
 
     secciones: [
 
         {
-            seccion: "1",
+            numero: "1",
             profesor: "Leopoldo Gamarra Vílchez",
             aula: "141",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Viernes",
-                    inicio: "08:00",
-                    fin: "10:15"
-                }
-            ]
+            dia: "Viernes",
+            inicio: "08:00",
+            fin: "10:15",
+            estado: "oficial"
         },
 
         {
-            seccion: "2",
+            numero: "2",
             profesor: "Katty Angélica Caballero Sega",
             aula: "—",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Sábado",
-                    inicio: "07:45",
-                    fin: "10:00"
-                }
-            ]
+            dia: "Sábado",
+            inicio: "07:45",
+            fin: "10:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "3",
+            numero: "3",
             profesor: "Simeón Huancahuari Flores",
             aula: "143",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Miércoles",
-                    inicio: "18:00",
-                    fin: "20:15"
-                }
-            ]
+            dia: "Miércoles",
+            inicio: "18:00",
+            fin: "20:15",
+            estado: "oficial"
         },
 
         {
-            seccion: "4",
+            numero: "4",
+            profesor: "Contratación docente",
+            aula: "235",
+            dia: "Jueves",
+            inicio: "08:00",
+            fin: "10:15",
+            estado: "oficial"
+        },
+
+        {
+            numero: "5",
+            profesor: "Contratación docente",
+            aula: "248",
+            dia: "Miércoles",
+            inicio: "14:00",
+            fin: "16:15",
+            estado: "oficial"
+        },
+
+        {
+            numero: "P4",
             profesor: "Betty Egúsquiza Palacín",
             aula: "303",
-            estado: "propuesta",
-            sesiones: [
-                {
-                    dia: "Jueves",
-                    inicio: "19:00",
-                    fin: "21:15"
-                }
-            ]
+            dia: "Jueves",
+            inicio: "19:00",
+            fin: "21:15",
+            estado: "propuesta"
         },
 
         {
-            seccion: "5",
+            numero: "P5",
             profesor: "Andrea Carolina Sánchez Matos",
             aula: "248",
-            estado: "propuesta",
-            sesiones: [
-                {
-                    dia: "Miércoles",
-                    inicio: "14:00",
-                    fin: "16:15"
-                }
-            ]
+            dia: "Miércoles",
+            inicio: "14:00",
+            fin: "16:15",
+            estado: "propuesta"
         }
 
     ]
+
 },
 
 
 {
     codigo: "312018",
     nombre: "Derecho Procesal Penal II",
-    semestre: "sexto",
+    creditos: 3,
 
     secciones: [
 
         {
-            seccion: "1",
+            numero: "1",
             profesor: "Gerson Camarena Aliaga",
             aula: "235",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Jueves",
-                    inicio: "19:00",
-                    fin: "22:00"
-                }
-            ]
+            dia: "Jueves",
+            inicio: "19:00",
+            fin: "22:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "2",
-            profesor: "Miguel Ángel Tapia Cabañín",
+            numero: "2",
+            profesor: "Miguel Ángel Tapia Cabañin",
             aula: "246",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Martes",
-                    inicio: "08:00",
-                    fin: "11:00"
-                }
-            ]
+            dia: "Martes",
+            inicio: "08:00",
+            fin: "11:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "3",
-            profesor: "Miguel Ángel Tapia Cabañín",
+            numero: "3",
+            profesor: "Miguel Ángel Tapia Cabañin",
             aula: "141",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Jueves",
-                    inicio: "15:00",
-                    fin: "18:00"
-                }
-            ]
+            dia: "Jueves",
+            inicio: "15:00",
+            fin: "18:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "4",
+            numero: "4",
             profesor: "Rosa Delsa Mavila León",
             aula: "143",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Lunes",
-                    inicio: "09:00",
-                    fin: "12:00"
-                }
-            ]
+            dia: "Lunes",
+            inicio: "09:00",
+            fin: "12:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "5",
+            numero: "5",
             profesor: "Victor Manuel Cubas Villanueva",
             aula: "148",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Martes",
-                    inicio: "09:00",
-                    fin: "12:00"
-                }
-            ]
+            dia: "Martes",
+            inicio: "09:00",
+            fin: "12:00",
+            estado: "oficial"
         },
 
         {
-            seccion: "6",
+            numero: "6",
             profesor: "Jimmy Arbulu Martínez",
             aula: "235",
-            estado: "oficial",
-            sesiones: [
-                {
-                    dia: "Martes",
-                    inicio: "18:00",
-                    fin: "21:00"
-                }
-            ]
+            dia: "Martes",
+            inicio: "18:00",
+            fin: "21:00",
+            estado: "oficial"
         }
 
     ]
+
 }
 
 ];
 
 
 /* =====================================================
-   ESTADO DE LA APLICACIÓN
+   CONFIGURACIÓN DEL CALENDARIO
 ===================================================== */
 
-let filtroActual = "todos";
+const dias = [
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado"
+];
+
+const HORA_INICIO = 7;
+const HORA_FIN = 22;
+
+let horario = [];
+
+let cursoActual = null;
+
+let seccionActual = null;
 
 
 /* =====================================================
-   MOSTRAR CURSOS
+   INICIALIZACIÓN
 ===================================================== */
 
-function mostrarCursos() {
+document.addEventListener(
+    "DOMContentLoaded",
+    iniciar
+);
 
-    const contenedor = document.getElementById("courses");
 
-    contenedor.innerHTML = "";
+function iniciar() {
+
+    cargarHorario();
+
+    renderCourseList();
+
+    renderCourseSelect();
+
+    renderCalendar();
+
+    actualizarTodo();
+
+}
+
+
+/* =====================================================
+   CURSOS
+===================================================== */
+
+function renderCourseSelect() {
+
+    const select =
+        document.getElementById(
+            "courseSelect"
+        );
+
+    select.innerHTML = `
+        <option value="">
+            Selecciona un curso
+        </option>
+    `;
+
+    cursos.forEach(curso => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = curso.codigo;
+
+        option.textContent =
+            `${curso.codigo} · ${curso.nombre}`;
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+function renderCourseList() {
+
+    const search =
+        document
+            .getElementById("courseSearch")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    const select =
+        document.getElementById(
+            "courseSelect"
+        );
+
+
+    const actual =
+        select.value;
+
+
+    select.innerHTML = `
+        <option value="">
+            Selecciona un curso
+        </option>
+    `;
+
 
     cursos
         .filter(curso => {
 
-            if (filtroActual === "todos") {
-                return true;
-            }
+            return curso.nombre
+                .toLowerCase()
+                .includes(search)
 
-            return curso.semestre === filtroActual;
+                ||
+
+                curso.codigo
+                .includes(search);
 
         })
         .forEach(curso => {
 
-            const div = document.createElement("div");
+            const option =
+                document.createElement("option");
 
-            div.className = "course";
+            option.value =
+                curso.codigo;
 
-            div.onclick = function(e) {
+            option.textContent =
+                `${curso.codigo} · ${curso.nombre}`;
 
-                if (e.target.tagName !== "INPUT") {
+            select.appendChild(option);
 
-                    const checkbox =
-                        div.querySelector("input");
+        });
 
-                    checkbox.checked =
-                        !checkbox.checked;
 
-                    actualizarSeleccion(div);
+    if (actual) {
 
-                }
+        select.value = actual;
+
+    }
+
+}
+
+
+/* =====================================================
+   SELECCIONAR CURSO
+===================================================== */
+
+function seleccionarCurso() {
+
+    const codigo =
+        document
+            .getElementById("courseSelect")
+            .value;
+
+
+    if (!codigo) {
+
+        cursoActual = null;
+
+        document
+            .getElementById("sectionList")
+            .innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        📚
+                    </div>
+
+                    <div class="empty-title">
+                        Selecciona un curso
+                    </div>
+
+                    <div class="empty-description">
+                        Aquí aparecerán sus secciones y profesores.
+                    </div>
+
+                </div>
+            `;
+
+        return;
+
+    }
+
+
+    cursoActual =
+        cursos.find(
+            curso =>
+                curso.codigo === codigo
+        );
+
+
+    renderSections();
+
+}
+
+
+/* =====================================================
+   SECCIONES
+===================================================== */
+
+function renderSections() {
+
+    const container =
+        document.getElementById(
+            "sectionList"
+        );
+
+
+    container.innerHTML = "";
+
+
+    cursoActual.secciones.forEach(
+        (seccion, index) => {
+
+            const div =
+                document.createElement("div");
+
+
+            div.className =
+                "section-card";
+
+
+            div.onclick = () => {
+
+                seleccionarSeccion(
+                    seccion,
+                    div
+                );
 
             };
 
 
             div.innerHTML = `
 
-                <div class="course-top">
+                <div class="section-top">
 
-                    <input
-                        type="checkbox"
-                        value="${curso.codigo}"
-                        onchange="actualizarSeleccion(this.parentElement.parentElement)"
-                    >
+                    <div class="section-number">
 
-                    <div>
-
-                        <div class="course-name">
-                            ${curso.nombre}
-                        </div>
-
-                        <div class="course-code">
-                            Código: ${curso.codigo}
-                        </div>
+                        Sección ${seccion.numero}
 
                     </div>
+
+                    <span class="
+                        badge
+                        ${
+                            seccion.estado === "propuesta"
+                            ? "proposal"
+                            : "official"
+                        }
+                    ">
+
+                        ${
+                            seccion.estado === "propuesta"
+                            ? "PROPUESTA"
+                            : "OFICIAL"
+                        }
+
+                    </span>
+
+                </div>
+
+
+                <div class="section-professor">
+
+                    👨‍🏫 ${seccion.profesor}
+
+                </div>
+
+
+                <div class="section-details">
+
+                    <span class="section-pill">
+
+                        📅 ${seccion.dia}
+
+                    </span>
+
+
+                    <span class="section-pill">
+
+                        🕐
+                        ${formatearHora(seccion.inicio)}
+                        -
+                        ${formatearHora(seccion.fin)}
+
+                    </span>
+
+
+                    <span class="section-pill">
+
+                        🏫 Aula ${seccion.aula}
+
+                    </span>
 
                 </div>
 
             `;
 
 
-            contenedor.appendChild(div);
+            container.appendChild(div);
 
-        });
-
-}
-
-
-function actualizarSeleccion(elemento) {
-
-    if (elemento.querySelector("input").checked) {
-
-        elemento.classList.add("selected");
-
-    } else {
-
-        elemento.classList.remove("selected");
-
-    }
+        }
+    );
 
 }
 
 
-/* =====================================================
-   FILTRO
-===================================================== */
-
-function filtrarSemestre(semestre, boton) {
-
-    filtroActual = semestre;
+function seleccionarSeccion(
+    seccion,
+    elemento
+) {
 
     document
-        .querySelectorAll(".filter-button")
-        .forEach(b => b.classList.remove("active"));
+        .querySelectorAll(".section-card")
+        .forEach(
+            card =>
+                card.classList.remove(
+                    "selected"
+                )
+        );
 
-    boton.classList.add("active");
 
-    mostrarCursos();
-
-}
+    elemento.classList.add("selected");
 
 
-/* =====================================================
-   CONVERTIR HORA
-===================================================== */
+    seccionActual = seccion;
 
-function minutos(hora) {
 
-    const partes = hora.split(":");
-
-    return Number(partes[0]) * 60 +
-           Number(partes[1]);
+    agregarSeccion(seccion);
 
 }
 
 
 /* =====================================================
-   DETECTAR CRUCE
+   AGREGAR SECCIÓN
 ===================================================== */
 
-function hayCruce(sesionA, sesionB) {
+function agregarSeccion(seccion) {
 
-    if (sesionA.dia !== sesionB.dia) {
+    if (!cursoActual) {
 
-        return false;
+        return;
 
     }
 
-    const inicioA = minutos(sesionA.inicio);
-    const finA = minutos(sesionA.fin);
 
-    const inicioB = minutos(sesionB.inicio);
-    const finB = minutos(sesionB.fin);
+    const yaExiste =
+        horario.find(
+            item =>
+                item.codigo ===
+                cursoActual.codigo
+        );
 
 
-    return (
-        inicioA < finB &&
-        inicioB < finA
+    if (yaExiste) {
+
+        mostrarAlerta(
+            "Ya tienes este curso en tu horario. Si quieres cambiar de sección, elimina el curso actual y agrega la nueva sección.",
+            "warning"
+        );
+
+        return;
+
+    }
+
+
+    const item = {
+
+        id:
+            Date.now()
+            + "-"
+            + Math.random()
+                .toString(16)
+                .slice(2),
+
+        tipo: "curso",
+
+        codigo:
+            cursoActual.codigo,
+
+        curso:
+            cursoActual.nombre,
+
+        creditos:
+            cursoActual.creditos,
+
+        seccion:
+            seccion.numero,
+
+        profesor:
+            seccion.profesor,
+
+        aula:
+            seccion.aula,
+
+        dia:
+            seccion.dia,
+
+        inicio:
+            seccion.inicio,
+
+        fin:
+            seccion.fin,
+
+        estado:
+            seccion.estado
+
+    };
+
+
+    horario.push(item);
+
+
+    guardarHorario();
+
+    actualizarTodo();
+
+
+    mostrarAlerta(
+        `${cursoActual.nombre} · Sección ${seccion.numero} agregada a tu horario.`,
+        "success"
     );
 
 }
 
 
 /* =====================================================
-   VALIDAR HORARIO
+   ELIMINAR
 ===================================================== */
 
-function horarioValido(horario) {
+function eliminarCurso(id) {
 
-    const sesiones = [];
+    horario =
+        horario.filter(
+            item =>
+                item.id !== id
+        );
 
-    horario.forEach(opcion => {
 
-        opcion.sesiones.forEach(sesion => {
+    guardarHorario();
 
-            sesiones.push(sesion);
+    actualizarTodo();
 
-        });
+
+    mostrarAlerta(
+        "Curso eliminado de tu horario.",
+        "success"
+    );
+
+}
+
+
+/* =====================================================
+   CALENDARIO
+===================================================== */
+
+function renderCalendar() {
+
+    const body =
+        document.getElementById(
+            "calendarBody"
+        );
+
+
+    body.innerHTML = "";
+
+
+    /* HORAS */
+
+    const times =
+        document.createElement("div");
+
+    times.className = "times";
+
+
+    for (
+        let h = HORA_INICIO;
+        h <= HORA_FIN;
+        h++
+    ) {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "time";
+
+        div.innerHTML =
+            `<span>${formatHour(h)} </span>`;
+
+        times.appendChild(div);
+
+    }
+
+
+    body.appendChild(times);
+
+
+    /* DÍAS */
+
+    dias.forEach(dia => {
+
+        const column =
+            document.createElement("div");
+
+        column.className =
+            "day-column";
+
+
+        column.dataset.day =
+            dia;
+
+
+        for (
+            let h = HORA_INICIO;
+            h <= HORA_FIN;
+            h++
+        ) {
+
+            const line =
+                document.createElement(
+                    "div"
+                );
+
+            line.style.height = "60px";
+
+            column.appendChild(line);
+
+        }
+
+
+        body.appendChild(column);
 
     });
 
 
-    for (let i = 0; i < sesiones.length; i++) {
-
-        for (
-            let j = i + 1;
-            j < sesiones.length;
-            j++
-        ) {
-
-            if (
-                hayCruce(
-                    sesiones[i],
-                    sesiones[j]
-                )
-            ) {
-
-                return false;
-
-            }
-
-        }
-
-    }
-
-
-    return true;
+    renderClasses();
 
 }
 
 
-/* =====================================================
-   GENERAR COMBINACIONES
-===================================================== */
+function renderClasses() {
 
-function generarHorarios() {
-
-    const seleccionados =
-        Array.from(
-            document.querySelectorAll(
-                "#courses input:checked"
-            )
-        ).map(input => input.value);
-
-
-    const mensaje =
-        document.getElementById("message");
-
-    const resultados =
-        document.getElementById("results");
-
-    const contador =
-        document.getElementById("resultsCount");
-
-
-    mensaje.style.display = "none";
-
-    resultados.innerHTML = "";
-
-
-    if (seleccionados.length === 0) {
-
-        mensaje.innerText =
-            "⚠️ Primero selecciona al menos un curso.";
-
-        mensaje.style.display = "block";
-
-        contador.innerText =
-            "Sin cursos seleccionados";
-
-        return;
-
-    }
-
-
-    const cursosElegidos =
-        cursos.filter(curso =>
-            seleccionados.includes(curso.codigo)
+    document
+        .querySelectorAll(".class-block")
+        .forEach(
+            el =>
+                el.remove()
         );
-
-
-    let combinaciones = [];
-
-
-    function combinar(indice, actual) {
-
-        if (combinaciones.length >= 100) {
-
-            return;
-
-        }
-
-
-        if (indice === cursosElegidos.length) {
-
-            if (horarioValido(actual)) {
-
-                combinaciones.push([...actual]);
-
-            }
-
-            return;
-
-        }
-
-
-        const curso =
-            cursosElegidos[indice];
-
-
-        curso.secciones.forEach(seccion => {
-
-            combinar(
-                indice + 1,
-                [
-                    ...actual,
-                    {
-                        ...seccion,
-                        curso: curso.nombre,
-                        codigo: curso.codigo
-                    }
-                ]
-            );
-
-        });
-
-    }
-
-
-    combinar(0, []);
-
-
-    contador.innerText =
-        `${combinaciones.length} combinación(es) encontrada(s)`;
-
-
-    if (combinaciones.length === 0) {
-
-        mensaje.innerText =
-            "❌ No encontramos una combinación sin cruces para los cursos seleccionados.";
-
-        mensaje.style.display = "block";
-
-        return;
-
-    }
-
-
-    combinaciones.forEach(
-        (horario, indice) => {
-
-            mostrarResultado(
-                horario,
-                indice + 1
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   MOSTRAR RESULTADO
-===================================================== */
-
-function mostrarResultado(
-    horario,
-    numero
-) {
-
-    const resultados =
-        document.getElementById("results");
-
-
-    const result =
-        document.createElement("div");
-
-    result.className = "result";
-
-
-    const propuesta =
-        horario.filter(
-            x => x.estado === "propuesta"
-        ).length;
-
-
-    result.innerHTML = `
-
-        <div class="result-header">
-
-            <strong>
-                Horario ${numero}
-            </strong>
-
-            <span class="result-number">
-                ${propuesta > 0
-                    ? "Incluye propuesta"
-                    : "Solo oficiales"}
-            </span>
-
-        </div>
-
-        <div class="schedule">
-
-            ${crearDia(
-                "Lunes",
-                horario
-            )}
-
-            ${crearDia(
-                "Martes",
-                horario
-            )}
-
-            ${crearDia(
-                "Miércoles",
-                horario
-            )}
-
-            ${crearDia(
-                "Jueves",
-                horario
-            )}
-
-            ${crearDia(
-                "Viernes",
-                horario
-            )}
-
-            ${crearDia(
-                "Sábado",
-                horario
-            )}
-
-        </div>
-
-        <div class="result-info">
-
-            ${horario.map(item => `
-
-                <span>
-                    <strong>
-                        ${item.curso}
-                    </strong>
-                    · Sec. ${item.seccion}
-                    · ${item.profesor}
-                </span>
-
-            `).join("")}
-
-        </div>
-
-    `;
-
-
-    resultados.appendChild(result);
-
-}
-
-
-/* =====================================================
-   CREAR DÍA
-===================================================== */
-
-function crearDia(
-    dia,
-    horario
-) {
-
-    const clases = [];
 
 
     horario.forEach(item => {
 
-        item.sesiones.forEach(sesion => {
+        const column =
+            document.querySelector(
+                `.day-column[data-day="${item.dia}"]`
+            );
 
-            if (sesion.dia === dia) {
 
-                clases.push({
-                    ...item,
-                    sesion
-                });
+        if (!column) {
 
-            }
+            return;
 
-        });
+        }
+
+
+        const block =
+            document.createElement("div");
+
+
+        block.className =
+            "class-block"
+            +
+            (
+                item.estado === "proposta"
+                ? " proposal"
+                : ""
+            );
+
+
+        const inicio =
+            minutos(item.inicio);
+
+
+        const fin =
+            minutos(item.fin);
+
+
+        const top =
+            (
+                inicio -
+                HORA_INICIO * 60
+            );
+
+
+        const height =
+            fin - inicio;
+
+
+        block.style.top =
+            `${top}px`;
+
+
+        block.style.height =
+            `${height}px`;
+
+
+        block.innerHTML = `
+
+            <button
+                class="class-remove"
+                onclick="event.stopPropagation(); eliminarCurso('${item.id}')">
+
+                ×
+
+            </button>
+
+
+            <div class="class-title">
+
+                ${item.curso}
+
+            </div>
+
+
+            <div class="class-info">
+
+                ${formatearHora(item.inicio)}
+                -
+                ${formatearHora(item.fin)}
+
+                <br>
+
+                Sec. ${item.seccion}
+
+                <br>
+
+                ${item.profesor}
+
+                <br>
+
+                Aula ${item.aula}
+
+            </div>
+
+        `;
+
+
+        column.appendChild(block);
 
     });
-
-
-    clases.sort(
-        (a, b) =>
-            minutos(a.sesion.inicio) -
-            minutos(b.sesion.inicio)
-    );
-
-
-    return `
-
-        <div class="day">
-
-            <div class="day-title">
-                ${dia}
-            </div>
-
-            <div class="day-content">
-
-                ${
-                    clases.length === 0
-
-                    ? `
-                        <div class="empty">
-                            Libre
-                        </div>
-                    `
-
-                    : clases.map(item => `
-
-                        <div class="
-                            class
-                            ${item.estado === "propuesta"
-                                ? "proposal"
-                                : "official"}
-                        ">
-
-                            <strong>
-                                ${item.curso}
-                            </strong>
-
-                            ${item.sesion.inicio}
-                            -
-                            ${item.sesion.fin}
-
-                            <br>
-
-                            Sec. ${item.seccion}
-
-                            <br>
-
-                            ${item.profesor}
-
-                            <br>
-
-                            Aula ${item.aula}
-
-                        </div>
-
-                    `).join("")
-                }
-
-            </div>
-
-        </div>
-
-    `;
 
 }
 
 
 /* =====================================================
-   INICIAR
+   LISTA DE MIS CURSOS
 ===================================================== */
 
-mostrarCursos();
+function renderMyCourses() {
+
+    const container =
+        document.getElementById(
+            "myCourseList"
+        );
+
+
+    if (
+        horario.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty-description">
+
+                Todavía no agregaste cursos.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    horario.forEach(item => {
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+
+        div.className =
+            "my-course";
+
+
+        div.innerHTML = `
+
+            <div class="my-course-info">
+
+                <div class="my-course-name">
+
+                    ${item.curso}
+
+                </div>
+
+                <div class="my-course-time">
+
+                    Sec. ${item.seccion}
+                    · ${item.dia}
+                    · ${formatearHora(item.inicio)}
+                    -
+                    ${formatearHora(item.fin)}
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="remove"
+                title="Eliminar"
+                onclick="eliminarCurso('${item.id}')">
+
+                ×
+
+            </button>
+
+        `;
+
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =====================================================
+   ESTADÍSTICAS
+===================================================== */
+
+function actualizarStats() {
+
+    const cursosUnicos =
+        horario.filter(
+            item =>
+                item.tipo === "curso"
+        );
+
+
+    const creditos =
+        cursosUnicos.reduce(
+            (
+                total,
+                item
+            ) =>
+                total +
+                Number(item.creditos || 0),
+            0
+        );
+
+
+    const cruces =
+        detectarCruces();
+
+
+    document
+        .getElementById("courseCount")
+        .textContent =
+            cursosUnicos.length;
+
+
+    document
+        .getElementById("creditCount")
+        .textContent =
+            creditos;
+
+
+    document
+        .getElementById("conflictCount")
+        .textContent =
+            cruces.length;
+
+}
+
+
+/* =====================================================
+   DETECTAR CRUCES
+===================================================== */
+
+function detectarCruces() {
+
+    const cruces = [];
+
+
+    for (
+        let i = 0;
+        i < horario.length;
+        i++
+    ) {
+
+        for (
+            let j = i + 1;
+            j < horario.length;
+            j++
+        ) {
+
+            const a =
+                horario[i];
+
+            const b =
+                horario[j];
+
+
+            if (
+                a.dia === b.dia
+                &&
+                minutos(a.inicio)
+                    <
+                minutos(b.fin)
+                &&
+                minutos(b.inicio)
+                    <
+                minutos(a.fin)
+            ) {
+
+                cruces.push({
+                    a,
+                    b
+                });
+
+            }
+
+        }
+
+    }
+
+
+    return cruces;
+
+}
+
+
+/* =====================================================
+   ALERTA DE CRUCES
+===================================================== */
+
+function mostrarCruces() {
+
+    const cruces =
+        detectarCruces();
+
+
+    if (
+        cruces.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const nombres =
+        cruces
+            .map(
+                c =>
+                    `${c.a.curso} ↔ ${c.b.curso}`
+            )
+            .join(" · ");
+
+
+    mostrarAlerta(
+        `⚠️ Tienes ${cruces.length} cruce(s): ${nombres}`,
+        "error"
+    );
+
+}
+
+
+/* =====================================================
+   ACTUALIZAR TODO
+===================================================== */
+
+function actualizarTodo() {
+
+    renderCalendar();
+
+    renderMyCourses();
+
+    actualizarStats();
+
+    mostrarCruces();
+
+}
+
+
+/* =====================================================
+   LOCAL STORAGE
+===================================================== */
+
+function guardarHorario() {
+
+    localStorage.setItem(
+        "horariUNMSM_2026II",
+        JSON.stringify(horario)
+    );
+
+}
+
+
+function cargarHorario() {
+
+    try {
+
+        const guardado =
+            localStorage.getItem(
+                "horariUNMSM_2026II"
+            );
+
+
+        if (guardado) {
+
+            horario =
+                JSON.parse(
+                    guardado
+                );
+
+        }
+
+    } catch (error) {
+
+        horario = [];
+
+    }
+
+}
+
+
+/* =====================================================
+   LIMPIAR
+===================================================== */
+
+function limpiarHorario() {
+
+    if (
+        horario.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const confirmar =
+        confirm(
+            "¿Seguro que quieres eliminar todo tu horario?"
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    horario = [];
+
+
+    guardarHorario();
+
+    actualizarTodo();
+
+
+    mostrarAlerta(
+        "Tu horario fue limpiado.",
+        "success"
+    );
+
+}
+
+
+/* =====================================================
+   ACTIVIDAD PERSONAL
+===================================================== */
+
+function agregarPersonal() {
+
+    const nombre =
+        prompt(
+            "Nombre de la actividad:"
+        );
+
+
+    if (!nombre) {
+
+        return;
+
+    }
+
+
+    const dia =
+        prompt(
+            "Día (Lunes, Martes, Miércoles, Jueves, Viernes o Sábado):"
+        );
+
+
+    if (
+        !dias.includes(dia)
+    ) {
+
+        mostrarAlerta(
+            "El día ingresado no es válido.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const inicio =
+        prompt(
+            "Hora de inicio (HH:MM):"
+        );
+
+
+    const fin =
+        prompt(
+            "Hora de fin (HH:MM):"
+        );
+
+
+    if (
+        !/^\d{2}:\d{2}$/.test(inicio)
+        ||
+        !/^\d{2}:\d{2}$/.test(fin)
+    ) {
+
+        mostrarAlerta(
+            "Utiliza el formato HH:MM. Ejemplo: 18:30",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    horario.push({
+
+        id:
+            Date.now()
+            + "-"
+            + Math.random()
+                .toString(16)
+                .slice(2),
+
+        tipo: "personal",
+
+        codigo: "PERSONAL",
+
+        curso: nombre,
+
+        creditos: 0,
+
+        seccion: "—",
+
+        profesor: "Actividad personal",
+
+        aula: "—",
+
+        dia,
+
+        inicio,
+
+        fin,
+
+        estado: "personal"
+
+    });
+
+
+    guardarHorario();
+
+    actualizarTodo();
+
+
+    mostrarAlerta(
+        "Actividad personal agregada.",
+        "success"
+    );
+
+}
+
+
+/* =====================================================
+   EXPORTAR
+===================================================== */
+
+function exportarHorario() {
+
+    const datos =
+        JSON.stringify(
+            horario,
+            null,
+            2
+        );
+
+
+    const blob =
+        new Blob(
+            [datos],
+            {
+                type:
+                    "application/json"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const a =
+        document.createElement(
+            "a"
+        );
+
+
+    a.href = url;
+
+    a.download =
+        "mi-horario-UNMSM-2026-II.json";
+
+
+    a.click();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+}
+
+
+/* =====================================================
+   ALERTAS
+===================================================== */
+
+function mostrarAlerta(
+    mensaje,
+    tipo
+) {
+
+    const alert =
+        document.getElementById(
+            "alert"
+        );
+
+
+    const text =
+        document.getElementById(
+            "alertText"
+        );
+
+
+    text.textContent =
+        mensaje;
+
+
+    alert.className =
+        `alert show ${tipo}`;
+
+}
+
+
+function cerrarAlerta() {
+
+    document
+        .getElementById("alert")
+        .className =
+            "alert";
+
+}
+
+
+/* =====================================================
+   TIEMPO
+===================================================== */
+
+function minutos(hora) {
+
+    const [
+        h,
+        m
+    ] =
+        hora
+            .split(":")
+            .map(Number);
+
+
+    return (
+        h * 60 + m
+    );
+
+}
+
+
+function formatearHora(hora) {
+
+    let [
+        h,
+        m
+    ] =
+        hora
+            .split(":")
+            .map(Number);
+
+
+    const periodo =
+        h >= 12
+        ? "pm"
+        : "am";
+
+
+    if (h > 12) {
+
+        h -= 12;
+
+    }
+
+
+    if (h === 0) {
+
+        h = 12;
+
+    }
+
+
+    return `${h}:${String(m).padStart(2,"0")} ${periodo}`;
+
+}
+
+
+function formatHour(hora) {
+
+    const periodo =
+        hora >= 12
+        ? "pm"
+        : "am";
+
+
+    let h = hora;
+
+
+    if (h > 12) {
+
+        h -= 12;
+
+    }
+
+
+    if (h === 0) {
+
+        h = 12;
+
+    }
+
+
+    return `${h} ${periodo}`;
+
+}
 
 </script>
 
 </body>
+
 </html>
