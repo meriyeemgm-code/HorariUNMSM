@@ -1,2345 +1,1264 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>HorariUNMSM · Mi horario</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armador de Horarios 2026-II</title>
 
 <style>
-
-/* =====================================================
-   VARIABLES
-===================================================== */
-
 :root {
-    --primary: #8f1821;
-    --primary-dark: #681018;
-    --primary-light: #fdf0f1;
-
-    --gold: #c89b3c;
-
-    --background: #f5f6f8;
+    --primary: #172554;
+    --primary2: #2563eb;
+    --bg: #f4f7fb;
     --card: #ffffff;
-
-    --text: #20242b;
-    --muted: #6b7280;
-
-    --border: #e5e7eb;
-
-    --success: #15803d;
-    --success-bg: #ecfdf3;
-
-    --warning: #b45309;
-    --warning-bg: #fff7ed;
-
-    --danger: #b91c1c;
-    --danger-bg: #fef2f2;
-
-    --sidebar: 280px;
+    --text: #172033;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --warning: #f59e0b;
+    --proposal: #f97316;
 }
-
-
-/* =====================================================
-   RESET
-===================================================== */
 
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
 body {
-
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-    background: var(--background);
-
+    margin: 0;
+    font-family: Inter, Arial, sans-serif;
+    background: var(--bg);
     color: var(--text);
-
-    min-height: 100vh;
 }
 
-button,
-select,
-input {
-
-    font: inherit;
-
+button {
+    font-family: inherit;
 }
-
-
-/* =====================================================
-   APP
-===================================================== */
 
 .app {
-
     min-height: 100vh;
-
-    display: grid;
-
-    grid-template-columns:
-        var(--sidebar)
-        1fr;
-
 }
 
-
-/* =====================================================
-   SIDEBAR
-===================================================== */
-
-.sidebar {
-
-    background: #111827;
-
+/* HEADER */
+.header {
+    background: linear-gradient(135deg, #172554, #1e3a8a);
     color: white;
-
-    padding: 24px 18px;
-
-    position: sticky;
-
-    top: 0;
-
-    height: 100vh;
-
-    overflow-y: auto;
-
+    padding: 22px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 }
-
 
 .brand {
-
     display: flex;
-
     align-items: center;
-
-    gap: 12px;
-
-    margin-bottom: 35px;
-
+    gap: 14px;
 }
 
-
-.brand-logo {
-
-    width: 42px;
-
-    height: 42px;
-
-    background: var(--primary);
-
-    border-radius: 11px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-weight: 900;
-
-    font-size: 20px;
-
-}
-
-
-.brand-title {
-
-    font-size: 18px;
-
-    font-weight: 800;
-
-}
-
-
-.brand-subtitle {
-
-    color: #9ca3af;
-
-    font-size: 11px;
-
-    margin-top: 3px;
-
-}
-
-
-.sidebar-section {
-
-    margin-bottom: 25px;
-
-}
-
-
-.sidebar-label {
-
-    color: #9ca3af;
-
-    text-transform: uppercase;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    letter-spacing: .08em;
-
-    margin-bottom: 10px;
-
-}
-
-
-.stat {
-
-    background: #1f2937;
-
-    border: 1px solid #374151;
-
-    border-radius: 10px;
-
-    padding: 13px;
-
-    margin-bottom: 8px;
-
-}
-
-
-.stat-number {
-
-    font-size: 22px;
-
-    font-weight: 800;
-
-}
-
-
-.stat-label {
-
-    color: #9ca3af;
-
-    font-size: 11px;
-
-}
-
-
-.sidebar-button {
-
-    width: 100%;
-
-    padding: 11px 12px;
-
-    border-radius: 9px;
-
-    border: 1px solid #374151;
-
-    background: transparent;
-
-    color: white;
-
-    cursor: pointer;
-
-    text-align: left;
-
-    margin-bottom: 8px;
-
-    transition: .2s;
-
-}
-
-
-.sidebar-button:hover {
-
-    background: #1f2937;
-
-}
-
-
-.sidebar-button.danger:hover {
-
-    background: #450a0a;
-
-    border-color: #7f1d1d;
-
-}
-
-
-/* =====================================================
-   MAIN
-===================================================== */
-
-.main {
-
-    min-width: 0;
-
-}
-
-
-.topbar {
-
-    background: white;
-
-    border-bottom: 1px solid var(--border);
-
-    padding: 18px 32px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    position: sticky;
-
-    top: 0;
-
-    z-index: 50;
-
-}
-
-
-.topbar-title {
-
-    font-size: 20px;
-
-    font-weight: 800;
-
-}
-
-
-.topbar-subtitle {
-
-    color: var(--muted);
-
-    font-size: 12px;
-
-    margin-top: 3px;
-
-}
-
-
-.topbar-actions {
-
-    display: flex;
-
-    gap: 8px;
-
-}
-
-
-.icon-button {
-
-    border: 1px solid var(--border);
-
-    background: white;
-
-    border-radius: 9px;
-
-    padding: 9px 12px;
-
-    cursor: pointer;
-
-}
-
-
-.icon-button:hover {
-
-    background: #f9fafb;
-
-}
-
-
-/* =====================================================
-   CONTENT
-===================================================== */
-
-.content {
-
-    padding: 28px;
-
-    max-width: 1600px;
-
-    margin: auto;
-
-}
-
-
-/* =====================================================
-   ALERT
-===================================================== */
-
-.alert {
-
-    display: none;
-
-    padding: 13px 16px;
-
-    border-radius: 10px;
-
-    margin-bottom: 18px;
-
-    font-size: 13px;
-
-    border: 1px solid;
-
-}
-
-
-.alert.show {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-}
-
-
-.alert.error {
-
-    background: var(--danger-bg);
-
-    color: var(--danger);
-
-    border-color: #fecaca;
-
-}
-
-
-.alert.warning {
-
-    background: var(--warning-bg);
-
-    color: var(--warning);
-
-    border-color: #fed7aa;
-
-}
-
-
-.alert.success {
-
-    background: var(--success-bg);
-
-    color: var(--success);
-
-    border-color: #bbf7d0;
-
-}
-
-
-/* =====================================================
-   GRID PRINCIPAL
-===================================================== */
-
-.workspace {
-
+.logo {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    background: rgba(255,255,255,.12);
     display: grid;
-
-    grid-template-columns:
-        390px
-        1fr;
-
-    gap: 22px;
-
-    align-items: start;
-
+    place-items: center;
+    font-size: 23px;
 }
 
-
-/* =====================================================
-   CARD
-===================================================== */
-
-.card {
-
-    background: white;
-
-    border: 1px solid var(--border);
-
-    border-radius: 15px;
-
-    overflow: hidden;
-
+.brand h1 {
+    margin: 0;
+    font-size: 21px;
 }
 
-
-.card-header {
-
-    padding: 18px 20px;
-
-    border-bottom: 1px solid var(--border);
-
+.brand p {
+    margin: 4px 0 0;
+    opacity: .75;
+    font-size: 13px;
 }
 
-
-.card-title {
-
-    font-size: 16px;
-
-    font-weight: 800;
-
+.header-actions {
+    display: flex;
+    gap: 10px;
 }
 
-
-.card-description {
-
-    font-size: 12px;
-
-    color: var(--muted);
-
-    margin-top: 4px;
-
-}
-
-
-/* =====================================================
-   ADD COURSE
-===================================================== */
-
-.form {
-
-    padding: 20px;
-
-}
-
-
-.field {
-
-    margin-bottom: 15px;
-
-}
-
-
-.field label {
-
-    display: block;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    margin-bottom: 7px;
-
-}
-
-
-.field select,
-.search {
-
-    width: 100%;
-
-    border: 1px solid #d1d5db;
-
-    background: white;
-
-    border-radius: 9px;
-
-    padding: 11px 12px;
-
-    outline: none;
-
-}
-
-
-.field select:focus,
-.search:focus {
-
-    border-color: var(--primary);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(143,24,33,.1);
-
-}
-
-
-.primary-button {
-
-    width: 100%;
-
-    border: none;
-
-    background: var(--primary);
-
-    color: white;
-
-    padding: 12px;
-
-    border-radius: 9px;
-
-    font-weight: 800;
-
-    cursor: pointer;
-
-}
-
-
-.primary-button:hover {
-
-    background: var(--primary-dark);
-
-}
-
-
-.secondary-button {
-
-    border: 1px solid var(--border);
-
-    background: white;
-
-    color: var(--text);
-
-    padding: 10px 12px;
-
-    border-radius: 9px;
-
-    cursor: pointer;
-
-}
-
-
-.secondary-button:hover {
-
-    background: #f9fafb;
-
-}
-
-
-/* =====================================================
-   COURSE LIST
-===================================================== */
-
-.course-list {
-
-    max-height: 420px;
-
-    overflow-y: auto;
-
-    padding: 8px;
-
-}
-
-
-.course-item {
-
-    border: 1px solid transparent;
-
+.btn {
+    border: 0;
     border-radius: 10px;
-
-    padding: 12px;
-
+    padding: 10px 15px;
     cursor: pointer;
-
-    margin-bottom: 5px;
-
+    font-weight: 700;
+    transition: .2s;
 }
 
-
-.course-item:hover {
-
-    background: #f9fafb;
-
-    border-color: var(--border);
-
+.btn:hover {
+    transform: translateY(-1px);
 }
 
-
-.course-item.active {
-
-    background: var(--primary-light);
-
-    border-color: #f3c5c8;
-
+.btn-primary {
+    background: white;
+    color: var(--primary);
 }
 
+.btn-blue {
+    background: var(--primary2);
+    color: white;
+}
+
+.btn-danger {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.btn-light {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+/* LAYOUT */
+.main {
+    padding: 22px;
+    display: grid;
+    grid-template-columns: 350px minmax(0, 1fr);
+    gap: 22px;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(15,23,42,.04);
+}
+
+/* PROGRESS */
+.progress-panel {
+    padding: 18px;
+}
+
+.progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.progress-title {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.progress-number {
+    color: var(--primary2);
+    font-weight: 900;
+}
+
+.progress-bar {
+    margin-top: 12px;
+    height: 9px;
+    background: #e2e8f0;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg,#2563eb,#60a5fa);
+    transition: width .3s;
+}
+
+/* COURSES */
+.courses-panel {
+    padding: 14px;
+}
+
+.section-title {
+    padding: 4px 6px 12px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--muted);
+    font-weight: 900;
+}
+
+.course {
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    margin-bottom: 9px;
+    overflow: hidden;
+    background: white;
+}
+
+.course-header {
+    padding: 13px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.course-header:hover {
+    background: #f8fafc;
+}
 
 .course-name {
-
-    font-weight: 750;
-
-    font-size: 13px;
-
+    font-size: 14px;
+    font-weight: 800;
 }
 
-
-.course-meta {
-
-    display: flex;
-
-    gap: 6px;
-
-    flex-wrap: wrap;
-
-    margin-top: 5px;
-
+.course-code {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 3px;
 }
 
+.status {
+    min-width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.status.ok {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status.empty {
+    background: #f1f5f9;
+    color: #94a3b8;
+}
+
+.options {
+    display: none;
+    padding: 0 9px 9px;
+    background: #f8fafc;
+}
+
+.course.open .options {
+    display: block;
+}
+
+.option {
+    position: relative;
+    padding: 11px;
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 11px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.option:hover:not(.disabled) {
+    border-color: #93c5fd;
+    transform: translateX(2px);
+}
+
+.option.selected {
+    border: 2px solid var(--primary2);
+    background: #eff6ff;
+}
+
+.option.disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    background: #f1f5f9;
+}
+
+.option-title {
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.option-info {
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.45;
+}
+
+.proposal {
+    border-color: #fed7aa;
+    background: #fff7ed;
+}
+
+.proposal .option-title {
+    color: #c2410c;
+}
 
 .badge {
-
-    display: inline-flex;
-
-    align-items: center;
-
+    display: inline-block;
+    margin-top: 6px;
     padding: 3px 7px;
-
     border-radius: 20px;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
+    font-size: 9px;
+    font-weight: 900;
+    text-transform: uppercase;
 }
 
-
-.badge.code {
-
-    background: #f3f4f6;
-
-    color: #4b5563;
-
+.badge-proposal {
+    background: #ffedd5;
+    color: #c2410c;
 }
 
-
-.badge.official {
-
-    background: #ecfdf3;
-
-    color: #166534;
-
+.badge-selected {
+    background: #dbeafe;
+    color: #1d4ed8;
 }
 
-
-.badge.proposal {
-
-    background: #fff7ed;
-
-    color: #9a3412;
-
+/* RIGHT */
+.content {
+    min-width: 0;
 }
 
-
-/* =====================================================
-   SECTIONES
-===================================================== */
-
-.section-list {
-
-    padding: 0 20px 20px;
-
-}
-
-
-.section-card {
-
+.calendar-panel {
+    background: white;
     border: 1px solid var(--border);
-
-    border-radius: 11px;
-
-    padding: 13px;
-
-    margin-bottom: 9px;
-
-    cursor: pointer;
-
-    transition: .15s;
-
+    border-radius: 18px;
+    overflow: hidden;
 }
 
-
-.section-card:hover {
-
-    border-color: #cbd5e1;
-
-}
-
-
-.section-card.selected {
-
-    border-color: var(--primary);
-
-    background: var(--primary-light);
-
-}
-
-
-.section-top {
-
+.calendar-header {
+    padding: 18px 20px;
     display: flex;
-
     justify-content: space-between;
-
-    gap: 10px;
-
-}
-
-
-.section-number {
-
-    font-weight: 850;
-
-    font-size: 13px;
-
-}
-
-
-.section-professor {
-
-    font-size: 12px;
-
-    margin-top: 5px;
-
-    line-height: 1.4;
-
-}
-
-
-.section-details {
-
-    display: flex;
-
-    gap: 5px;
-
-    flex-wrap: wrap;
-
-    margin-top: 9px;
-
-}
-
-
-.section-pill {
-
-    background: #f3f4f6;
-
-    color: #4b5563;
-
-    padding: 4px 7px;
-
-    border-radius: 6px;
-
-    font-size: 10px;
-
-}
-
-
-.section-pill.proposal {
-
-    background: #fff7ed;
-
-    color: #9a3412;
-
-}
-
-
-/* =====================================================
-   MY COURSES
-===================================================== */
-
-.my-courses {
-
-    border-top: 1px solid var(--border);
-
-    padding: 15px 20px;
-
-}
-
-
-.my-course {
-
-    display: flex;
-
     align-items: center;
-
-    justify-content: space-between;
-
-    gap: 10px;
-
-    padding: 10px 0;
-
-    border-bottom: 1px solid #f3f4f6;
-
+    border-bottom: 1px solid var(--border);
 }
 
-
-.my-course:last-child {
-
-    border-bottom: none;
-
+.calendar-title h2 {
+    margin: 0;
+    font-size: 18px;
 }
 
-
-.my-course-info {
-
-    min-width: 0;
-
-}
-
-
-.my-course-name {
-
+.calendar-title p {
+    margin: 5px 0 0;
     font-size: 12px;
-
-    font-weight: 750;
-
-}
-
-
-.my-course-time {
-
-    font-size: 10px;
-
     color: var(--muted);
-
-    margin-top: 3px;
-
 }
-
-
-.remove {
-
-    border: none;
-
-    background: transparent;
-
-    color: #9ca3af;
-
-    cursor: pointer;
-
-    font-size: 17px;
-
-}
-
-
-.remove:hover {
-
-    color: var(--danger);
-
-}
-
-
-/* =====================================================
-   CALENDAR
-===================================================== */
-
-.calendar-card {
-
-    min-width: 0;
-
-}
-
 
 .calendar {
-
-    overflow: auto;
-
+    overflow-x: auto;
 }
 
-
-.calendar-head {
-
-    display: grid;
-
-    grid-template-columns:
-        65px
-        repeat(6, minmax(130px, 1fr));
-
+.calendar-grid {
     min-width: 850px;
-
-    border-bottom: 1px solid var(--border);
-
+    display: grid;
+    grid-template-columns: 65px repeat(6, 1fr);
 }
 
-
-.time-head {
-
-    background: #f9fafb;
-
-}
-
-
-.day-head {
-
-    text-align: center;
-
-    padding: 13px 5px;
-
-    font-size: 11px;
-
-    font-weight: 800;
-
+.day {
     border-left: 1px solid var(--border);
-
+    min-width: 120px;
 }
 
-
-.day-head small {
-
-    display: block;
-
-    color: var(--muted);
-
-    font-size: 9px;
-
-    margin-top: 3px;
-
-}
-
-
-.calendar-body {
-
+.day-name {
+    height: 44px;
     display: grid;
-
-    grid-template-columns:
-        65px
-        repeat(6, minmax(130px, 1fr));
-
-    min-width: 850px;
-
+    place-items: center;
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    background: #f8fafc;
 }
 
-
-.times {
-
-    position: relative;
-
+.time-column {
+    background: #f8fafc;
 }
-
 
 .time {
-
-    height: 60px;
-
-    border-bottom: 1px solid #f0f1f3;
-
-    position: relative;
-
-}
-
-
-.time span {
-
-    position: absolute;
-
-    right: 8px;
-
-    top: -6px;
-
-    color: #9ca3af;
-
-    font-size: 9px;
-
-}
-
-
-.day-column {
-
-    position: relative;
-
-    border-left: 1px solid var(--border);
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            white 0px,
-            white 59px,
-            #f0f1f3 60px
-        );
-
-}
-
-
-.class-block {
-
-    position: absolute;
-
-    left: 5px;
-
-    right: 5px;
-
-    border-radius: 8px;
-
-    padding: 8px;
-
-    overflow: hidden;
-
-    cursor: pointer;
-
-    border-left: 4px solid var(--primary);
-
-    background: #fce7e9;
-
-    color: #64121a;
-
-    box-shadow:
-        0 2px 5px rgba(0,0,0,.05);
-
-    transition: .15s;
-
-}
-
-
-.class-block:hover {
-
-    transform: translateY(-1px);
-
-    box-shadow:
-        0 5px 12px rgba(0,0,0,.1);
-
-}
-
-
-.class-block.proposal {
-
-    background: #fff1dc;
-
-    color: #7c2d12;
-
-    border-left-color: #d97706;
-
-}
-
-
-.class-title {
-
-    font-size: 11px;
-
-    font-weight: 850;
-
-    line-height: 1.2;
-
-}
-
-
-.class-info {
-
-    font-size: 9px;
-
-    margin-top: 4px;
-
-    line-height: 1.35;
-
-}
-
-
-.class-remove {
-
-    position: absolute;
-
-    right: 5px;
-
-    top: 4px;
-
-    border: none;
-
-    background: transparent;
-
-    color: currentColor;
-
-    cursor: pointer;
-
-    opacity: .7;
-
-}
-
-
-.class-remove:hover {
-
-    opacity: 1;
-
-}
-
-
-/* =====================================================
-   EMPTY
-===================================================== */
-
-.empty-state {
-
-    padding: 35px 20px;
-
+    height: 55px;
+    border-bottom: 1px solid var(--border);
+    padding: 5px;
     text-align: center;
-
-    color: var(--muted);
-
+    color: #94a3b8;
+    font-size: 9px;
 }
 
+.day-body {
+    position: relative;
+    height: 770px;
+    background-image:
+        linear-gradient(to bottom, transparent 54px, #eef2f7 55px);
+    background-size: 100% 55px;
+}
+
+/* EVENT */
+.event {
+    position: absolute;
+    left: 5px;
+    right: 5px;
+    border-radius: 9px;
+    padding: 7px;
+    color: white;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(15,23,42,.15);
+}
+
+.event.normal {
+    background: linear-gradient(135deg,#2563eb,#1d4ed8);
+}
+
+.event.proposal {
+    background: linear-gradient(135deg,#f97316,#ea580c);
+}
+
+.event-title {
+    font-size: 10px;
+    font-weight: 900;
+    line-height: 1.2;
+}
+
+.event-time {
+    font-size: 9px;
+    margin-top: 4px;
+    opacity: .9;
+}
+
+/* EMPTY */
+.empty-calendar {
+    padding: 70px 20px;
+    text-align: center;
+    color: var(--muted);
+}
 
 .empty-icon {
-
-    font-size: 35px;
-
+    font-size: 42px;
     margin-bottom: 10px;
-
 }
 
-
-.empty-title {
-
-    font-weight: 750;
-
-    color: var(--text);
-
-    margin-bottom: 5px;
-
+/* SAVED */
+.saved-panel {
+    margin-top: 18px;
+    padding: 18px;
 }
 
-
-.empty-description {
-
-    font-size: 12px;
-
-    line-height: 1.5;
-
+.saved-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
+.saved-header h3 {
+    margin: 0;
+}
 
-/* =====================================================
-   FOOTER
-===================================================== */
+.saved-list {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+    gap: 10px;
+}
 
-.footer {
+.saved-card {
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 13px;
+}
 
-    text-align: center;
+.saved-card h4 {
+    margin: 0;
+}
 
-    padding: 25px;
-
-    color: #9ca3af;
-
+.saved-meta {
     font-size: 11px;
-
+    color: var(--muted);
+    margin: 5px 0 12px;
 }
 
+.saved-actions {
+    display: flex;
+    gap: 6px;
+}
 
-/* =====================================================
-   MOBILE
-===================================================== */
+.saved-actions button {
+    flex: 1;
+    padding: 7px;
+    font-size: 11px;
+}
 
-@media(max-width: 1050px) {
+/* MODAL */
+.modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,.55);
+    z-index: 100;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
 
-    .workspace {
+.modal-bg.active {
+    display: flex;
+}
 
+.modal {
+    background: white;
+    width: min(600px,100%);
+    max-height: 90vh;
+    overflow: auto;
+    border-radius: 20px;
+    padding: 22px;
+}
+
+.modal h3 {
+    margin-top: 0;
+}
+
+.input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+}
+
+.input:focus {
+    border-color: var(--primary2);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+/* COMPARE */
+.compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+
+.compare-table th,
+.compare-table td {
+    border: 1px solid var(--border);
+    padding: 8px;
+    text-align: left;
+}
+
+.compare-table th {
+    background: #f8fafc;
+}
+
+/* MOBILE */
+@media(max-width: 950px) {
+    .main {
         grid-template-columns: 1fr;
-
     }
 
     .sidebar {
-
-        position: static;
-
-        height: auto;
-
-    }
-
-    .app {
-
-        display: block;
-
-    }
-
-    .sidebar {
-
-        display: none;
-
-    }
-
-}
-
-
-@media(max-width: 650px) {
-
-    .content {
-
-        padding: 15px;
-
-    }
-
-    .topbar {
-
-        padding: 14px 16px;
-
-    }
-
-    .topbar-actions .print-button {
-
-        display: none;
-
-    }
-
-}
-
-
-/* =====================================================
-   PRINT
-===================================================== */
-
-@media print {
-
-    body {
-
-        background: white;
-
-    }
-
-    .sidebar,
-    .topbar-actions,
-    .workspace > .card,
-    .footer,
-    .alert {
-
-        display: none !important;
-
-    }
-
-    .topbar {
-
-        position: static;
-
-        border: none;
-
+        order: 2;
     }
 
     .content {
-
-        padding: 0;
-
-        max-width: none;
-
+        order: 1;
     }
-
-    .workspace {
-
-        display: block;
-
-    }
-
-    .calendar-card {
-
-        border: none;
-
-    }
-
-    .calendar {
-
-        overflow: visible;
-
-    }
-
 }
 
+@media(max-width: 600px) {
+    .header {
+        padding: 17px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .header-actions .btn {
+        flex: 1;
+    }
+
+    .main {
+        padding: 12px;
+    }
+
+    .calendar-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
 </style>
-
 </head>
-
 
 <body>
 
-
 <div class="app">
 
+<header class="header">
+    <div class="brand">
+        <div class="logo">📚</div>
+        <div>
+            <h1>Armador de Horarios</h1>
+            <p>6.º semestre · 2026-II</p>
+        </div>
+    </div>
 
-<!-- =====================================================
-     SIDEBAR
-===================================================== -->
+    <div class="header-actions">
+        <button class="btn btn-primary" onclick="openSaveModal()">
+            💾 Guardar horario
+        </button>
 
+        <button class="btn btn-primary" onclick="openCompare()">
+            ⚖ Comparar
+        </button>
+    </div>
+</header>
+
+
+<main class="main">
+
+<!-- SIDEBAR -->
 <aside class="sidebar">
 
+    <section class="panel progress-panel">
 
-    <div class="brand">
-
-        <div class="brand-logo">
-            H
+        <div class="progress-top">
+            <span class="progress-title">Progreso del horario</span>
+            <span class="progress-number" id="progressText">
+                0 / 7
+            </span>
         </div>
 
-        <div>
-
-            <div class="brand-title">
-                HorariUNMSM
-            </div>
-
-            <div class="brand-subtitle">
-                Derecho · 2026-II
-            </div>
-
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
 
-    </div>
+    </section>
 
 
-    <div class="sidebar-section">
+    <section class="panel courses-panel">
 
-        <div class="sidebar-label">
-            Mi horario
+        <div class="section-title">
+            Mis cursos
         </div>
 
+        <div id="courses"></div>
 
-        <div class="stat">
-
-            <div
-                id="courseCount"
-                class="stat-number">
-                0
-            </div>
-
-            <div class="stat-label">
-                cursos agregados
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div
-                id="creditCount"
-                class="stat-number">
-                0
-            </div>
-
-            <div class="stat-label">
-                créditos
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div
-                id="conflictCount"
-                class="stat-number">
-                0
-            </div>
-
-            <div class="stat-label">
-                cruces
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="sidebar-section">
-
-        <div class="sidebar-label">
-            Herramientas
-        </div>
-
-
-        <button
-            class="sidebar-button"
-            onclick="window.print()">
-
-            🖨️ Imprimir horario
-
-        </button>
-
-
-        <button
-            class="sidebar-button"
-            onclick="exportarHorario()">
-
-            💾 Guardar horario
-
-        </button>
-
-
-        <button
-            class="sidebar-button"
-            onclick="agregarPersonal()">
-
-            ➕ Actividad personal
-
-        </button>
-
-
-        <button
-            class="sidebar-button danger"
-            onclick="limpiarHorario()">
-
-            🗑️ Limpiar horario
-
-        </button>
-
-    </div>
-
-
-    <div class="sidebar-section">
-
-        <div class="sidebar-label">
-            Leyenda
-        </div>
-
-
-        <div style="
-            font-size:11px;
-            color:#d1d5db;
-            line-height:2;
-        ">
-
-            🟢 Oficial
-
-            <br>
-
-            🟡 Propuesta
-
-            <br>
-
-            🔴 Cruce de horario
-
-        </div>
-
-    </div>
-
+    </section>
 
 </aside>
 
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
+<!-- CONTENT -->
+<section class="content">
 
-<main class="main">
+    <section class="calendar-panel">
 
+        <div class="calendar-header">
 
-<header class="topbar">
-
-    <div>
-
-        <div class="topbar-title">
-            Mi horario
-        </div>
-
-        <div class="topbar-subtitle">
-            Elige tú mismo qué cursos y secciones quieres llevar
-        </div>
-
-    </div>
-
-
-    <div class="topbar-actions">
-
-        <button
-            class="icon-button print-button"
-            onclick="window.print()">
-
-            🖨️ Imprimir
-
-        </button>
-
-    </div>
-
-</header>
-
-
-<div class="content">
-
-
-    <div
-        id="alert"
-        class="alert">
-
-        <span id="alertText"></span>
-
-        <button
-            onclick="cerrarAlerta()"
-            style="
-                border:none;
-                background:transparent;
-                cursor:pointer;
-                font-size:16px;
-            ">
-
-            ×
-
-        </button>
-
-    </div>
-
-
-    <div class="workspace">
-
-
-<!-- =====================================================
-     PANEL IZQUIERDO
-===================================================== -->
-
-<section class="card">
-
-
-    <div class="card-header">
-
-        <div class="card-title">
-            Agregar un curso
-        </div>
-
-        <div class="card-description">
-
-            Selecciona el curso y luego la sección que quieres llevar.
-
-        </div>
-
-    </div>
-
-
-    <div class="form">
-
-
-        <div class="field">
-
-            <label>
-                Buscar curso
-            </label>
-
-            <input
-                id="courseSearch"
-                class="search"
-                type="text"
-                placeholder="Ej. Penal, Mercantil..."
-                oninput="renderCourseList()"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Curso
-            </label>
-
-            <select
-                id="courseSelect"
-                onchange="seleccionarCurso()">
-
-                <option value="">
-                    Selecciona un curso
-                </option>
-
-            </select>
-
-        </div>
-
-
-    </div>
-
-
-    <div
-        id="sectionList"
-        class="section-list">
-
-        <div class="empty-state">
-
-            <div class="empty-icon">
-                📚
+            <div class="calendar-title">
+                <h2>Mi horario semanal</h2>
+                <p id="calendarStatus">
+                    Selecciona un horario para comenzar.
+                </p>
             </div>
 
-            <div class="empty-title">
-                Selecciona un curso
-            </div>
-
-            <div class="empty-description">
-                Aquí aparecerán sus secciones y profesores.
-            </div>
+            <button class="btn btn-light" onclick="clearAll()">
+                Limpiar todo
+            </button>
 
         </div>
 
-    </div>
+        <div class="calendar" id="calendar"></div>
+
+    </section>
 
 
-    <div class="my-courses">
+    <section class="panel saved-panel">
 
-        <div
-            class="card-title"
-            style="margin-bottom:10px;">
+        <div class="saved-header">
 
-            Cursos en mi horario
+            <h3>💾 Mis combinaciones</h3>
 
-        </div>
-
-
-        <div id="myCourseList">
-
-            <div
-                class="empty-description">
-
-                Todavía no agregaste cursos.
-
-            </div>
+            <button class="btn btn-blue" onclick="openSaveModal()">
+                + Guardar combinación
+            </button>
 
         </div>
 
-    </div>
+        <div class="saved-list" id="savedList"></div>
 
+    </section>
 
 </section>
-
-
-<!-- =====================================================
-     CALENDARIO
-===================================================== -->
-
-<section class="card calendar-card">
-
-
-    <div class="card-header">
-
-        <div class="card-title">
-            Horario semanal
-        </div>
-
-        <div class="card-description">
-
-            Tu horario se guarda automáticamente en este navegador.
-
-        </div>
-
-    </div>
-
-
-    <div class="calendar">
-
-
-        <div class="calendar-head">
-
-            <div class="time-head"></div>
-
-            <div class="day-head">
-                Lunes
-                <small>LUN</small>
-            </div>
-
-            <div class="day-head">
-                Martes
-                <small>MAR</small>
-            </div>
-
-            <div class="day-head">
-                Miércoles
-                <small>MIÉ</small>
-            </div>
-
-            <div class="day-head">
-                Jueves
-                <small>JUE</small>
-            </div>
-
-            <div class="day-head">
-                Viernes
-                <small>VIE</small>
-            </div>
-
-            <div class="day-head">
-                Sábado
-                <small>SÁB</small>
-            </div>
-
-        </div>
-
-
-        <div
-            id="calendarBody"
-            class="calendar-body">
-
-        </div>
-
-
-    </div>
-
-
-</section>
-
-
-    </div>
-
-
-    <div class="footer">
-
-        HorariUNMSM · Organizador personal de horarios · 2026-II
-
-    </div>
-
-
-</div>
 
 </main>
+</div>
 
+
+<!-- SAVE MODAL -->
+<div class="modal-bg" id="saveModal">
+
+    <div class="modal">
+
+        <h3>Guardar combinación</h3>
+
+        <p style="color:#64748b;font-size:13px">
+            Guarda esta selección para poder volver a ella posteriormente.
+        </p>
+
+        <input
+            id="saveName"
+            class="input"
+            placeholder="Ej. Horario ideal"
+        >
+
+        <div id="saveInfo"
+             style="margin-top:12px;font-size:12px;color:#64748b">
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn btn-light" onclick="closeModal('saveModal')">
+                Cancelar
+            </button>
+
+            <button class="btn btn-blue" onclick="saveSchedule()">
+                Guardar
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- COMPARE MODAL -->
+<div class="modal-bg" id="compareModal">
+
+    <div class="modal">
+
+        <h3>Comparar horarios guardados</h3>
+
+        <div id="compareContent"></div>
+
+        <div class="modal-actions">
+            <button class="btn btn-light"
+                    onclick="closeModal('compareModal')">
+                Cerrar
+            </button>
+        </div>
+
+    </div>
 </div>
 
 
 <script>
 
-/* =====================================================
-   BASE DE DATOS
-   HORARIOS OFICIALES + PROPUESTAS
-===================================================== */
+/* ============================================================
+   DATOS DE 6.º SEMESTRE
+   ============================================================ */
 
-const cursos = [
+const courses = [
 
 {
-    codigo: "311024",
-    nombre: "Derecho de las Obligaciones",
-    creditos: 3,
-
-    secciones: [
+    id: "obligaciones",
+    code: "311024",
+    name: "Derecho de las Obligaciones",
+    options: [
 
         {
-            numero: "1",
-            profesor: "Carlos Antonio Agurto Gonzales",
-            aula: "143",
-            dia: "Viernes",
-            inicio: "11:15",
-            fin: "13:30",
-            estado: "oficial"
+            id:"ob1",
+            section:"D1",
+            teacher:"Dr. Carlos Antonio Agurto Gonzales",
+            room:"143",
+            blocks:[
+                ["Viernes","11:15","13:30"]
+            ]
         },
 
         {
-            numero: "2",
-            profesor: "Carlos Antonio Agurto Gonzales",
-            aula: "148",
-            dia: "Lunes",
-            inicio: "15:00",
-            fin: "17:15",
-            estado: "oficial"
+            id:"ob2",
+            section:"N2",
+            teacher:"Dr. Carlos Antonio Agurto Gonzales",
+            room:"148",
+            blocks:[
+                ["Lunes","15:00","17:15"]
+            ]
         },
 
         {
-            numero: "3",
-            profesor: "Jhushein Fort Ninamanco Cordova",
-            aula: "148",
-            dia: "Miércoles",
-            inicio: "15:00",
-            fin: "17:15",
-            estado: "oficial"
+            id:"ob3",
+            section:"N3",
+            teacher:"Mg. Jhushein Fort Ninamanco Cordova",
+            room:"148",
+            blocks:[
+                ["Miércoles","15:00","17:15"]
+            ]
         },
 
         {
-            numero: "4",
-            profesor: "Jhushein Fort Ninamanco Cordova",
-            aula: "143",
-            dia: "Miércoles",
-            inicio: "17:15",
-            fin: "19:30",
-            estado: "oficial"
+            id:"ob4",
+            section:"N4",
+            teacher:"Mg. Jhushein Fort Ninamanco Cordova",
+            room:"143",
+            blocks:[
+                ["Miércoles","17:15","19:30"]
+            ]
         },
 
         {
-            numero: "5",
-            profesor: "Clotilde Vigil Curo de Quiroz",
-            aula: "143",
-            dia: "Lunes",
-            inicio: "19:15",
-            fin: "21:30",
-            estado: "oficial"
+            id:"ob5",
+            section:"N5",
+            teacher:"Abg. Clotilde Vigil Curo de Quiroz",
+            room:"143",
+            blocks:[
+                ["Lunes","19:15","21:30"]
+            ]
         }
 
     ]
-
-},
-
-{
-    codigo: "312015",
-    nombre: "Derecho Penal III (Parte Especial II)",
-    creditos: 3,
-
-    secciones: [
-
-        {
-            numero: "1",
-            profesor: "Víctor Roberto Prado Saldarriaga",
-            aula: "329",
-            dia: "Miércoles",
-            inicio: "18:00",
-            fin: "20:15",
-            estado: "oficial"
-        },
-
-        {
-            numero: "2",
-            profesor: "Hugo Herculano Príncipe Trujillo",
-            aula: "248",
-            dia: "Martes",
-            inicio: "15:45",
-            fin: "18:00",
-            estado: "oficial"
-        },
-
-        {
-            numero: "3",
-            profesor: "Jorge Adalberto Pérez López",
-            aula: "148",
-            dia: "Viernes",
-            inicio: "19:30",
-            fin: "21:45",
-            estado: "oficial"
-        },
-
-        {
-            numero: "4",
-            profesor: "Contratación docente",
-            aula: "148",
-            dia: "Martes",
-            inicio: "14:45",
-            fin: "17:00",
-            estado: "oficial"
-        },
-
-        {
-            numero: "5",
-            profesor: "Contratación docente",
-            aula: "235",
-            dia: "Jueves",
-            inicio: "15:15",
-            fin: "17:30",
-            estado: "oficial"
-        },
-
-        {
-            numero: "P4",
-            profesor: "Delia Milagros Espinoza Valenzuela",
-            aula: "148",
-            dia: "Martes",
-            inicio: "14:45",
-            fin: "17:00",
-            estado: "propuesta"
-        },
-
-        {
-            numero: "P5",
-            profesor: "Rocio Bobadilla Bocanegra",
-            aula: "235",
-            dia: "Jueves",
-            inicio: "15:15",
-            fin: "17:30",
-            estado: "propuesta"
-        }
-
-    ]
-
 },
 
 
 {
-    codigo: "311032",
-    nombre: "Proceso Único de Ejecución y Proceso Cautelar",
-    creditos: 3,
-
-    secciones: [
+    id: "penal3",
+    code: "312015",
+    name: "Derecho Penal III (Parte Especial II)",
+    options: [
 
         {
-            numero: "1",
-            profesor: "Raúl Bladimiro Canelo Rabanal",
-            aula: "—",
-            dia: "Miércoles",
-            inicio: "15:00",
-            fin: "18:00",
-            estado: "oficial"
+            id:"p31",
+            section:"D1",
+            teacher:"Dr. Víctor Roberto Prado Saldarriaga",
+            room:"329",
+            blocks:[
+                ["Miércoles","18:00","20:15"]
+            ]
         },
 
         {
-            numero: "2",
-            profesor: "Raúl Bladimiro Canelo Rabanal",
-            aula: "—",
-            dia: "Miércoles",
-            inicio: "18:00",
-            fin: "21:00",
-            estado: "oficial"
+            id:"p32",
+            section:"N2",
+            teacher:"Mg. Hugo Herculano Príncipe Trujillo",
+            room:"248",
+            blocks:[
+                ["Martes","15:45","18:00"]
+            ]
         },
 
         {
-            numero: "3",
-            profesor: "Héctor Elvis Martínez Flores",
-            aula: "143",
-            dia: "Martes",
-            inicio: "08:00",
-            fin: "11:00",
-            estado: "oficial"
+            id:"p33",
+            section:"N3",
+            teacher:"Mg. Jorge Adalberto Pérez López",
+            room:"148",
+            blocks:[
+                ["Viernes","19:30","21:45"]
+            ]
         },
 
         {
-            numero: "4",
-            profesor: "Eugenia Silvia María Ariano Deho",
-            aula: "235",
-            dia: "Jueves",
-            inicio: "11:00",
-            fin: "14:00",
-            estado: "oficial"
+            id:"p34",
+            section:"N4",
+            teacher:"Delia Milagros Espinoza Valenzuela",
+            room:"148",
+            proposal:true,
+            blocks:[
+                ["Martes","14:45","17:00"]
+            ]
         },
 
         {
-            numero: "5",
-            profesor: "María del Carmen Abregu Baez",
-            aula: "148",
-            dia: "Jueves",
-            inicio: "11:00",
-            fin: "14:00",
-            estado: "oficial"
-        },
-
-        {
-            numero: "6",
-            profesor: "Contratación docente",
-            aula: "329",
-            dia: "Viernes",
-            inicio: "16:30",
-            fin: "19:30",
-            estado: "oficial"
-        },
-
-        {
-            numero: "P6",
-            profesor: "Hugo Cavero Ruíz",
-            aula: "329",
-            dia: "Viernes",
-            inicio: "16:30",
-            fin: "19:30",
-            estado: "propuesta"
+            id:"p35",
+            section:"N5",
+            teacher:"Rocio Bobadilla Bocanegra",
+            room:"235",
+            proposal:true,
+            blocks:[
+                ["Jueves","15:15","17:30"]
+            ]
         }
 
     ]
-
 },
 
 
 {
-    codigo: "318005",
-    nombre: "Derecho Administrativo II",
-    creditos: 3,
-
-    secciones: [
+    id: "proceso",
+    code: "311032",
+    name: "Proceso Único de Ejecución y Proceso Cautelar",
+    options: [
 
         {
-            numero: "1",
-            profesor: "Jorge Guillermo Gutierrez Tudela",
-            aula: "310",
-            dia: "Martes",
-            inicio: "08:00",
-            fin: "10:15",
-            estado: "oficial"
+            id:"pr1",
+            section:"N1",
+            teacher:"Dr. Raúl Bladimiro Canelo Rabanal",
+            room:"-",
+            blocks:[
+                ["Miércoles","15:00","18:00"]
+            ]
         },
 
         {
-            numero: "2",
-            profesor: "José Alberto Estela Huaman",
-            aula: "248",
-            dia: "Jueves",
-            inicio: "18:00",
-            fin: "20:15",
-            estado: "oficial"
+            id:"pr2",
+            section:"N2",
+            teacher:"Dr. Raúl Bladimiro Canelo Rabanal",
+            room:"-",
+            blocks:[
+                ["Miércoles","18:00","21:00"]
+            ]
         },
 
         {
-            numero: "3",
-            profesor: "Jorge Guillermo Gutierrez Tudela",
-            aula: "235",
-            dia: "Martes",
-            inicio: "10:15",
-            fin: "12:30",
-            estado: "oficial"
+            id:"pr3",
+            section:"D3",
+            teacher:"Mg. Martínez Flores, Héctor Elvis",
+            room:"143",
+            blocks:[
+                ["Martes","08:00","11:00"]
+            ]
         },
 
         {
-            numero: "4",
-            profesor: "Erick Cuba Meneses",
-            aula: "347",
-            dia: "Lunes",
-            inicio: "16:45",
-            fin: "19:00",
-            estado: "oficial"
+            id:"pr4",
+            section:"N4",
+            teacher:"Mg. Eugenia Silvia María Ariano Deho",
+            room:"235",
+            blocks:[
+                ["Jueves","11:00","14:00"]
+            ]
         },
 
         {
-            numero: "5",
-            profesor: "Erick Cuba Meneses",
-            aula: "143",
-            dia: "Martes",
-            inicio: "18:00",
-            fin: "20:15",
-            estado: "oficial"
+            id:"pr5",
+            section:"N5",
+            teacher:"Abg. María del Carmen Abregu Baez",
+            room:"148",
+            blocks:[
+                ["Sábado","11:00","14:00"]
+            ]
         },
 
         {
-            numero: "6",
-            profesor: "Juan Francisco Rojas Leo",
-            aula: "131-B",
-            dia: "Miércoles",
-            inicio: "17:30",
-            fin: "19:45",
-            estado: "oficial"
-        },
-
-        {
-            numero: "7",
-            profesor: "Luiggi Victorio Santy Cabrera",
-            aula: "235",
-            dia: "Viernes",
-            inicio: "15:45",
-            fin: "18:00",
-            estado: "oficial"
+            id:"pr6",
+            section:"N6",
+            teacher:"Hugo Cavero Ruíz",
+            room:"329",
+            proposal:true,
+            blocks:[
+                ["Viernes","16:30","19:30"]
+            ]
         }
 
     ]
-
 },
 
 
 {
-    codigo: "602149",
-    nombre: "Derecho Mercantil III (Títulos Valores)",
-    creditos: 3,
-
-    secciones: [
+    id: "administrativo",
+    code: "318005",
+    name: "Derecho Administrativo II",
+    options: [
 
         {
-            numero: "1",
-            profesor: "Ricardo Beaumont Callirgos",
-            aula: "148",
-            dia: "Lunes",
-            inicio: "11:00",
-            fin: "13:15",
-            estado: "oficial"
+            id:"a1",
+            section:"D1",
+            teacher:"Dr. Jorge Guillermo Gutierrez Tudela",
+            room:"310",
+            blocks:[
+                ["Martes","08:00","10:15"]
+            ]
         },
 
         {
-            numero: "2",
-            profesor: "Julio Hernán Figueroa Bustamante",
-            aula: "246",
-            dia: "Jueves",
-            inicio: "09:30",
-            fin: "11:45",
-            estado: "oficial"
+            id:"a2",
+            section:"D2",
+            teacher:"Dr. José Alberto Estela Huaman",
+            room:"248",
+            blocks:[
+                ["Jueves","18:00","20:15"]
+            ]
         },
 
         {
-            numero: "3",
-            profesor: "Julio Hernán Figueroa Bustamante",
-            aula: "148",
-            dia: "Lunes",
-            inicio: "08:45",
-            fin: "11:00",
-            estado: "oficial"
+            id:"a3",
+            section:"D3",
+            teacher:"Dr. Jorge Guillermo Gutierrez Tudela",
+            room:"235",
+            blocks:[
+                ["Martes","10:15","12:30"]
+            ]
         },
 
         {
-            numero: "4",
-            profesor: "Cesar Eusebio Ramos Padilla",
-            aula: "252",
-            dia: "Miércoles",
-            inicio: "10:15",
-            fin: "12:30",
-            estado: "oficial"
+            id:"a4",
+            section:"N4",
+            teacher:"Mg. Erick Cuba Meneses",
+            room:"347",
+            blocks:[
+                ["Lunes","16:45","19:00"]
+            ]
         },
 
         {
-            numero: "5",
-            profesor: "Julio Hernán Figueroa Bustamante",
-            aula: "246",
-            dia: "Lunes",
-            inicio: "17:00",
-            fin: "19:15",
-            estado: "oficial"
+            id:"a5",
+            section:"D5",
+            teacher:"Mg. Erick Cuba Meneses",
+            room:"143",
+            blocks:[
+                ["Martes","18:00","20:15"]
+            ]
         },
 
         {
-            numero: "6",
-            profesor: "Contratación docente",
-            aula: "311",
-            dia: "Viernes",
-            inicio: "19:30",
-            fin: "21:45",
-            estado: "oficial"
+            id:"a6",
+            section:"N6",
+            teacher:"Abg. Juan Francisco Rojas Leo",
+            room:"131-B",
+            blocks:[
+                ["Miércoles","17:30","19:45"]
+            ]
         },
 
         {
-            numero: "P6",
-            profesor: "Marco Antonio Tigroso Suárez",
-            aula: "311",
-            dia: "Viernes",
-            inicio: "19:30",
-            fin: "21:45",
-            estado: "propuesta"
+            id:"a7",
+            section:"N7",
+            teacher:"Mg. Luiggi Victorio Santy Cabrera",
+            room:"235",
+            blocks:[
+                ["Viernes","15:45","18:00"]
+            ]
         }
 
     ]
-
 },
 
 
 {
-    codigo: "313010",
-    nombre: "Derecho Individual del Trabajo",
-    creditos: 3,
-
-    secciones: [
+    id: "mercantil",
+    code: "602149",
+    name: "Derecho Mercantil III (Títulos Valores)",
+    options: [
 
         {
-            numero: "1",
-            profesor: "Leopoldo Gamarra Vílchez",
-            aula: "141",
-            dia: "Viernes",
-            inicio: "08:00",
-            fin: "10:15",
-            estado: "oficial"
+            id:"m1",
+            section:"D1",
+            teacher:"Dr. Ricardo Beaumont Callirgos",
+            room:"148",
+            blocks:[
+                ["Lunes","11:00","13:15"]
+            ]
         },
 
         {
-            numero: "2",
-            profesor: "Katty Angélica Caballero Sega",
-            aula: "—",
-            dia: "Sábado",
-            inicio: "07:45",
-            fin: "10:00",
-            estado: "oficial"
+            id:"m2",
+            section:"D2",
+            teacher:"Mg. Julio Hernán Figueroa Bustamante",
+            room:"246",
+            blocks:[
+                ["Jueves","09:30","11:45"]
+            ]
         },
 
         {
-            numero: "3",
-            profesor: "Simeón Huancahuari Flores",
-            aula: "143",
-            dia: "Miércoles",
-            inicio: "18:00",
-            fin: "20:15",
-            estado: "oficial"
+            id:"m3",
+            section:"N3",
+            teacher:"Mg. Julio Hernán Figueroa Bustamante",
+            room:"148",
+            blocks:[
+                ["Lunes","08:45","11:00"]
+            ]
         },
 
         {
-            numero: "4",
-            profesor: "Contratación docente",
-            aula: "235",
-            dia: "Jueves",
-            inicio: "08:00",
-            fin: "10:15",
-            estado: "oficial"
+            id:"m4",
+            section:"N4",
+            teacher:"Dr. Ramos Padilla, Cesar Eusebio",
+            room:"252",
+            blocks:[
+                ["Miércoles","10:15","12:30"]
+            ]
         },
 
         {
-            numero: "5",
-            profesor: "Contratación docente",
-            aula: "248",
-            dia: "Miércoles",
-            inicio: "14:00",
-            fin: "16:15",
-            estado: "oficial"
+            id:"m5",
+            section:"N5",
+            teacher:"Mg. Julio Hernán Figueroa Bustamante",
+            room:"246",
+            blocks:[
+                ["Lunes","17:00","19:15"]
+            ]
         },
 
         {
-            numero: "P4",
-            profesor: "Betty Egúsquiza Palacín",
-            aula: "303",
-            dia: "Jueves",
-            inicio: "19:00",
-            fin: "21:15",
-            estado: "propuesta"
-        },
-
-        {
-            numero: "P5",
-            profesor: "Andrea Carolina Sánchez Matos",
-            aula: "248",
-            dia: "Miércoles",
-            inicio: "14:00",
-            fin: "16:15",
-            estado: "propuesta"
+            id:"m6",
+            section:"N6",
+            teacher:"Marco Antonio Tigroso Suárez",
+            room:"311",
+            proposal:true,
+            blocks:[
+                ["Viernes","19:30","21:45"]
+            ]
         }
 
     ]
-
 },
 
 
 {
-    codigo: "312018",
-    nombre: "Derecho Procesal Penal II",
-    creditos: 3,
-
-    secciones: [
+    id: "trabajo",
+    code: "313010",
+    name: "Derecho Individual del Trabajo",
+    options: [
 
         {
-            numero: "1",
-            profesor: "Gerson Camarena Aliaga",
-            aula: "235",
-            dia: "Jueves",
-            inicio: "19:00",
-            fin: "22:00",
-            estado: "oficial"
+            id:"t1",
+            section:"D1",
+            teacher:"Dr. Leopoldo Gamarra Vílchez",
+            room:"141",
+            blocks:[
+                ["Viernes","08:00","10:15"]
+            ]
         },
 
         {
-            numero: "2",
-            profesor: "Miguel Ángel Tapia Cabañin",
-            aula: "246",
-            dia: "Martes",
-            inicio: "08:00",
-            fin: "11:00",
-            estado: "oficial"
+            id:"t2",
+            section:"D2",
+            teacher:"Dra. Caballero Sega, Katty Angélica",
+            room:"-",
+            blocks:[
+                ["Sábado","07:45","10:00"]
+            ]
         },
 
         {
-            numero: "3",
-            profesor: "Miguel Ángel Tapia Cabañin",
-            aula: "141",
-            dia: "Jueves",
-            inicio: "15:00",
-            fin: "18:00",
-            estado: "oficial"
+            id:"t3",
+            section:"D3",
+            teacher:"Dr. Huancahuari Flores, Simeón",
+            room:"143",
+            blocks:[
+                ["Miércoles","18:00","20:15"]
+            ]
         },
 
         {
-            numero: "4",
-            profesor: "Rosa Delsa Mavila León",
-            aula: "143",
-            dia: "Lunes",
-            inicio: "09:00",
-            fin: "12:00",
-            estado: "oficial"
+            id:"t4",
+            section:"D4",
+            teacher:"Betty Egúsquiza Palacín",
+            room:"303",
+            proposal:true,
+            blocks:[
+                ["Jueves","19:00","21:15"]
+            ]
         },
 
         {
-            numero: "5",
-            profesor: "Victor Manuel Cubas Villanueva",
-            aula: "148",
-            dia: "Martes",
-            inicio: "09:00",
-            fin: "12:00",
-            estado: "oficial"
-        },
-
-        {
-            numero: "6",
-            profesor: "Jimmy Arbulu Martínez",
-            aula: "235",
-            dia: "Martes",
-            inicio: "18:00",
-            fin: "21:00",
-            estado: "oficial"
+            id:"t5",
+            section:"N5",
+            teacher:"Andrea Carolina Sánchez Matos",
+            room:"248",
+            proposal:true,
+            blocks:[
+                ["Miércoles","14:00","16:15"]
+            ]
         }
 
     ]
+},
 
+
+{
+    id: "procesal",
+    code: "312018",
+    name: "Derecho Procesal Penal II",
+    options: [
+
+        {
+            id:"pp1",
+            section:"D1",
+            teacher:"Dr. Gerson Camarena Aliaga",
+            room:"235",
+            blocks:[
+                ["Jueves","19:00","22:00"]
+            ]
+        },
+
+        {
+            id:"pp2",
+            section:"N2",
+            teacher:"Dr. Miguel Ángel Tapia Cabañin",
+            room:"246",
+            blocks:[
+                ["Martes","08:00","11:00"]
+            ]
+        },
+
+        {
+            id:"pp3",
+            section:"N3",
+            teacher:"Dr. Miguel Ángel Tapia Cabañin",
+            room:"141",
+            blocks:[
+                ["Jueves","15:00","18:00"]
+            ]
+        },
+
+        {
+            id:"pp4",
+            section:"N4",
+            teacher:"Dra. Rosa Delsa Mavila León",
+            room:"143",
+            blocks:[
+                ["Lunes","09:00","12:00"]
+            ]
+        },
+
+        {
+            id:"pp5",
+            section:"D5",
+            teacher:"Dr. Victor Manuel Cubas Villanueva",
+            room:"148",
+            blocks:[
+                ["Martes","09:00","12:00"]
+            ]
+        },
+
+        {
+            id:"pp6",
+            section:"N6",
+            teacher:"Mg. Jimmy Arbulu Martínez",
+            room:"235",
+            blocks:[
+                ["Martes","18:00","21:00"]
+            ]
+        }
+
+    ]
 }
 
 ];
 
 
-/* =====================================================
-   CONFIGURACIÓN DEL CALENDARIO
-===================================================== */
+/* ============================================================
+   ESTADO
+   ============================================================ */
 
-const dias = [
+let selected = {};
+let savedSchedules =
+    JSON.parse(localStorage.getItem("horarios2026II") || "[]");
+
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+
+const days = [
     "Lunes",
     "Martes",
     "Miércoles",
@@ -2348,1281 +1267,815 @@ const dias = [
     "Sábado"
 ];
 
-const HORA_INICIO = 7;
-const HORA_FIN = 22;
+function timeToMinutes(time) {
 
-let horario = [];
+    const [h,m] = time.split(":").map(Number);
 
-let cursoActual = null;
+    return h * 60 + m;
+}
 
-let seccionActual = null;
+function formatTime(time) {
 
+    let [h,m] = time.split(":").map(Number);
 
-/* =====================================================
-   INICIALIZACIÓN
-===================================================== */
+    const suffix = h >= 12 ? "pm" : "am";
 
-document.addEventListener(
-    "DOMContentLoaded",
-    iniciar
-);
+    h = h % 12;
 
+    if(h === 0) h = 12;
 
-function iniciar() {
+    return `${h}:${String(m).padStart(2,"0")} ${suffix}`;
+}
 
-    cargarHorario();
+function getCourse(courseId) {
 
-    renderCourseList();
+    return courses.find(c => c.id === courseId);
+}
 
-    renderCourseSelect();
+function getOption(courseId, optionId) {
 
-    renderCalendar();
+    const course = getCourse(courseId);
 
-    actualizarTodo();
-
+    return course?.options.find(o => o.id === optionId);
 }
 
 
-/* =====================================================
-   CURSOS
-===================================================== */
+/* ============================================================
+   CRUCES
+   ============================================================ */
 
-function renderCourseSelect() {
+function blocksConflict(a,b) {
 
-    const select =
-        document.getElementById(
-            "courseSelect"
-        );
+    if(a[0] !== b[0]) return false;
 
-    select.innerHTML = `
-        <option value="">
-            Selecciona un curso
-        </option>
-    `;
+    const startA = timeToMinutes(a[1]);
+    const endA = timeToMinutes(a[2]);
 
-    cursos.forEach(curso => {
+    const startB = timeToMinutes(b[1]);
+    const endB = timeToMinutes(b[2]);
 
-        const option =
-            document.createElement("option");
+    return startA < endB && endA > startB;
+}
 
-        option.value = curso.codigo;
 
-        option.textContent =
-            `${curso.codigo} · ${curso.nombre}`;
+function optionsConflict(optionA, optionB) {
 
-        select.appendChild(option);
+    return optionA.blocks.some(blockA =>
+        optionB.blocks.some(blockB =>
+            blocksConflict(blockA, blockB)
+        )
+    );
+}
 
+
+function conflictsWithSelected(courseId, option) {
+
+    return Object.entries(selected).some(([id, optionId]) => {
+
+        if(id === courseId) return false;
+
+        const other = getOption(id, optionId);
+
+        if(!other) return false;
+
+        return optionsConflict(option, other);
     });
-
 }
 
 
-function renderCourseList() {
+/* ============================================================
+   RENDER CURSOS
+   ============================================================ */
 
-    const search =
-        document
-            .getElementById("courseSearch")
-            .value
-            .toLowerCase()
-            .trim();
+function renderCourses() {
 
-
-    const select =
-        document.getElementById(
-            "courseSelect"
-        );
-
-
-    const actual =
-        select.value;
-
-
-    select.innerHTML = `
-        <option value="">
-            Selecciona un curso
-        </option>
-    `;
-
-
-    cursos
-        .filter(curso => {
-
-            return curso.nombre
-                .toLowerCase()
-                .includes(search)
-
-                ||
-
-                curso.codigo
-                .includes(search);
-
-        })
-        .forEach(curso => {
-
-            const option =
-                document.createElement("option");
-
-            option.value =
-                curso.codigo;
-
-            option.textContent =
-                `${curso.codigo} · ${curso.nombre}`;
-
-            select.appendChild(option);
-
-        });
-
-
-    if (actual) {
-
-        select.value = actual;
-
-    }
-
-}
-
-
-/* =====================================================
-   SELECCIONAR CURSO
-===================================================== */
-
-function seleccionarCurso() {
-
-    const codigo =
-        document
-            .getElementById("courseSelect")
-            .value;
-
-
-    if (!codigo) {
-
-        cursoActual = null;
-
-        document
-            .getElementById("sectionList")
-            .innerHTML = `
-
-                <div class="empty-state">
-
-                    <div class="empty-icon">
-                        📚
-                    </div>
-
-                    <div class="empty-title">
-                        Selecciona un curso
-                    </div>
-
-                    <div class="empty-description">
-                        Aquí aparecerán sus secciones y profesores.
-                    </div>
-
-                </div>
-            `;
-
-        return;
-
-    }
-
-
-    cursoActual =
-        cursos.find(
-            curso =>
-                curso.codigo === codigo
-        );
-
-
-    renderSections();
-
-}
-
-
-/* =====================================================
-   SECCIONES
-===================================================== */
-
-function renderSections() {
-
-    const container =
-        document.getElementById(
-            "sectionList"
-        );
-
+    const container = document.getElementById("courses");
 
     container.innerHTML = "";
 
+    courses.forEach(course => {
 
-    cursoActual.secciones.forEach(
-        (seccion, index) => {
+        const isSelected = !!selected[course.id];
 
-            const div =
-                document.createElement("div");
+        const wrapper = document.createElement("div");
 
+        wrapper.className =
+            "course" +
+            (isSelected ? " open" : "");
 
-            div.className =
-                "section-card";
+        wrapper.id = `course-${course.id}`;
 
+        wrapper.innerHTML = `
 
-            div.onclick = () => {
+            <div class="course-header"
+                 onclick="toggleCourse('${course.id}')">
 
-                seleccionarSeccion(
-                    seccion,
-                    div
-                );
-
-            };
-
-
-            div.innerHTML = `
-
-                <div class="section-top">
-
-                    <div class="section-number">
-
-                        Sección ${seccion.numero}
-
+                <div>
+                    <div class="course-name">
+                        ${course.name}
                     </div>
 
-                    <span class="
-                        badge
-                        ${
-                            seccion.estado === "propuesta"
-                            ? "proposal"
-                            : "official"
-                        }
-                    ">
-
-                        ${
-                            seccion.estado === "propuesta"
-                            ? "PROPUESTA"
-                            : "OFICIAL"
-                        }
-
-                    </span>
-
+                    <div class="course-code">
+                        ${course.code}
+                    </div>
                 </div>
 
-
-                <div class="section-professor">
-
-                    👨‍🏫 ${seccion.profesor}
-
+                <div class="status ${isSelected ? "ok" : "empty"}">
+                    ${isSelected ? "✓" : "○"}
                 </div>
 
+            </div>
 
-                <div class="section-details">
+            <div class="options">
 
-                    <span class="section-pill">
+                ${course.options.map(option =>
+                    renderOption(course,option)
+                ).join("")}
 
-                        📅 ${seccion.dia}
+            </div>
+        `;
 
-                    </span>
-
-
-                    <span class="section-pill">
-
-                        🕐
-                        ${formatearHora(seccion.inicio)}
-                        -
-                        ${formatearHora(seccion.fin)}
-
-                    </span>
-
-
-                    <span class="section-pill">
-
-                        🏫 Aula ${seccion.aula}
-
-                    </span>
-
-                </div>
-
-            `;
-
-
-            container.appendChild(div);
-
-        }
-    );
-
+        container.appendChild(wrapper);
+    });
 }
 
 
-function seleccionarSeccion(
-    seccion,
-    elemento
-) {
+function renderOption(course, option) {
 
-    document
-        .querySelectorAll(".section-card")
-        .forEach(
-            card =>
-                card.classList.remove(
-                    "selected"
-                )
-        );
+    const isSelected =
+        selected[course.id] === option.id;
 
+    const blocked =
+        !isSelected &&
+        conflictsWithSelected(course.id,option);
 
-    elemento.classList.add("selected");
+    const classes = [
+        "option",
+        option.proposal ? "proposal" : "",
+        isSelected ? "selected" : "",
+        blocked ? "disabled" : ""
+    ].join(" ");
 
+    const blocksText = option.blocks.map(block =>
+        `${block[0]} · ${formatTime(block[1])} – ${formatTime(block[2])}`
+    ).join("<br>");
 
-    seccionActual = seccion;
+    return `
 
+        <div class="${classes}"
+             onclick="${blocked ? "" :
+                `selectOption('${course.id}','${option.id}')`}">
 
-    agregarSeccion(seccion);
+            <div class="option-title">
+                ${isSelected ? "✓ " : ""}
+                Sección ${option.section}
+            </div>
 
+            <div class="option-info">
+                ${blocksText}<br>
+                ${option.teacher}<br>
+                Aula: ${option.room}
+            </div>
+
+            ${
+                option.proposal
+                ? `<span class="badge badge-proposal">
+                    Contratación
+                   </span>`
+                : ""
+            }
+
+            ${
+                isSelected
+                ? `<span class="badge badge-selected">
+                    Seleccionado
+                   </span>`
+                : ""
+            }
+
+            ${
+                blocked
+                ? `<div style="
+                    margin-top:6px;
+                    font-size:10px;
+                    color:#b91c1c;
+                    font-weight:800">
+                    ⚠ BLOQUEADO POR CRUCE
+                   </div>`
+                : ""
+            }
+
+        </div>
+    `;
 }
 
 
-/* =====================================================
-   AGREGAR SECCIÓN
-===================================================== */
+/* ============================================================
+   SELECCIÓN
+   ============================================================ */
 
-function agregarSeccion(seccion) {
+function toggleCourse(courseId) {
 
-    if (!cursoActual) {
+    const el = document.getElementById(`course-${courseId}`);
+
+    el.classList.toggle("open");
+}
+
+
+function selectOption(courseId, optionId) {
+
+    const option = getOption(courseId,optionId);
+
+    if(!option) return;
+
+    if(conflictsWithSelected(courseId,option)) {
+
+        alert("Este horario tiene un cruce con otro curso seleccionado.");
 
         return;
-
     }
 
+    selected[courseId] = optionId;
 
-    const yaExiste =
-        horario.find(
-            item =>
-                item.codigo ===
-                cursoActual.codigo
-        );
+    renderAll();
 
+    const courseEl =
+        document.getElementById(`course-${courseId}`);
 
-    if (yaExiste) {
-
-        mostrarAlerta(
-            "Ya tienes este curso en tu horario. Si quieres cambiar de sección, elimina el curso actual y agrega la nueva sección.",
-            "warning"
-        );
-
-        return;
-
-    }
-
-
-    const item = {
-
-        id:
-            Date.now()
-            + "-"
-            + Math.random()
-                .toString(16)
-                .slice(2),
-
-        tipo: "curso",
-
-        codigo:
-            cursoActual.codigo,
-
-        curso:
-            cursoActual.nombre,
-
-        creditos:
-            cursoActual.creditos,
-
-        seccion:
-            seccion.numero,
-
-        profesor:
-            seccion.profesor,
-
-        aula:
-            seccion.aula,
-
-        dia:
-            seccion.dia,
-
-        inicio:
-            seccion.inicio,
-
-        fin:
-            seccion.fin,
-
-        estado:
-            seccion.estado
-
-    };
-
-
-    horario.push(item);
-
-
-    guardarHorario();
-
-    actualizarTodo();
-
-
-    mostrarAlerta(
-        `${cursoActual.nombre} · Sección ${seccion.numero} agregada a tu horario.`,
-        "success"
-    );
-
+    if(courseEl) courseEl.classList.add("open");
 }
 
 
-/* =====================================================
-   ELIMINAR
-===================================================== */
+function removeCourse(courseId) {
 
-function eliminarCurso(id) {
+    delete selected[courseId];
 
-    horario =
-        horario.filter(
-            item =>
-                item.id !== id
-        );
-
-
-    guardarHorario();
-
-    actualizarTodo();
-
-
-    mostrarAlerta(
-        "Curso eliminado de tu horario.",
-        "success"
-    );
-
+    renderAll();
 }
 
 
-/* =====================================================
+function clearAll() {
+
+    if(!Object.keys(selected).length) return;
+
+    if(confirm("¿Quieres eliminar todos los horarios seleccionados?")) {
+
+        selected = {};
+
+        renderAll();
+    }
+}
+
+
+/* ============================================================
+   PROGRESO
+   ============================================================ */
+
+function renderProgress() {
+
+    const count =
+        Object.keys(selected).length;
+
+    const total =
+        courses.length;
+
+    document.getElementById("progressText")
+        .textContent = `${count} / ${total}`;
+
+    document.getElementById("progressFill")
+        .style.width =
+        `${(count / total) * 100}%`;
+
+    document.getElementById("calendarStatus")
+        .textContent =
+        count === total
+        ? "✓ Horario completo · sin cruces"
+        : `${count} de ${total} cursos seleccionados`;
+}
+
+
+/* ============================================================
    CALENDARIO
-===================================================== */
+   ============================================================ */
+
+const CALENDAR_START = 7 * 60;
+const CALENDAR_END = 22 * 60;
+const PIXELS_PER_HOUR = 55;
+
 
 function renderCalendar() {
 
-    const body =
-        document.getElementById(
-            "calendarBody"
-        );
+    const calendar =
+        document.getElementById("calendar");
 
+    if(!Object.keys(selected).length) {
 
-    body.innerHTML = "";
+        calendar.innerHTML = `
 
+            <div class="empty-calendar">
 
-    /* HORAS */
+                <div class="empty-icon">📅</div>
 
-    const times =
-        document.createElement("div");
+                <strong>
+                    Tu calendario está vacío
+                </strong>
 
-    times.className = "times";
-
-
-    for (
-        let h = HORA_INICIO;
-        h <= HORA_FIN;
-        h++
-    ) {
-
-        const div =
-            document.createElement("div");
-
-        div.className = "time";
-
-        div.innerHTML =
-            `<span>${formatHour(h)} </span>`;
-
-        times.appendChild(div);
-
-    }
-
-
-    body.appendChild(times);
-
-
-    /* DÍAS */
-
-    dias.forEach(dia => {
-
-        const column =
-            document.createElement("div");
-
-        column.className =
-            "day-column";
-
-
-        column.dataset.day =
-            dia;
-
-
-        for (
-            let h = HORA_INICIO;
-            h <= HORA_FIN;
-            h++
-        ) {
-
-            const line =
-                document.createElement(
-                    "div"
-                );
-
-            line.style.height = "60px";
-
-            column.appendChild(line);
-
-        }
-
-
-        body.appendChild(column);
-
-    });
-
-
-    renderClasses();
-
-}
-
-
-function renderClasses() {
-
-    document
-        .querySelectorAll(".class-block")
-        .forEach(
-            el =>
-                el.remove()
-        );
-
-
-    horario.forEach(item => {
-
-        const column =
-            document.querySelector(
-                `.day-column[data-day="${item.dia}"]`
-            );
-
-
-        if (!column) {
-
-            return;
-
-        }
-
-
-        const block =
-            document.createElement("div");
-
-
-        block.className =
-            "class-block"
-            +
-            (
-                item.estado === "proposta"
-                ? " proposal"
-                : ""
-            );
-
-
-        const inicio =
-            minutos(item.inicio);
-
-
-        const fin =
-            minutos(item.fin);
-
-
-        const top =
-            (
-                inicio -
-                HORA_INICIO * 60
-            );
-
-
-        const height =
-            fin - inicio;
-
-
-        block.style.top =
-            `${top}px`;
-
-
-        block.style.height =
-            `${height}px`;
-
-
-        block.innerHTML = `
-
-            <button
-                class="class-remove"
-                onclick="event.stopPropagation(); eliminarCurso('${item.id}')">
-
-                ×
-
-            </button>
-
-
-            <div class="class-title">
-
-                ${item.curso}
+                <p>
+                    Selecciona un horario para cualquiera
+                    de tus cursos.
+                </p>
 
             </div>
-
-
-            <div class="class-info">
-
-                ${formatearHora(item.inicio)}
-                -
-                ${formatearHora(item.fin)}
-
-                <br>
-
-                Sec. ${item.seccion}
-
-                <br>
-
-                ${item.profesor}
-
-                <br>
-
-                Aula ${item.aula}
-
-            </div>
-
-        `;
-
-
-        column.appendChild(block);
-
-    });
-
-}
-
-
-/* =====================================================
-   LISTA DE MIS CURSOS
-===================================================== */
-
-function renderMyCourses() {
-
-    const container =
-        document.getElementById(
-            "myCourseList"
-        );
-
-
-    if (
-        horario.length === 0
-    ) {
-
-        container.innerHTML = `
-
-            <div class="empty-description">
-
-                Todavía no agregaste cursos.
-
-            </div>
-
         `;
 
         return;
-
     }
 
+    let html = `<div class="calendar-grid">`;
 
-    container.innerHTML = "";
+    html += `
+        <div class="time-column">
+            <div class="day-name"></div>
+            <div>
+                ${renderTimes()}
+            </div>
+        </div>
+    `;
 
+    days.forEach(day => {
 
-    horario.forEach(item => {
+        html += `
 
-        const div =
-            document.createElement(
-                "div"
-            );
+            <div class="day">
 
-
-        div.className =
-            "my-course";
-
-
-        div.innerHTML = `
-
-            <div class="my-course-info">
-
-                <div class="my-course-name">
-
-                    ${item.curso}
-
+                <div class="day-name">
+                    ${day}
                 </div>
 
-                <div class="my-course-time">
+                <div class="day-body">
 
-                    Sec. ${item.seccion}
-                    · ${item.dia}
-                    · ${formatearHora(item.inicio)}
-                    -
-                    ${formatearHora(item.fin)}
+                    ${
+                        renderDayEvents(day)
+                    }
 
                 </div>
 
             </div>
-
-
-            <button
-                class="remove"
-                title="Eliminar"
-                onclick="eliminarCurso('${item.id}')">
-
-                ×
-
-            </button>
-
         `;
-
-
-        container.appendChild(div);
-
     });
 
+    html += "</div>";
+
+    calendar.innerHTML = html;
 }
 
 
-/* =====================================================
-   ESTADÍSTICAS
-===================================================== */
+function renderTimes() {
 
-function actualizarStats() {
+    let html = "";
 
-    const cursosUnicos =
-        horario.filter(
-            item =>
-                item.tipo === "curso"
-        );
-
-
-    const creditos =
-        cursosUnicos.reduce(
-            (
-                total,
-                item
-            ) =>
-                total +
-                Number(item.creditos || 0),
-            0
-        );
-
-
-    const cruces =
-        detectarCruces();
-
-
-    document
-        .getElementById("courseCount")
-        .textContent =
-            cursosUnicos.length;
-
-
-    document
-        .getElementById("creditCount")
-        .textContent =
-            creditos;
-
-
-    document
-        .getElementById("conflictCount")
-        .textContent =
-            cruces.length;
-
-}
-
-
-/* =====================================================
-   DETECTAR CRUCES
-===================================================== */
-
-function detectarCruces() {
-
-    const cruces = [];
-
-
-    for (
-        let i = 0;
-        i < horario.length;
-        i++
+    for(
+        let minutes = CALENDAR_START;
+        minutes <= CALENDAR_END;
+        minutes += 60
     ) {
 
-        for (
-            let j = i + 1;
-            j < horario.length;
-            j++
-        ) {
+        let h = Math.floor(minutes / 60);
 
-            const a =
-                horario[i];
+        let label =
+            `${String(h).padStart(2,"0")}:00`;
 
-            const b =
-                horario[j];
+        html += `
+            <div class="time">
+                ${label}
+            </div>
+        `;
+    }
+
+    return html;
+}
 
 
-            if (
-                a.dia === b.dia
-                &&
-                minutos(a.inicio)
-                    <
-                minutos(b.fin)
-                &&
-                minutos(b.inicio)
-                    <
-                minutos(a.fin)
-            ) {
+function renderDayEvents(day) {
 
-                cruces.push({
-                    a,
-                    b
+    let html = "";
+
+    Object.entries(selected).forEach(
+        ([courseId,optionId]) => {
+
+            const course = getCourse(courseId);
+
+            const option =
+                getOption(courseId,optionId);
+
+            option.blocks
+                .filter(block => block[0] === day)
+                .forEach(block => {
+
+                    const start =
+                        timeToMinutes(block[1]);
+
+                    const end =
+                        timeToMinutes(block[2]);
+
+                    const top =
+                        ((start - CALENDAR_START) / 60)
+                        * PIXELS_PER_HOUR;
+
+                    const height =
+                        ((end - start) / 60)
+                        * PIXELS_PER_HOUR;
+
+                    html += `
+
+                        <div
+                            class="event ${
+                                option.proposal
+                                ? "proposal"
+                                : "normal"
+                            }"
+                            style="
+                                top:${top}px;
+                                height:${height}px;
+                            "
+                            onclick="removeCourse('${course.id}')"
+                            title="Haz clic para quitar ${course.name}"
+                        >
+
+                            <div class="event-title">
+                                ${course.name}
+                            </div>
+
+                            <div class="event-time">
+                                ${formatTime(block[1])}
+                                -
+                                ${formatTime(block[2])}
+                            </div>
+
+                            <div style="
+                                font-size:8px;
+                                margin-top:3px">
+                                Sec. ${option.section}
+                            </div>
+
+                        </div>
+                    `;
                 });
-
-            }
-
         }
-
-    }
-
-
-    return cruces;
-
-}
-
-
-/* =====================================================
-   ALERTA DE CRUCES
-===================================================== */
-
-function mostrarCruces() {
-
-    const cruces =
-        detectarCruces();
-
-
-    if (
-        cruces.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    const nombres =
-        cruces
-            .map(
-                c =>
-                    `${c.a.curso} ↔ ${c.b.curso}`
-            )
-            .join(" · ");
-
-
-    mostrarAlerta(
-        `⚠️ Tienes ${cruces.length} cruce(s): ${nombres}`,
-        "error"
     );
 
+    return html;
 }
 
 
-/* =====================================================
-   ACTUALIZAR TODO
-===================================================== */
+/* ============================================================
+   GUARDAR
+   ============================================================ */
 
-function actualizarTodo() {
+function openSaveModal() {
+
+    const count =
+        Object.keys(selected).length;
+
+    if(!count) {
+
+        alert("Selecciona al menos un curso antes de guardar.");
+
+        return;
+    }
+
+    document.getElementById("saveName").value = "";
+
+    document.getElementById("saveInfo")
+        .textContent =
+        `${count} de ${courses.length} cursos seleccionados.`;
+
+    document.getElementById("saveModal")
+        .classList.add("active");
+}
+
+
+function saveSchedule() {
+
+    const name =
+        document.getElementById("saveName")
+            .value.trim();
+
+    if(!name) {
+
+        alert("Escribe un nombre para el horario.");
+
+        return;
+    }
+
+    const copy =
+        JSON.parse(JSON.stringify(selected));
+
+    savedSchedules.push({
+
+        id: Date.now(),
+
+        name,
+
+        selected: copy,
+
+        created:
+            new Date().toLocaleString("es-PE")
+
+    });
+
+    localStorage.setItem(
+        "horarios2026II",
+        JSON.stringify(savedSchedules)
+    );
+
+    closeModal("saveModal");
+
+    renderSaved();
+}
+
+
+function openSaved(id) {
+
+    const saved =
+        savedSchedules.find(x => x.id === id);
+
+    if(!saved) return;
+
+    selected =
+        JSON.parse(JSON.stringify(saved.selected));
+
+    renderAll();
+}
+
+
+function deleteSaved(id) {
+
+    if(!confirm("¿Eliminar esta combinación guardada?"))
+        return;
+
+    savedSchedules =
+        savedSchedules.filter(x => x.id !== id);
+
+    localStorage.setItem(
+        "horarios2026II",
+        JSON.stringify(savedSchedules)
+    );
+
+    renderSaved();
+}
+
+
+function duplicateSaved(id) {
+
+    const saved =
+        savedSchedules.find(x => x.id === id);
+
+    if(!saved) return;
+
+    savedSchedules.push({
+
+        id: Date.now(),
+
+        name: saved.name + " - copia",
+
+        selected:
+            JSON.parse(JSON.stringify(saved.selected)),
+
+        created:
+            new Date().toLocaleString("es-PE")
+
+    });
+
+    localStorage.setItem(
+        "horarios2026II",
+        JSON.stringify(savedSchedules)
+    );
+
+    renderSaved();
+}
+
+
+function renderSaved() {
+
+    const container =
+        document.getElementById("savedList");
+
+    if(!savedSchedules.length) {
+
+        container.innerHTML = `
+            <div style="
+                color:#64748b;
+                font-size:13px;
+                padding:10px 0">
+                Todavía no tienes combinaciones guardadas.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        savedSchedules.map(saved => {
+
+            const count =
+                Object.keys(saved.selected).length;
+
+            return `
+
+                <div class="saved-card">
+
+                    <h4>
+                        ${escapeHtml(saved.name)}
+                    </h4>
+
+                    <div class="saved-meta">
+                        ${count}/${courses.length} cursos
+                        · ${saved.created}
+                    </div>
+
+                    <div class="saved-actions">
+
+                        <button
+                            class="btn btn-blue"
+                            onclick="openSaved(${saved.id})">
+                            Abrir
+                        </button>
+
+                        <button
+                            class="btn btn-light"
+                            onclick="duplicateSaved(${saved.id})">
+                            Duplicar
+                        </button>
+
+                        <button
+                            class="btn btn-danger"
+                            onclick="deleteSaved(${saved.id})">
+                            ×
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+}
+
+
+/* ============================================================
+   COMPARAR
+   ============================================================ */
+
+function openCompare() {
+
+    const container =
+        document.getElementById("compareContent");
+
+    if(savedSchedules.length < 2) {
+
+        container.innerHTML = `
+            <p style="color:#64748b">
+                Guarda al menos dos combinaciones para compararlas.
+            </p>
+        `;
+
+        document.getElementById("compareModal")
+            .classList.add("active");
+
+        return;
+    }
+
+    let html = `
+        <div style="overflow:auto">
+
+        <table class="compare-table">
+
+            <thead>
+                <tr>
+                    <th>Curso</th>
+                    ${savedSchedules.map(s =>
+                        `<th>${escapeHtml(s.name)}</th>`
+                    ).join("")}
+                </tr>
+            </thead>
+
+            <tbody>
+    `;
+
+    courses.forEach(course => {
+
+        html += `<tr>`;
+
+        html += `
+            <td>
+                <strong>${course.name}</strong>
+            </td>
+        `;
+
+        savedSchedules.forEach(saved => {
+
+            const option =
+                getOption(
+                    course.id,
+                    saved.selected[course.id]
+                );
+
+            if(!option) {
+
+                html += `<td>—</td>`;
+
+            } else {
+
+                html += `
+                    <td>
+                        Sec. ${option.section}<br>
+                        ${option.blocks.map(b =>
+                            `${b[0]} ${formatTime(b[1])}-${formatTime(b[2])}`
+                        ).join("<br>")}
+                    </td>
+                `;
+            }
+        });
+
+        html += `</tr>`;
+    });
+
+    html += `
+            </tbody>
+        </table>
+
+        </div>
+    `;
+
+    container.innerHTML = html;
+
+    document.getElementById("compareModal")
+        .classList.add("active");
+}
+
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+
+function closeModal(id) {
+
+    document.getElementById(id)
+        .classList.remove("active");
+}
+
+
+document.querySelectorAll(".modal-bg")
+    .forEach(bg => {
+
+        bg.addEventListener("click", e => {
+
+            if(e.target === bg)
+                bg.classList.remove("active");
+
+        });
+    });
+
+
+/* ============================================================
+   SEGURIDAD HTML
+   ============================================================ */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+/* ============================================================
+   RENDER GENERAL
+   ============================================================ */
+
+function renderAll() {
+
+    renderCourses();
+
+    renderProgress();
 
     renderCalendar();
 
-    renderMyCourses();
-
-    actualizarStats();
-
-    mostrarCruces();
-
+    renderSaved();
 }
 
 
-/* =====================================================
-   LOCAL STORAGE
-===================================================== */
-
-function guardarHorario() {
-
-    localStorage.setItem(
-        "horariUNMSM_2026II",
-        JSON.stringify(horario)
-    );
-
-}
-
-
-function cargarHorario() {
-
-    try {
-
-        const guardado =
-            localStorage.getItem(
-                "horariUNMSM_2026II"
-            );
-
-
-        if (guardado) {
-
-            horario =
-                JSON.parse(
-                    guardado
-                );
-
-        }
-
-    } catch (error) {
-
-        horario = [];
-
-    }
-
-}
-
-
-/* =====================================================
-   LIMPIAR
-===================================================== */
-
-function limpiarHorario() {
-
-    if (
-        horario.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    const confirmar =
-        confirm(
-            "¿Seguro que quieres eliminar todo tu horario?"
-        );
-
-
-    if (!confirmar) {
-
-        return;
-
-    }
-
-
-    horario = [];
-
-
-    guardarHorario();
-
-    actualizarTodo();
-
-
-    mostrarAlerta(
-        "Tu horario fue limpiado.",
-        "success"
-    );
-
-}
-
-
-/* =====================================================
-   ACTIVIDAD PERSONAL
-===================================================== */
-
-function agregarPersonal() {
-
-    const nombre =
-        prompt(
-            "Nombre de la actividad:"
-        );
-
-
-    if (!nombre) {
-
-        return;
-
-    }
-
-
-    const dia =
-        prompt(
-            "Día (Lunes, Martes, Miércoles, Jueves, Viernes o Sábado):"
-        );
-
-
-    if (
-        !dias.includes(dia)
-    ) {
-
-        mostrarAlerta(
-            "El día ingresado no es válido.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const inicio =
-        prompt(
-            "Hora de inicio (HH:MM):"
-        );
-
-
-    const fin =
-        prompt(
-            "Hora de fin (HH:MM):"
-        );
-
-
-    if (
-        !/^\d{2}:\d{2}$/.test(inicio)
-        ||
-        !/^\d{2}:\d{2}$/.test(fin)
-    ) {
-
-        mostrarAlerta(
-            "Utiliza el formato HH:MM. Ejemplo: 18:30",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    horario.push({
-
-        id:
-            Date.now()
-            + "-"
-            + Math.random()
-                .toString(16)
-                .slice(2),
-
-        tipo: "personal",
-
-        codigo: "PERSONAL",
-
-        curso: nombre,
-
-        creditos: 0,
-
-        seccion: "—",
-
-        profesor: "Actividad personal",
-
-        aula: "—",
-
-        dia,
-
-        inicio,
-
-        fin,
-
-        estado: "personal"
-
-    });
-
-
-    guardarHorario();
-
-    actualizarTodo();
-
-
-    mostrarAlerta(
-        "Actividad personal agregada.",
-        "success"
-    );
-
-}
-
-
-/* =====================================================
-   EXPORTAR
-===================================================== */
-
-function exportarHorario() {
-
-    const datos =
-        JSON.stringify(
-            horario,
-            null,
-            2
-        );
-
-
-    const blob =
-        new Blob(
-            [datos],
-            {
-                type:
-                    "application/json"
-            }
-        );
-
-
-    const url =
-        URL.createObjectURL(
-            blob
-        );
-
-
-    const a =
-        document.createElement(
-            "a"
-        );
-
-
-    a.href = url;
-
-    a.download =
-        "mi-horario-UNMSM-2026-II.json";
-
-
-    a.click();
-
-
-    URL.revokeObjectURL(
-        url
-    );
-
-}
-
-
-/* =====================================================
-   ALERTAS
-===================================================== */
-
-function mostrarAlerta(
-    mensaje,
-    tipo
-) {
-
-    const alert =
-        document.getElementById(
-            "alert"
-        );
-
-
-    const text =
-        document.getElementById(
-            "alertText"
-        );
-
-
-    text.textContent =
-        mensaje;
-
-
-    alert.className =
-        `alert show ${tipo}`;
-
-}
-
-
-function cerrarAlerta() {
-
-    document
-        .getElementById("alert")
-        .className =
-            "alert";
-
-}
-
-
-/* =====================================================
-   TIEMPO
-===================================================== */
-
-function minutos(hora) {
-
-    const [
-        h,
-        m
-    ] =
-        hora
-            .split(":")
-            .map(Number);
-
-
-    return (
-        h * 60 + m
-    );
-
-}
-
-
-function formatearHora(hora) {
-
-    let [
-        h,
-        m
-    ] =
-        hora
-            .split(":")
-            .map(Number);
-
-
-    const periodo =
-        h >= 12
-        ? "pm"
-        : "am";
-
-
-    if (h > 12) {
-
-        h -= 12;
-
-    }
-
-
-    if (h === 0) {
-
-        h = 12;
-
-    }
-
-
-    return `${h}:${String(m).padStart(2,"0")} ${periodo}`;
-
-}
-
-
-function formatHour(hora) {
-
-    const periodo =
-        hora >= 12
-        ? "pm"
-        : "am";
-
-
-    let h = hora;
-
-
-    if (h > 12) {
-
-        h -= 12;
-
-    }
-
-
-    if (h === 0) {
-
-        h = 12;
-
-    }
-
-
-    return `${h} ${periodo}`;
-
-}
+/* ============================================================
+   INICIAR
+   ============================================================ */
+
+renderAll();
 
 </script>
 
 </body>
-
 </html>
