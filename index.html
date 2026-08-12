@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HorariUNMSM</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f7f7f8;
+            color: #1f2937;
+        }
+
+        /* ===== HEADER ===== */
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 800;
+            color: #7f1d1d;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #991b1b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: #991b1b;
+        }
+
+        .nav-button {
+            background: #991b1b;
+            color: white !important;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+
+        /* ===== HERO ===== */
+
+        .hero {
+            max-width: 1200px;
+            margin: auto;
+            padding: 80px 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 54px;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            color: #111827;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 span {
+            color: #991b1b;
+        }
+
+        .hero p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #6b7280;
+            max-width: 550px;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .primary-button {
+            background: #991b1b;
+            color: white;
+            border: none;
+            padding: 14px 22px;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .primary-button:hover {
+            background: #7f1d1d;
+        }
+
+        .secondary-button {
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            padding: 14px 22px;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* ===== HORARIO PREVIEW ===== */
+
+        .schedule-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.08);
+        }
+
+        .schedule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .schedule-title {
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .semester {
+            background: #fef2f2;
+            color: #991b1b;
+            padding: 7px 10px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .week {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .day-name {
+            text-align: center;
+            font-size: 10px;
+            color: #9ca3af;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .class-box {
+            padding: 9px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 9px;
+            line-height: 1.35;
+            font-weight: 700;
+            min-height: 65px;
+        }
+
+        .red {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .blue {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .green {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* ===== FUNCIONES ===== */
+
+        .section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 60px 25px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 31px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #6b7280;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 28px;
+        }
+
+        .icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: #fef2f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            font-size: 20px;
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+
+        .feature p {
+            color: #6b7280;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* ===== GENERADOR ===== */
+
+        .generator {
+            background: #111827;
+            border-radius: 20px;
+            padding: 45px;
+            color: white;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .generator h2 {
+            font-size: 31px;
+            margin-bottom: 15px;
+        }
+
+        .generator-description {
+            color: #d1d5db;
+            line-height: 1.7;
+        }
+
+        .generator-card {
+            background: white;
+            color: #111827;
+            border-radius: 14px;
+            padding: 22px;
+        }
+
+        .generator-card label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            background: white;
+        }
+
+        .courses {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 20px;
+        }
+
+        .course {
+            background: #fef2f2;
+            color: #991b1b;
+            padding: 7px 9px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .generate-button {
+            width: 100%;
+            background: #991b1b;
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .generate-button:hover {
+            background: #7f1d1d;
+        }
+
+        /* ===== FOOTER ===== */
+
+        footer {
+            border-top: 1px solid #e5e7eb;
+            background: white;
+            text-align: center;
+            padding: 30px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+
+        @media (max-width: 850px) {
+
+            nav {
+                display: none;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: 50px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .generator {
+                grid-template-columns: 1fr;
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        <div class="logo-icon">H</div>
+        HorariUNMSM
+    </div>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#funciones">Funciones</a>
+        <a href="#generador">Generador</a>
+        <a href="#generador" class="nav-button">
+            Crear horario
+        </a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <!-- HERO -->
+
+    <section class="hero" id="inicio">
+
+        <div>
+
+            <h1>
+                Organiza tu
+                <span>horario ideal.</span>
+            </h1>
+
+            <p>
+                HorariUNMSM te ayuda a encontrar las mejores
+                combinaciones de horarios para tu próxima matrícula,
+                detectar cruces y comparar tus opciones fácilmente.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button
+                    class="primary-button"
+                    onclick="irGenerador()">
+                    Crear mi horario
+                </button>
+
+                <button
+                    class="secondary-button"
+                    onclick="mostrarInfo()">
+                    ¿Cómo funciona?
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PREVISUALIZACIÓN -->
+
+        <div class="schedule-card">
+
+            <div class="schedule-header">
+
+                <div class="schedule-title">
+                    Mi horario
+                </div>
+
+                <div class="semester">
+                    2026-II
+                </div>
+
+            </div>
+
+
+            <div class="week">
+
+                <div>
+
+                    <div class="day-name">
+                        LUN
+                    </div>
+
+                    <div class="class-box red">
+                        Derecho Penal III
+                        <br>
+                        6:00 - 8:15
+                    </div>
+
+                    <div class="class-box blue">
+                        Obligaciones
+                        <br>
+                        3:00 - 5:15
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="day-name">
+                        MAR
+                    </div>
+
+                    <div class="class-box green">
+                        Derecho Procesal Penal II
+                        <br>
+                        9:00 - 12:00
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="day-name">
+                        MIÉ
+                    </div>
+
+                    <div class="class-box blue">
+                        Derecho Administrativo II
+                        <br>
+                        10:15 - 12:30
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="day-name">
+                        JUE
+                    </div>
+
+                    <div class="class-box red">
+                        Derecho Mercantil III
+                        <br>
+                        9:30 - 11:45
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="day-name">
+                        VIE
+                    </div>
+
+                    <div class="class-box green">
+                        Obligaciones
+                        <br>
+                        11:15 - 1:30
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FUNCIONES -->
+
+    <section class="section" id="funciones">
+
+        <div class="section-title">
+
+            <h2>
+                Todo lo que necesitas para tu matrícula
+            </h2>
+
+            <p>
+                Planifica tus cursos de manera sencilla.
+            </p>
+
+        </div>
+
+
+        <div class="features">
+
+            <div class="feature">
+
+                <div class="icon">
+                    📚
+                </div>
+
+                <h3>
+                    Elige tus cursos
+                </h3>
+
+                <p>
+                    Selecciona las asignaturas que quieres
+                    llevar durante el semestre.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="icon">
+                    ⚡
+                </div>
+
+                <h3>
+                    Genera combinaciones
+                </h3>
+
+                <p>
+                    El sistema combinará automáticamente
+                    las diferentes secciones disponibles.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="icon">
+                    🚫
+                </div>
+
+                <h3>
+                    Detecta cruces
+                </h3>
+
+                <p>
+                    Los horarios incompatibles serán
+                    descartados automáticamente.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- GENERADOR -->
+
+    <section class="section" id="generador">
+
+        <div class="generator">
+
+            <div>
+
+                <h2>
+                    Construye tu horario
+                </h2>
+
+                <p class="generator-description">
+                    Selecciona tus cursos y deja que
+                    HorariUNMSM encuentre las combinaciones
+                    posibles para ti.
+                </p>
+
+            </div>
+
+
+            <div class="generator-card">
+
+                <label>
+                    Semestre
+                </label>
+
+                <select>
+
+                    <option>
+                        2026-II
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Cursos seleccionados
+                </label>
+
+                <div class="courses">
+
+                    <span class="course">
+                        Derecho Penal III
+                    </span>
+
+                    <span class="course">
+                        Derecho Mercantil III
+                    </span>
+
+                    <span class="course">
+                        Derecho Individual del Trabajo
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="generate-button"
+                    onclick="generarHorario()">
+
+                    Generar horarios
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    HorariUNMSM · Planificación académica 2026-II
+
+</footer>
+
+
+<script>
+
+    function irGenerador() {
+
+        document
+            .getElementById("generador")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+    function mostrarInfo() {
+
+        alert(
+            "Selecciona tus cursos y HorariUNMSM encontrará combinaciones de horarios sin cruces."
+        );
+
+    }
+
+
+    function generarHorario() {
+
+        alert(
+            "🚀 El generador real de horarios lo construiremos en el siguiente paso."
+        );
+
+    }
+
+</script>
+
+</body>
+</html>
