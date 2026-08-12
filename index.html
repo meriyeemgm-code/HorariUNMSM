@@ -105,6 +105,20 @@ button{cursor:pointer}
   .panel-head,.calendar-head{padding:13px}
   .course-row{padding:12px}
 }
+
+.compare-modal{width:min(760px,100%);max-height:88vh;overflow:auto}
+.compare-top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}
+.compare-selects{display:flex;align-items:center;gap:8px;margin:14px 0}
+.compare-selects select{flex:1;border:1px solid var(--line);border-radius:9px;background:#fff;padding:9px;font-size:11px}
+.compare-grid{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.compare-row{display:grid;grid-template-columns:1.25fr 1fr 1fr;border-bottom:1px solid var(--line);font-size:10px}
+.compare-row:last-child{border-bottom:0}
+.compare-row>div{padding:9px;border-right:1px solid var(--line)}
+.compare-row>div:last-child{border-right:0}
+.compare-row.head{background:#fafbfc;font-weight:800;color:#5d6674}
+.compare-diff{background:#fff8e9}
+.compare-empty{padding:25px;text-align:center;color:var(--muted);font-size:11px}
+@media(max-width:560px){.compare-selects{flex-direction:column}.compare-selects span{display:none}.compare-row{grid-template-columns:1fr 1fr 1fr}.compare-row>div{padding:7px}}
 </style>
 </head>
 <body>
@@ -126,7 +140,7 @@ button{cursor:pointer}
   <div class="saved-bar">
     <span class="saved-label">Mis horarios:</span>
     <div id="savedChips"></div>
-    <button class="btn" id="newSaveBtn">+ Guardar opción</button>
+    <button class="btn" id="newSaveBtn">+ Guardar opción</button><button class="btn" id="compareBtn">Comparar</button>
   </div>
 
   <main class="main">
@@ -250,10 +264,11 @@ function renderCourses(){
         <div class="option-text">
           <div class="option-line">
             <span class="option-time">${o[2]} · ${fmt(o[3])}–${fmt(o[4])}</span>
-            ${o[6]?'<span class="badge">Propuesta</span>':''}
+            ${o[6]?'<span class="badge">Asignación / Contratación</span>':''}
           </div>
           <div class="option-teacher">${o[1]} · Aula ${o[5]} · Sección ${o[0]}</div>
         </div>
+        ${isSel?`<button class="change-btn remove-opt" title="Quitar este horario">Quitar</button>`:''}
         ${cfl&&!isSel?`<span class="lock">Cruza</span>`:''}
       </div>`;
     }).join('');
@@ -270,13 +285,23 @@ function renderCourses(){
   }).join('');
 
   document.querySelectorAll('.option').forEach(el=>{
-    el.onclick=()=>{
+    el.onclick=(e)=>{
+      if(e.target.classList.contains('remove-opt')) return;
       const c=courses.find(x=>x.id===el.dataset.course);
       const raw=c.options.find(x=>x[0]===el.dataset.opt);
       const opt=makeOpt(c,raw);
       if(conflict(opt) && selected[c.id]?.id!==opt.id) return;
       if(selected[c.id]?.id===opt.id) delete selected[c.id];
       else selected[c.id]=opt;
+      active=null;
+      render();
+    };
+  });
+  document.querySelectorAll('.remove-opt').forEach(btn=>{
+    btn.onclick=(e)=>{
+      e.stopPropagation();
+      const row=btn.closest('.option');
+      delete selected[row.dataset.course];
       active=null;
       render();
     };
@@ -346,6 +371,7 @@ function renderSaved(){
 function render(){renderCourses();renderProgress();renderCalendar();renderSaved();}
 
 function openSave(){
+  if(!Object.keys(selected).length){ alert('Selecciona al menos un curso antes de guardar.'); return; }
   $('#modal').classList.add('show');
   $('#saveName').value='';
   setTimeout(()=>$('#saveName').focus(),50);
@@ -359,8 +385,37 @@ function save(){
   renderSaved();
 }
 
+function openCompare(){
+  const keys=Object.keys(saved);
+  if(keys.length<2){alert('Guarda al menos dos horarios para poder compararlos.');return;}
+  ['compareA','compareB'].forEach((id,i)=>{
+    const sel=$('#'+id);
+    sel.innerHTML=keys.map(k=>`<option value="${encodeURIComponent(k)}">${k}</option>`).join('');
+    sel.value=encodeURIComponent(keys[i]);
+  });
+  renderCompare();
+  $('#compareModal').classList.add('show');
+}
+function renderCompare(){
+  const a=decodeURIComponent($('#compareA').value), b=decodeURIComponent($('#compareB').value);
+  if(!a||!b||!saved[a]||!saved[b]) return;
+  const sa=saved[a], sb=saved[b];
+  const rows=courses.map(c=>{
+    const x=sa[c.id], y=sb[c.id];
+    const same=x&&y&&x.id===y.id;
+    const label=v=>v?`${v.day} · ${fmt(v.start)}–${fmt(v.end)}<br><span style="color:#737b89">${v.teacher}</span>`:'—';
+    return `<div class="compare-row"><div><strong>${c.name}</strong></div><div class="${same?'':'compare-diff'}">${label(x)}</div><div class="${same?'':'compare-diff'}">${label(y)}</div></div>`;
+  }).join('');
+  $('#compareBody').innerHTML=`<div class="compare-grid"><div class="compare-row head"><div>Curso</div><div>${a}</div><div>${b}</div></div>${rows}</div>`;
+}
+
 $('#saveBtn').onclick=openSave;
 $('#newSaveBtn').onclick=openSave;
+$('#compareBtn').onclick=openCompare;
+$('#compareA').onchange=renderCompare;
+$('#compareB').onchange=renderCompare;
+$('#closeCompare').onclick=()=>$('#compareModal').classList.remove('show');
+$('#compareModal').onclick=e=>{if(e.target.id==='compareModal')$('#compareModal').classList.remove('show')};
 $('#confirmSave').onclick=save;
 $('#cancelModal').onclick=()=>$('#modal').classList.remove('show');
 $('#modal').onclick=e=>{if(e.target.id==='modal')$('#modal').classList.remove('show')};
@@ -371,5 +426,20 @@ $('#clearCalendar').onclick=clear;
 
 render();
 </script>
+
+<div class="modal-backdrop" id="compareModal">
+  <div class="modal compare-modal">
+    <div class="compare-top">
+      <div><h3>Comparar horarios</h3><p>Revisa rápidamente qué cambia entre tus opciones guardadas.</p></div>
+      <button class="btn" id="closeCompare">Cerrar</button>
+    </div>
+    <div class="compare-selects">
+      <select id="compareA"></select>
+      <span>vs.</span>
+      <select id="compareB"></select>
+    </div>
+    <div id="compareBody"></div>
+  </div>
+</div>
 </body>
 </html>
