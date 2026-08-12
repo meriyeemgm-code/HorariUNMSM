@@ -159,11 +159,14 @@
             font-weight: bold;
             background: var(--primary);
             color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .day-cell {
             position: relative;
-            height: 640px; /* 7am a 10:30pm */
+            height: 930px; /* 15.5 horas * 60px por hora = 930px. Da más espacio vertical */
         }
 
         .class-block {
@@ -173,13 +176,33 @@
             background: var(--secondary);
             color: white;
             border-radius: 4px;
-            padding: 6px;
+            padding: 4px 6px;
             font-size: 0.75em;
-            line-height: 1.3;
-            overflow: hidden;
+            line-height: 1.25;
+            overflow-y: auto; /* Permite scroll si el texto es muy largo */
             display: flex;
             flex-direction: column;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        /* Estilo sutil para la barra de desplazamiento dentro del bloque del curso */
+        .class-block::-webkit-scrollbar {
+            width: 4px;
+        }
+        .class-block::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+        }
+
+        .seccion-badge {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            margin-top: 3px;
+            margin-bottom: 3px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -316,11 +339,9 @@
         return h * 60 + m;
     }
 
-    // Filtrar cursos no deseados y procesar limpieza de secciones
     const coursesData = rawCursos
         .filter(c => c.codigo !== "311022" && c.codigo !== "311030")
         .map(c => {
-            // Eliminar los marcadores genéricos de "Contratación docente"
             const seccionesLimpias = c.secciones.filter(sec => 
                 !sec.profesor.toLowerCase().includes("contratación") && 
                 !sec.profesor.toLowerCase().includes("contratacion")
@@ -334,7 +355,6 @@
                     const startMin = timeToMinutes(sec.inicio);
                     const endMin = timeToMinutes(sec.fin);
                     
-                    // Formato de etiqueta: "Sec 4 (Prop.)" o "Sec 1"
                     const numLimpio = sec.numero.replace('P', '');
                     const identificador = sec.estado === 'propuesta' 
                         ? `Sec ${numLimpio} (Prop.)` 
@@ -345,6 +365,7 @@
                     return {
                         id: `${c.codigo}_${index}`,
                         label: label,
+                        seccion: identificador, // Nuevo atributo para mostrar en el bloque
                         profesor: sec.profesor,
                         aula: sec.aula,
                         times: [{ day: dayNum, start: startMin, end: endMin }],
@@ -412,7 +433,8 @@
 
         let timeColumn = '<div style="background:white;">';
         for(let h=7; h<=22; h++) {
-            timeColumn += `<div class="time-cell" style="height:41.29px; border-bottom:1px solid #eee;">${h}:00</div>`;
+            // Se asume que total es 930px para 15.5 horas -> 60px por hora
+            timeColumn += `<div class="time-cell" style="height:60px; border-bottom:1px solid #eee;">${h}:00</div>`;
         }
         timeColumn += '</div>';
         cal.innerHTML += timeColumn;
@@ -501,7 +523,20 @@
                 block.style.top = `${topPercent}%`;
                 block.style.height = `${heightPercent}%`;
                 
-                block.innerHTML = `<strong>${sec.courseName}</strong><br/>${sec.inicioFormat}-${sec.finFormat}<br/>Prof: ${sec.profesor}<br/>Aula: ${sec.aula}`;
+                // Formato HTML del bloque con la sección agregada
+                block.innerHTML = `
+                    <div style="text-align: center; margin-bottom: 2px;">
+                        <strong>${sec.courseName}</strong><br/>
+                        <span class="seccion-badge">${sec.seccion}</span>
+                    </div>
+                    <div style="text-align: center; margin-bottom: 2px;">
+                        ${sec.inicioFormat} - ${sec.finFormat}
+                    </div>
+                    <div>
+                        Prof: ${sec.profesor}<br/>
+                        Aula: ${sec.aula}
+                    </div>
+                `;
                 dayCol.appendChild(block);
             });
         });
