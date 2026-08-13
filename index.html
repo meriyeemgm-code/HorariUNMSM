@@ -202,7 +202,7 @@
             position: absolute;
             left: 2px;
             right: 2px;
-            color: #2C3E50; /* Texto oscuro para contrastar con los pasteles */
+            color: #2C3E50;
             border-radius: 4px;
             padding: 6px;
             font-size: 0.85em; 
@@ -210,8 +210,8 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra para resaltar */
-            border: 1px solid rgba(0,0,0,0.05); /* Borde sutil */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         .course-title {
@@ -224,13 +224,13 @@
             width: 4px;
         }
         .class-block::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.15); /* Scrollbar oscura adaptada al fondo pastel */
+            background: rgba(0, 0, 0, 0.15);
             border-radius: 4px;
         }
 
         .seccion-badge {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.65); /* Fondo semitransparente blanquecino */
+            background: rgba(255, 255, 255, 0.65);
             padding: 2px 6px;
             border-radius: 3px;
             font-size: 0.9em;
@@ -337,7 +337,7 @@
                 { numero: "2", profesor: "Raúl Bladimiro Canelo Rabanal", aula: "—", dia: "Miércoles", inicio: "18:00", fin: "21:00", estado: "oficial" },
                 { numero: "3", profesor: "Héctor Elvis Martínez Flores", aula: "143", dia: "Martes", inicio: "08:00", fin: "11:00", estado: "oficial" },
                 { numero: "4", profesor: "Eugenia Silvia María Ariano Deho", aula: "235", dia: "Jueves", inicio: "11:00", fin: "14:00", estado: "oficial" },
-                { numero: "5", profesor: "María del Carmen Abregu Baez", aula: "148", dia: "Jueves", inicio: "11:00", fin: "14:00", estado: "oficial" },
+                { numero: "5", profesor: "María del Carmen Abregu Baez", aula: "148", dia: "Sábado", inicio: "11:00", fin: "14:00", estado: "oficial" },
                 { numero: "6", profesor: "Contratación docente", aula: "329", dia: "Viernes", inicio: "16:30", fin: "19:30", estado: "oficial" },
                 { numero: "P6", profesor: "Hugo Cavero Ruíz", aula: "329", dia: "Viernes", inicio: "16:30", fin: "19:30", estado: "propuesta" }
             ]
@@ -561,7 +561,6 @@
             document.getElementById(`day-${i}`).innerHTML = '';
         }
 
-        // Nueva paleta de colores pasteles
         const pastelColors = ['#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF', '#E0BBE4', '#F5C6EC'];
         
         selectedSections.forEach((sec, index) => {
